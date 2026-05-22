@@ -19,6 +19,11 @@ const metadataFeatures = JSON.parse(await readFile(new URL('../data/features.jso
 const matrixCsv = await readFile(new URL('../Microsoft-365-Matrix-Export.csv', import.meta.url), 'utf8');
 const features = parseMatrixFeatures(matrixCsv, metadataFeatures);
 
+function isConciseSentence(value) {
+  const text = String(value || '').trim();
+  return text.length > 0 && /[.!?]$/.test(text) && text.split(/\s+/).length <= 18;
+}
+
 test('matrix export parses expected top-level categories', () => {
   const categories = new Set(features.map((feature) => feature.category));
   for (const category of ['Office 365', 'Enterprise Mobility + Security', 'Windows', 'Suite Value', 'Related Services']) {
@@ -50,8 +55,13 @@ test('business view labels are loaded from metadata with feature-name fallbacks'
   assert.equal(getBusinessValue(safeAttachments), 'Reduces malware risk from weaponized email attachments.');
   assert.equal(getBusinessFunction(oneDrive), 'Provides personal file storage, sync, sharing, and recovery for users.');
   assert.equal(getBusinessCapability(agent365), agent365.category);
-  assert.equal(getBusinessFunction(agent365), 'Agent 365');
-  assert.equal(getBusinessValue(agent365), 'Agent 365');
+  assert.equal(getBusinessFunction(agent365), 'Provides Agent 365 capabilities.');
+  assert.equal(getBusinessValue(agent365), 'Helps reduce separate tooling by using Microsoft 365 included capabilities.');
+});
+
+test('business view has concise function and value copy for every parsed feature', () => {
+  assert.equal(features.every((feature) => isConciseSentence(getBusinessFunction(feature))), true);
+  assert.equal(features.every((feature) => isConciseSentence(getBusinessValue(feature))), true);
 });
 
 test('manual vendor overrides map a vendor to a specific feature', () => {

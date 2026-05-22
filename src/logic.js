@@ -49,16 +49,51 @@ export function getCoverageLabel(value) {
   return String(value);
 }
 
+function sentence(value) {
+  const text = String(value || '').trim();
+  if (!text) return '';
+  return /[.!?]$/.test(text) ? text : `${text}.`;
+}
+
+function firstSentence(value) {
+  const text = String(value || '').trim();
+  return sentence(text.match(/^[^.!?]+[.!?]/)?.[0] || text);
+}
+
 export function getBusinessCapability(feature) {
-  return feature.businessCapability || feature.category || 'Microsoft 365';
+  if (feature.businessCapability) return feature.businessCapability;
+  if (feature.parentFeature && feature.parentFeature !== feature.category) return feature.parentFeature;
+  return feature.category || 'Microsoft 365';
 }
 
 export function getBusinessFunction(feature) {
-  return feature.businessFunction || feature.name;
+  if (feature.businessFunction) return feature.businessFunction;
+  if (feature.notes) return firstSentence(feature.notes);
+  return `Provides ${feature.name} capabilities.`;
 }
 
 export function getBusinessValue(feature) {
-  return feature.businessValue || feature.name;
+  if (feature.businessValue) return feature.businessValue;
+  const category = feature.category || '';
+  if (category === 'Office 365' || category === 'Productivity' || category === 'Communications' || category === 'Employee Experience') {
+    return 'Helps consolidate collaboration and productivity capabilities in Microsoft 365.';
+  }
+  if (category === 'Enterprise Mobility + Security' || category === 'Microsoft Entra') {
+    return 'Helps strengthen identity, access, and device security controls.';
+  }
+  if (category === 'Windows') {
+    return 'Helps secure and manage Windows devices with built-in platform capabilities.';
+  }
+  if (category === 'Microsoft Purview' || category === 'Microsoft Priva' || category === 'Compliance & Data Governance') {
+    return 'Helps meet governance, privacy, and compliance obligations in Microsoft 365.';
+  }
+  if (category === 'Power Platform' || category === 'Automation & Intelligence') {
+    return 'Helps automate processes and extend business apps inside Microsoft 365.';
+  }
+  if (category === 'Education') {
+    return 'Supports education workflows with Microsoft 365 capabilities.';
+  }
+  return 'Helps reduce separate tooling by using Microsoft 365 included capabilities.';
 }
 
 export function parseCsv(text) {
@@ -261,7 +296,7 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
 
   return features.filter((feature) => {
     if (category !== 'All' && feature.category !== category) return false;
-    if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${feature.businessCapability} ${feature.businessFunction} ${feature.businessValue} ${feature.notes}`).includes(normalizedQuery)) return false;
+    if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${getBusinessCapability(feature)} ${getBusinessFunction(feature)} ${getBusinessValue(feature)} ${feature.notes}`).includes(normalizedQuery)) return false;
     if (plan !== 'All' && !isCoveredValue(feature.coverage?.[plan])) return false;
     if (availableOnly && !visiblePlans.some((candidate) => isCoveredValue(feature.coverage?.[candidate]))) return false;
     if (filledOnly && !matchedFeatureKeys.has(featureKey(feature))) return false;
