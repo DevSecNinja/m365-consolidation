@@ -1,5 +1,6 @@
 const BUILD_ID = '__BUILD_ID__';
-const CACHE_NAME = `m365-consolidation-${BUILD_ID}`;
+const CACHE_SCHEMA = 'business-metadata-v2';
+const CACHE_NAME = `m365-consolidation-${CACHE_SCHEMA}-${BUILD_ID}`;
 const APP_SHELL = [
   './',
   './index.html',

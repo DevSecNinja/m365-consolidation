@@ -136,6 +136,10 @@ function findMetadata(featureName, metadataByName) {
   return metadataByName.get(normalizeText(featureName)) || metadataByName.get(normalizeMetadataName(featureName)) || {};
 }
 
+function getMetadataNames(feature) {
+  return [feature.name, ...(Array.isArray(feature.aliases) ? feature.aliases : [])].filter(Boolean);
+}
+
 export function parseMatrixFeatures(csvText, metadataFeatures = [], excludedFeatureNames = new Set()) {
   const rows = parseCsv(csvText);
   const headerIndex = rows.findIndex((row) => cleanMatrixName(row[0]) === 'Feature');
@@ -144,8 +148,10 @@ export function parseMatrixFeatures(csvText, metadataFeatures = [], excludedFeat
   const plans = rows[headerIndex].slice(1, 4).map(cleanMatrixName).filter((plan) => PLANS.includes(plan));
   const metadataByName = new Map();
   for (const feature of metadataFeatures) {
-    metadataByName.set(normalizeText(feature.name), feature);
-    metadataByName.set(normalizeMetadataName(feature.name), feature);
+    for (const name of getMetadataNames(feature)) {
+      metadataByName.set(normalizeText(name), feature);
+      metadataByName.set(normalizeMetadataName(name), feature);
+    }
   }
 
   const features = [];

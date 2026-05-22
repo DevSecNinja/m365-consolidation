@@ -43,10 +43,12 @@ test('vendor matching maps known vendors and keeps unmapped vendors', () => {
 test('business view labels are loaded from metadata with feature-name fallbacks', () => {
   const safeAttachments = features.find((feature) => feature.name === 'Safe Attachments');
   const agent365 = features.find((feature) => feature.name === 'Agent 365');
+  const oneDrive = features.find((feature) => feature.name === 'OneDrive');
 
   assert.equal(getBusinessCapability(safeAttachments), 'Office 365 Protection');
   assert.equal(getBusinessFunction(safeAttachments), 'Opens suspicious attachments in a sandbox before delivery.');
   assert.equal(getBusinessValue(safeAttachments), 'Reduces malware risk from weaponized email attachments.');
+  assert.equal(getBusinessFunction(oneDrive), 'Provides personal file storage, sync, sharing, and recovery for users.');
   assert.equal(getBusinessCapability(agent365), agent365.category);
   assert.equal(getBusinessFunction(agent365), 'Agent 365');
   assert.equal(getBusinessValue(agent365), 'Agent 365');
@@ -75,7 +77,7 @@ test('feature filtering supports plan, category, search, availability, and fille
 
   assert.ok(filtered.length > 0);
   assert.ok(filtered.every((feature) => feature.category === 'Office 365'));
-  assert.ok(filtered.every((feature) => /threat/i.test(`${feature.name} ${feature.notes}`)));
+  assert.ok(filtered.every((feature) => /threat/i.test(`${feature.name} ${feature.businessCapability} ${feature.businessFunction} ${feature.businessValue} ${feature.notes}`)));
   assert.ok(filtered.every((feature) => feature.coverage.E5));
   assert.ok(filtered.every((feature) => matchedKeys.has(featureKey(feature))));
 });

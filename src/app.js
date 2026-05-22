@@ -401,11 +401,27 @@ async function registerServiceWorker() {
   });
 }
 
+async function getDataVersion() {
+  try {
+    const response = await fetch(`version.json?cache=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok) return Date.now();
+    const version = await response.json();
+    return version.sha || version.builtAt || Date.now();
+  } catch {
+    return Date.now();
+  }
+}
+
+function versionedUrl(url, version) {
+  return `${url}?v=${encodeURIComponent(version)}`;
+}
+
 async function init() {
+  const dataVersion = await getDataVersion();
   const [matrixResponse, metadataResponse, exclusionsResponse] = await Promise.all([
-    fetch('Microsoft-365-Matrix-Export.csv', { cache: 'no-cache' }),
-    fetch('data/features.json', { cache: 'no-cache' }),
-    fetch('data/exclusions.json', { cache: 'no-cache' })
+    fetch(versionedUrl('Microsoft-365-Matrix-Export.csv', dataVersion), { cache: 'no-store' }),
+    fetch(versionedUrl('data/features.json', dataVersion), { cache: 'no-store' }),
+    fetch(versionedUrl('data/exclusions.json', dataVersion), { cache: 'no-store' })
   ]);
   if (!matrixResponse.ok) throw new Error('Could not load Microsoft-365-Matrix-Export.csv');
   if (!metadataResponse.ok) throw new Error('Could not load feature metadata');
