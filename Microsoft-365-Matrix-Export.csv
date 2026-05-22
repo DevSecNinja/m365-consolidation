@@ -1,0 +1,597 @@
+﻿5/22/2026,Microsoft 365 Enterprise,,
+Feature,E3,E5,E7
+Office 365,E3,E5,E5
+Activity Reports,✔,✔,✔
+Adoption Score,✔,✔,✔
+Alert Policies,✔,✔,✔
+Audit (premium),,✔,✔
+Audit (standard),✔,✔,✔
+Basic Mobility & Security,✔,✔,✔
+Bookings,✔,✔,✔
+Clipchamp Standard,✔,✔,✔
+Communication Compliance,,✔,✔
+Compliance Manager,✔,✔,✔
+Conditional Access for Sites,,✔,✔
+Content Search,✔,✔,✔
+Copilot Data Loss Prevention,,✔,✔
+Customer Key,,✔,✔
+Customer Lockbox,,✔,✔
+Data Lifecycle Management,,✔,✔
+Data Loss Prevention,✔,✔,✔
+Dataverse for Teams,✔,✔,✔
+Defender for Office 365 Plan 2,,✔,✔
+ > Attack Simulation Training,,✔,✔
+ > Automated Investigation & Response,,✔,✔
+ > Campaign Views,,✔,✔
+ > Compromised User Detection,,✔,✔
+ > Teams Message Entity Panel,,✔,✔
+ > Teams Message Quarantine,,✔,✔
+ > Threat Explorer,,✔,✔
+ > Threat Trackers,,✔,✔
+ > Defender for Office 365 Plan 1,✔,✔,✔
+ > > Advanced Anti-Phishing,✔,✔,✔
+ > > Real-Time Reports,✔,✔,✔
+ > > Safe Attachments,✔,✔,✔
+ > > Safe Links,✔,✔,✔
+Double Key Encryption,,✔,✔
+eDiscovery (premium),,✔,✔
+eDiscovery (standard),✔,✔,✔
+Education Insights,,,
+Exact Data Match,,✔,✔
+Exchange Online,Plan 2(100 GB),Plan 2(100 GB),Plan 2(100 GB)
+Exchange Online Archiving,1.5 TB,1.5 TB,1.5 TB
+Exchange Online Protection,✔,✔,✔
+Graph Connector Capacity,✔,✔,✔
+InfoPath App,✔,✔,✔
+Information Barriers,,✔,✔
+Information Protection for M365,✔,✔,✔
+Loop Workspaces,✔,✔,✔
+Message Encryption (advanced),,✔,✔
+Message Encryption (basic),✔,✔,✔
+Microsoft 365 Apps,Enterprise,Enterprise,Enterprise
+Microsoft 365 Copilot (Basic),✔,✔,✔
+ > AI Standard Access,✔,✔,✔
+ > Copilot in Excel,✔,✔,✔
+ > Copilot in OneNote,✔,✔,✔
+ > Copilot in PowerPoint,✔,✔,✔
+ > Copilot in Word,✔,✔,✔
+ > Copilot Chat (Basic),✔,✔,✔
+ > > AI Priority Access,✔,✔,✔
+ > > Copilot Chat (Web),✔,✔,✔
+ > > Copilot Chat in Outlook,✔,✔,✔
+ > > Copilot Code Interpreter,✔,✔,✔
+ > > Copilot File Upload,✔,✔,✔
+ > > Copilot Image Generator,✔,✔,✔
+ > > Copilot Pages,✔,✔,✔
+ > > Create Agents,✔,✔,✔
+ > > Graph Access in Agents (metered),✔,✔,✔
+ > > Graph Connectors in Agents (metered),✔,✔,✔
+Microsoft 365 Mobile App,✔,✔,✔
+Microsoft Forms,✔,✔,✔
+Microsoft Lists,✔,✔,✔
+Microsoft Places (core),✔,✔,✔
+Microsoft Search,✔,✔,✔
+Microsoft Teams,Optional,Optional,Optional
+Microsoft To Do,✔,✔,✔
+Microsoft Whiteboard,✔,✔,✔
+Office 365 Cloud App Security,,✔,✔
+Office for the Web,✔,✔,✔
+OneDrive,Plan 2(1 TB+),Plan 2(1 TB+),Plan 2(1 TB+)
+OneNote Class Notebook,,,
+Planner for Office 365,✔,✔,✔
+PLC Groups,,,
+Power Apps for Office 365,✔,✔,✔
+Power Automate for Office 365,✔,✔,✔
+Power BI Pro,,✔,✔
+Privileged Access Management,,✔,✔
+Productivity Server CAL,✔,✔,✔
+Project & Roadmap View Access,✔,✔,✔
+Records Management,,✔,✔
+Retention Labels,✔,✔,✔
+Retention Policies,✔,✔,✔
+Rules-Based Classification (Office 365),,✔,✔
+Safe Links Lite (announced),,,
+School Data Sync,,,
+Secure Score,✔,✔,✔
+SharePoint Online,Plan 2,Plan 2,Plan 2
+Skype for Business Plus CAL,,✔,✔
+Sway,✔,✔,✔
+Teams Audio Conferencing (full),,✔,✔
+Teams Data Loss Prevention,,✔,✔
+Teams DLP & Export Graph API,,✔,✔
+Teams Live Events (retiring),✔,✔,✔
+Teams Phone,,✔,✔
+Teams Town Halls,✔,✔,✔
+Teams Webinars,✔,✔,✔
+Visio for the Web,✔,✔,✔
+Viva Connections,✔,✔,✔
+Viva Engage,✔,✔,✔
+Viva Insights - Personal,Basic,Premium,Premium
+Viva Learning (basic),✔,✔,✔
+3x Premium & Custom Compliance Templates,,✔,✔
+Enterprise Mobility + Security,E3,E5,E5
+Active Directory RMS,✔,✔,✔
+App Governance,,✔,✔
+Azure RMS,✔,✔,✔
+Config Manager Endpoint Protection,✔,✔,✔
+Defender for Cloud Apps,,✔,✔
+Defender for Identity,,✔,✔
+Entra ID Plan 2,,✔,✔
+ > Access Reviews,,✔,✔
+ > Entitlement Management (basic),,✔,✔
+ > Entra ID Protection,,✔,✔
+ > MFA Registration Policy,,✔,✔
+ > Privileged Identity Management,,✔,✔
+ > Risk-Based Conditional Access,,✔,✔
+ > Entra ID Plan 1,✔,✔,✔
+ > > Administrative Units,✔,✔,✔
+" > > App Proxy, including PingAccess",✔,✔,✔
+ > > Cloud App Discovery,✔,✔,✔
+ > > Conditional Access,✔,✔,✔
+ > > Custom Security Attributes,✔,✔,✔
+ > > Entra ID Connect Health,✔,✔,✔
+ > > Entra Internet Access for Microsoft,✔,✔,✔
+ > > External ID,✔,✔,✔
+ > > Microsoft Identity Manager,✔,✔,✔
+ > > Password Protection,✔,✔,✔
+ > > Self-Service Group Management,✔,✔,✔
+ > > Service Level Agreement,✔,✔,✔
+ > > Shared Account Password Roll-Over,✔,✔,✔
+ > > SMS Sign-In,✔,✔,✔
+ > > Tenant Restrictions,✔,✔,✔
+ > > Terms of Use,✔,✔,✔
+ > > 3rd Party MFA Integration,✔,✔,✔
+ > > Entra ID for Education,,,
+ > > > Advanced Security Reports & Alerts,✔,✔,✔
+ > > > Dynamic Groups,✔,✔,✔
+ > > > Enterprise State Roaming,✔,✔,✔
+ > > > Self-Service Password Reset in AD,✔,✔,✔
+ > > > Windows Autopilot,✔,✔,✔
+ > > > Entra ID for Office 365,✔,✔,✔
+ > > > > Customized Sign-In Page,✔,✔,✔
+ > > > > Self-Service Activity Reports,✔,✔,✔
+ > > > > Entra ID Free,✔,✔,✔
+ > > > > > Basic Security & Usage Reports,✔,✔,✔
+ > > > > > Multi-Factor Auth (MFA),✔,✔,✔
+ > > > > > Passwordless Authentication,✔,✔,✔
+ > > > > > Single-Sign-On to other SaaS,✔,✔,✔
+ > > > > > Temporary Access Pass,✔,✔,✔
+ > > > > > Verified ID,✔,✔,✔
+Information Protection,✔,✔,✔
+Intune Plan 1,✔,✔,✔
+ > Application Management,✔,✔,✔
+ > Config Manager,✔,✔,✔
+ > Device Management,✔,✔,✔
+ > Endpoint Analytics,✔,✔,✔
+Intune Suite,,✔,✔
+ > Intune Advanced Analytics,✔,✔,✔
+ > Intune Cloud PKI,,✔,✔
+ > Intune Endpoint Privilege Management,,✔,✔
+ > Intune Enterprise App Management,,✔,✔
+ > Intune Remote Help,✔,✔,✔
+ > Intune Plan 2,✔,✔,✔
+ > > Firmware Over-the-Air Updates,✔,✔,✔
+ > > Specialty Device Management,✔,✔,✔
+ > > Tunnel for MAM,✔,✔,✔
+Rules-Based Classification (Client & Scanner),,✔,✔
+Windows Server CAL Rights,✔,✔,✔
+Windows,E3,E5,E5
+Always On VPN,✔,✔,✔
+Application Control,✔,✔,✔
+AppLocker,✔,✔,✔
+App Assure,✔,✔,✔
+Assigned Access,✔,✔,✔
+Attack Surface Reduction,✔,✔,✔
+BitLocker,✔,✔,✔
+BitLocker to Go,✔,✔,✔
+BranchCache,✔,✔,✔
+Copilot in Windows,✔,✔,✔
+Custom Logon,✔,✔,✔
+Custom Shell,✔,✔,✔
+Credential Guard,✔,✔,✔
+Defender Antivirus,✔,✔,✔
+Defender for Endpoint Plan 2,,✔,✔
+ > Advanced Hunting,,✔,✔
+ > Automated Investigations,,✔,✔
+ > Defender for Cloud Apps Integration,,✔,✔
+ > Endpoint Attack Notifications (suspended),,✔,✔
+ > Endpoint Detection & Response,,✔,✔
+ > Evaluation Lab,,✔,✔
+ > Threat Analytics,,✔,✔
+ > 6-Months Searchable Data,,✔,✔
+ > Defender Vulnerability Management (core),,✔,✔
+ > > Configuration Assessment,,✔,✔
+ > > Continuous Monitoring,,✔,✔
+ > > Device Discovery,,✔,✔
+ > > Device Inventory,,✔,✔
+ > > Remediation Tracking,,✔,✔
+ > > Risk Based Prioritization,,✔,✔
+ > > Software Inventory,,✔,✔
+ > > Software Usage Insights,,✔,✔
+ > > Vulnerability Assessment,,✔,✔
+ > Defender for Endpoint Plan 1,✔,✔,✔
+ > > Attack Surface Reduction (enhanced),✔,✔,✔
+ > > Block at First Sight,✔,✔,✔
+ > > Centralized Management,✔,✔,✔
+ > > Cross-Platform Support,✔,✔,✔
+ > > Manual Response Actions,✔,✔,✔
+ > > Mobile Threat Defence,✔,✔,✔
+ > > Next Gen Protection,✔,✔,✔
+ > > Tamper Protection,✔,✔,✔
+ > > Web Content Filtering,✔,✔,✔
+Device Guard,✔,✔,✔
+DirectAccess (deprecated),✔,✔,✔
+Domain Join,✔,✔,✔
+Edge for Business,✔,✔,✔
+Entra ID Join,✔,✔,✔
+Keyboard Filter,✔,✔,✔
+LAPS,✔,✔,✔
+Long Term Servicing Channel,✔,✔,✔
+Manage by MDM,✔,✔,✔
+Persistent Memory,✔,✔,✔
+Power Automate Attended Desktop Flows,✔,✔,✔
+Resilient File System (ReFS),✔,✔,✔
+SMB Direct,✔,✔,✔
+Unbranded Boot,✔,✔,✔
+Unified Write Filter,✔,✔,✔
+Universal Print,✔,✔,✔
+Windows Autopatch,✔,✔,✔
+Windows Conditional Access,✔,✔,✔
+Windows Firewall,✔,✔,✔
+Windows Hello for Business,✔,✔,✔
+Windows Update for Business,✔,✔,✔
+Windows Virtualization Rights,✔,✔,✔
+Windows 11 Support Period,36 months,36 months,36 months
+Suite Value,,,
+Agent 365,,,✔
+ > Agent Access Control,,,✔
+ > Agent Compliance,,,✔
+ > Agent Management,,,✔
+ > Agent Map,,,✔
+ > Agent Monitoring,,,✔
+ > Agent Registry,,,✔
+ > Agent Security,,,✔
+Adaptive Protection,,✔,✔
+Defender for IoT - eIoT (5 devices),,✔,✔
+Endpoint DLP,,✔,✔
+Entra Suite add-on to Entra ID Plan 2,,,✔
+ > Entra Internet Access,,,✔
+ > Entra Private Access,,,✔
+ > Entra ID Governance add-on to Entra ID Plan 2,,,✔
+ > > Entitlement Management (premium),,,✔
+ > > Identity Governance Dashboard,,,✔
+ > > Lifecycle Workflows,,,✔
+ > > ML Assisted Access Reviews,,,✔
+ > Entra Verified ID Premium,,,✔
+ > > Face Check,,,✔
+FastTrack,✔,✔,✔
+Insider Risk Management,,✔,✔
+Microsoft 365 Copilot (Premium),,,✔
+ > AI Priority Access,,,✔
+ > Copilot Actions,,,✔
+ > Copilot Chat (Work),,,✔
+ > Copilot Cowork (frontier),,,✔
+ > Copilot Dashboard,,,✔
+ > Copilot in Clipchamp,,,✔
+ > Copilot in Excel,,,✔
+ > Copilot in Forms,,,✔
+ > Copilot in Loop,,,✔
+ > Copilot in OneDrive,,,✔
+ > Copilot in OneNote,,,✔
+ > Copilot in Outlook,,,✔
+ > Copilot in Planner,,,✔
+ > Copilot in PowerPoint,,,✔
+ > Copilot in SharePoint,,,✔
+ > Copilot in Teams,,,✔
+ > Copilot in Whiteboard,,,✔
+ > Copilot in Word,,,✔
+ > Copilot Notebooks,,,✔
+ > Copilot Prompt Gallery,,,✔
+ > Copilot Search,,,✔
+ > Copilot Studio for Microsoft 365,,,✔
+ > Copilot Tuning (preview),,,✔
+ > Graph and Connector Access Included,,,✔
+ > Intelligent Recap,,,✔
+ > Microsoft 365 Agents,,,✔
+ > Microsoft Places (AI features),,,✔
+ > Model Choice,,,✔
+ > SharePoint Agents,,,✔
+" > Viva Insights - Manager, Leader, Analyst",,,✔
+ > Viva Pulse for Copilot,,,✔
+ > SharePoint Advanced Management for Copilot,,,✔
+ > > Advanced Tenant Rename,,,✔
+ > > Agent Content Access Insights,,,✔
+ > > Agent Insights,,,✔
+ > > AI-Powered Insights,,,✔
+ > > Block Download Policy,,,✔
+ > > Compare Site Policies,,,✔
+ > > Conditional Access for Sites,,,✔
+ > > Content Management Assessments,,,✔
+ > > Data Access Governance Reports,,,✔
+ > > Data Access Governance Reports PowerShell,,,✔
+ > > Enterprise App Insight Reports,,,✔
+ > > Inactive Sites Policy,,,✔
+ > > Recent Site Actions,,,✔
+ > > Request Site Attestation,,,✔
+ > > Restricted Access Control for OneDrive,,,✔
+ > > Restricted Access Control for SharePoint,,,✔
+ > > Restricted Content Discovery,,,✔
+ > > Restricted Site Creation by Apps,,,✔
+ > > SharePoint App Insights,,,✔
+ > > SharePoint Catalog Management,,,✔
+ > > Site Access Review,,,✔
+ > > Site Change History Reports,,,✔
+ > > Site Ownership Policy,,,✔
+Minecraft Education Edition,,,
+Office Professional Plus,✔,✔,✔
+Office Servers,✔,✔,✔
+Safe Documents,,✔,✔
+Security Copilot,,✔,✔
+Sentinel Benefit,,✔,✔
+Student Use Benefits,,,
+Trainable Classifiers,,✔,✔
+Related Services,,,
+Security & Compliance,,,
+10-Year Audit Log Retention,,+,+
+AccountGuard,+,+,+
+Advanced Data Residency,+,+,+
+Azure Automation,Δ,Δ,Δ
+Azure Backup,Δ,Δ,Δ
+Azure Bastion,Δ,Δ,Δ
+Azure Log Analytics,Δ,Δ,Δ
+Azure RBAC,Δ,Δ,Δ
+Azure Update Manager,Δ,Δ,Δ
+Compliance Premium Assessments,+,+,+
+Cross-Tenant Migration,+,+,+
+Defender CSPM,Δ,Δ,Δ
+Defender EASM,Δ,Δ,Δ
+Defender for Business,,,
+Defender for Business Servers,,,
+Defender for Cloud,Δ,Δ,Δ
+Defender for Servers,Δ,Δ,Δ
+Defender Suite,+,✔,✔
+Defender Threat Intelligence (retiring),Δ,Δ,Δ
+Defender Threat Intelligence API,Δ,Δ,Δ
+Defender Vulnerability Management (premium),,+,+
+ > Authenticated Scan For Windows,⊡,⊡,⊡
+ > Block Vulnerable Applications,⊡,⊡,⊡
+ > Browser Extensions Assessment,⊡,⊡,⊡
+ > Digital Certificate Assessment,⊡,⊡,⊡
+ > Hardware & Firmware Assessment,⊡,⊡,⊡
+ > Network Share Analysis,⊡,⊡,⊡
+ > Security Baselines Assessment,⊡,⊡,⊡
+ > Defender Vulnerability Management (core),,✔,✔
+ > > Configuration Assessment,,✔,✔
+ > > Continuous Monitoring,,✔,✔
+ > > Device Discovery,,✔,✔
+ > > Device Inventory,,✔,✔
+ > > Remediation Tracking,,✔,✔
+ > > Risk Based Prioritization,,✔,✔
+ > > Software Inventory,,✔,✔
+ > > Software Usage Insights,,✔,✔
+ > > Vulnerability Assessment,,✔,✔
+Insider Risk Management Forensic Evidence,,+,+
+Intune Suite,+,✔,✔
+ > Intune Advanced Analytics,✔,✔,✔
+ > Intune Cloud PKI,+,✔,✔
+ > Intune Endpoint Privilege Management,+,✔,✔
+ > Intune Enterprise App Management,+,✔,✔
+ > Intune Remote Help,✔,✔,✔
+ > Intune Plan 2,✔,✔,✔
+ > > Firmware Over-the-Air Updates,✔,✔,✔
+ > > Specialty Device Management,✔,✔,✔
+ > > Tunnel for MAM,✔,✔,✔
+Microsoft 365 Archive,Δ,Δ,Δ
+Microsoft 365 Backup,Δ,Δ,Δ
+Microsoft 365 Lighthouse,+,+,+
+Microsoft Sentinel,Δ,Δ,Δ
+Microsoft Tunnel,+,+,+
+Multi-Geo,+,+,+
+Purview Suite,+,✔,✔
+Security Copilot,Δ,✔,✔
+SharePoint Advanced Management Plan 1,+,+,+
+ > Restricted Site Creation by Users,⊡,⊡,⊡
+ > SharePoint Advanced Management for Copilot,⊡,⊡,✔
+ > > Advanced Tenant Rename,⊡,⊡,✔
+ > > Agent Content Access Insights,⊡,⊡,✔
+ > > Agent Insights,⊡,⊡,✔
+ > > AI-Powered Insights,⊡,⊡,✔
+ > > Block Download Policy,⊡,⊡,✔
+ > > Compare Site Policies,⊡,⊡,✔
+ > > Conditional Access for Sites,⊡,⊡,✔
+ > > Content Management Assessments,⊡,⊡,✔
+ > > Data Access Governance Reports,⊡,⊡,✔
+ > > Data Access Governance Reports PowerShell,⊡,⊡,✔
+ > > Enterprise App Insight Reports,⊡,⊡,✔
+ > > Inactive Sites Policy,⊡,⊡,✔
+ > > Recent Site Actions,⊡,⊡,✔
+ > > Request Site Attestation,⊡,⊡,✔
+ > > Restricted Access Control for OneDrive,⊡,⊡,✔
+ > > Restricted Access Control for SharePoint,⊡,⊡,✔
+ > > Restricted Content Discovery,⊡,⊡,✔
+ > > Restricted Site Creation by Apps,⊡,⊡,✔
+ > > SharePoint App Insights,⊡,⊡,✔
+ > > SharePoint Catalog Management,⊡,⊡,✔
+ > > Site Access Review,⊡,⊡,✔
+ > > Site Change History Reports,⊡,⊡,✔
+ > > Site Ownership Policy,⊡,⊡,✔
+Microsoft Entra,,,
+Entra Domain Services,Δ,Δ,Δ
+Entra External ID,✔,✔,✔
+Entra ID,✔,✔,✔
+Entra Suite add-on to Entra ID Plan 1,+,,
+ > Entra ID Plan 2 Step-up,+,✔,✔
+ > > Access Reviews,⊡,✔,✔
+ > > Entitlement Management (basic),⊡,✔,✔
+ > > Entra ID Protection,⊡,✔,✔
+ > > MFA Registration Policy,⊡,✔,✔
+ > > Privileged Identity Management,⊡,✔,✔
+ > > Risk-Based Conditional Access,⊡,✔,✔
+ > Entra Suite add-on to Entra ID Plan 2,,+,✔
+ > > Entra Internet Access,Δ,Δ,✔
+ > > Entra Private Access,Δ,Δ,✔
+ > > Entra ID Governance add-on to Entra ID Plan 2,,+,✔
+ > > > Entitlement Management (premium),,⊡,✔
+ > > > Identity Governance Dashboard,,⊡,✔
+ > > > Lifecycle Workflows,,⊡,✔
+ > > > ML Assisted Access Reviews,,⊡,✔
+ > > Entra Verified ID Premium,Δ,Δ,✔
+ > > > Face Check,⊡,⊡,✔
+Entra Verified ID,✔,✔,✔
+Entra Workload ID Premium,Δ,Δ,Δ
+ > Access Reviews,⊡,⊡,⊡
+ > Entra ID Protection,⊡,⊡,⊡
+ > Risk-Based Conditional Access,⊡,⊡,⊡
+ > Entra Workload ID Free,Δ,Δ,Δ
+ > > Basic Security & Usage Reports,⊡,⊡,⊡
+ > > Identity Federation,⊡,⊡,⊡
+Microsoft Priva,,,
+Privacy Risk Management,+,+,+
+Subject Rights Requests,+,+,+
+Microsoft Purview,,,
+Data Catalog,Δ,Δ,Δ
+Data Estate Insights,Δ,Δ,Δ
+Data Map,Δ,Δ,Δ
+Data Policy,Δ,Δ,Δ
+Microsoft Security Experts,,,
+Defender Experts for Hunting,,+,+
+Defender Experts for XDR,,+,+
+Communications,,,
+Azure Comm. Services,Δ,Δ,Δ
+Calling Plans,,+,+
+Comms. Credits,,+,+
+Digital Contact Centre,Δ,Δ,Δ
+EHR Connector for Teams,+,+,+
+Microsoft eCDN,+,+,+
+Teams Audio Conferencing (free add-on),Δ,✔,✔
+Teams Enterprise,+,+,+
+Teams Essentials,,,
+Teams Operator Connect,,+,+
+Teams Phone Mobile,Δ,Δ,Δ
+Teams Premium,+,+,+
+ > Advanced Collaboration Tools,⊡,⊡,⊡
+ > Advanced Meetings,⊡,⊡,⊡
+ > Advanced Meetings Protection,⊡,⊡,⊡
+ > Advanced Virtual Appointments,⊡,⊡,⊡
+ > Intelligent Recap,⊡,⊡,⊡
+ > Live Caption Translation,⊡,⊡,⊡
+ > Microsoft Places (premium),⊡,⊡,⊡
+ > PowerPoint Live Chapters,⊡,⊡,⊡
+ > Queues App,⊡,⊡,⊡
+Teams Rooms,+,+,+
+Extra Capacity,,,
+AI Builder Capacity,Δ,Δ,Δ
+Dataverse Storage,+,+,+
+SharePoint Storage,+,+,+
+Universal Print Jobs,+,+,+
+Support Services,,,
+ProDirect Support for Azure,Δ,Δ,Δ
+ProDirect Support for Dynamics 365,Δ,Δ,Δ
+ProDirect Support for Microsoft 365,Δ,Δ,Δ
+Unified Support,Δ,Δ,Δ
+Education,,,
+Azure Dev Tools for Teaching,,,
+Class Notebook,,,
+Employee Experience,,,
+LinkedIn Learning,+,+,+
+Viva Suite,+,+,+
+ > Copilot in Viva Learning (preview),⊡,⊡,⊡
+ > Skills in Viva (preview),⊡,⊡,⊡
+ > Viva Learning (premium),+,+,+
+ > Viva Workplace Analytics & Employee Feedback,+,+,+
+ > > Copilot in Viva Glint,⊡,⊡,⊡
+ > > Viva Glint,+,+,+
+" > > Viva Insights - Manager, Leader, Analyst",+,+,+
+ > > Viva Pulse,⊡,⊡,⊡
+ > Viva Employee Communications & Communities,+,+,+
+ > > Copilot in Viva Amplify,⊡,⊡,⊡
+ > > Copilot in Viva Engage,⊡,⊡,⊡
+ > > Answers in Viva,⊡,⊡,⊡
+ > > People in Viva,⊡,⊡,⊡
+ > > Viva Amplify,⊡,⊡,⊡
+ > > Viva Connections (50 instances),⊡,⊡,⊡
+ > > Viva Engage (premium),⊡,⊡,⊡
+Power Platform,,,
+AI Builder,Δ,Δ,Δ
+Copilot Studio,Δ,Δ,Δ
+Microsoft Dataverse,Δ,Δ,Δ
+Power Apps,Δ,Δ,Δ
+Power Automate,Δ,Δ,Δ
+Power Automate Process Mining,Δ,Δ,Δ
+Power BI Premium,Δ,Δ,Δ
+Power Pages,Δ,Δ,Δ
+Companion Products & Services,,,
+App Assure,+,+,+
+Azure Virtual Desktop,Δ,Δ,Δ
+Clipchamp Standard,✔,✔,✔
+Drive Shipping for PST import,Δ,Δ,Δ
+Dynamics 365 Customer Voice,Δ,Δ,Δ
+Microsoft Industry Clouds,Δ,Δ,Δ
+Microsoft 365 Dev Program,Δ,Δ,Δ
+Planner & Project,+,+,+
+SharePoint Embedded,Δ,Δ,Δ
+Visio Online,+,+,+
+Windows 365 Business,Δ,Δ,Δ
+Windows 365 Enterprise,+,+,+
+Windows 365 Frontline,+,+,+
+Workplace Discount Program,+,+,+
+Automation & Intelligence,,,
+Document Processing for Microsoft 365,+,+,+
+Microsoft 365 Copilot (Premium),+,+,✔
+ > AI Priority Access,⊡,⊡,✔
+ > Copilot Actions,⊡,⊡,✔
+ > Copilot Chat (Work),⊡,⊡,✔
+ > Copilot Cowork (frontier),⊡,⊡,✔
+ > Copilot Dashboard,⊡,⊡,✔
+ > Copilot in Clipchamp,⊡,⊡,✔
+ > Copilot in Excel,⊡,⊡,✔
+ > Copilot in Forms,⊡,⊡,✔
+ > Copilot in Loop,⊡,⊡,✔
+ > Copilot in OneDrive,⊡,⊡,✔
+ > Copilot in OneNote,⊡,⊡,✔
+ > Copilot in Outlook,⊡,⊡,✔
+ > Copilot in PowerPoint,⊡,⊡,✔
+ > Copilot in Planner,⊡,⊡,✔
+ > Copilot in SharePoint,⊡,⊡,✔
+ > Copilot in Teams,⊡,⊡,✔
+ > Copilot in Whiteboard,⊡,⊡,✔
+ > Copilot in Word,⊡,⊡,✔
+ > Copilot Notebooks,⊡,⊡,✔
+ > Copilot Prompt Gallery,⊡,⊡,✔
+ > Copilot Search,⊡,⊡,✔
+ > Copilot Studio for Microsoft 365,⊡,⊡,✔
+ > Copilot Tuning (preview),⊡,⊡,✔
+ > Graph and Connector Access Included,⊡,⊡,✔
+ > Intelligent Recap,⊡,⊡,✔
+ > Microsoft 365 Agents,⊡,⊡,✔
+ > Microsoft Places (AI features),⊡,⊡,✔
+ > Model Choice,⊡,⊡,✔
+ > SharePoint Agents,⊡,⊡,✔
+" > Viva Insights - Manager, Leader, Analyst",⊡,⊡,✔
+ > Viva Pulse for Copilot,⊡,⊡,✔
+ > SharePoint Advanced Management for Copilot,⊡,⊡,✔
+ > > Advanced Tenant Rename,⊡,⊡,✔
+ > > Agent Content Access Insights,⊡,⊡,✔
+ > > Agent Insights,⊡,⊡,✔
+ > > AI-Powered Insights,⊡,⊡,✔
+ > > Block Download Policy,⊡,⊡,✔
+ > > Compare Site Policies,⊡,⊡,✔
+ > > Conditional Access for Sites,⊡,⊡,✔
+ > > Content Management Assessments,⊡,⊡,✔
+ > > Data Access Governance Reports,⊡,⊡,✔
+ > > Data Access Governance Reports PowerShell,⊡,⊡,✔
+ > > Enterprise App Insight Reports,⊡,⊡,✔
+ > > Inactive Sites Policy,⊡,⊡,✔
+ > > Recent Site Actions,⊡,⊡,✔
+ > > Request Site Attestation,⊡,⊡,✔
+ > > Restricted Access Control for OneDrive,⊡,⊡,✔
+ > > Restricted Access Control for SharePoint,⊡,⊡,✔
+ > > Restricted Content Discovery,⊡,⊡,✔
+ > > Restricted Site Creation by Apps,⊡,⊡,✔
+ > > SharePoint App Insights,⊡,⊡,✔
+ > > SharePoint Catalog Management,⊡,⊡,✔
+ > > Site Access Review,⊡,⊡,✔
+ > > Site Change History Reports,⊡,⊡,✔
+ > > Site Ownership Policy,⊡,⊡,✔
+Microsoft 365 Copilot Sales Agent,+,+,+
+Microsoft 365 Unattended RPA,Δ,Δ,Δ
