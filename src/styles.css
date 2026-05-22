@@ -76,6 +76,7 @@ main { width: min(1180px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: 
 .plan-visibility legend { font-weight: 700; padding: 0 .35rem; }
 .view-toggle { border: 0; padding: 0; margin: 0; }
 .view-toggle legend { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.view-toggle__description { color: var(--muted); font-size: .9rem; font-weight: 750; }
 .check-list { display: flex; flex-wrap: wrap; gap: .85rem; }
 .switch { display: inline-flex; align-items: center; cursor: pointer; }
 .switch input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }

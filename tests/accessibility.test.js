@@ -10,7 +10,8 @@ test('feature matrix has keyboard reachable controls and table semantics', () =>
   assert.match(html, /<div id="category-tabs" class="tabs" role="tablist"/);
   assert.match(html, /<div class="table-actions">/);
   assert.match(html, /<fieldset class="view-toggle">/);
-  assert.match(html, /id="table-view-toggle" type="checkbox" role="switch"/);
+  assert.match(html, /id="table-view-description" class="view-toggle__description">Business value view/);
+  assert.match(html, /id="table-view-toggle" type="checkbox" role="switch" aria-label="Use business value table view" aria-describedby="table-view-description"/);
   assert.match(html, /<fieldset class="plan-visibility">/);
   assert.match(html, /<caption id="feature-caption">Microsoft 365 feature coverage by plan/);
   assert.match(html, /<tr id="feature-headings"><\/tr>/);
