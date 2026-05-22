@@ -1,5 +1,5 @@
-const STATIC_CACHE = 'm365-consolidation-static-v1';
-const DATA_CACHE = 'm365-consolidation-data-v1';
+const BUILD_ID = '__BUILD_ID__';
+const CACHE_NAME = `m365-consolidation-${BUILD_ID}`;
 const APP_SHELL = [
   './',
   './index.html',
@@ -13,19 +13,24 @@ const APP_SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => Promise.allSettled(APP_SHELL.map((url) => fetch(url).then((response) => {
-        if (response.ok) return cache.put(url, response);
-        return undefined;
-      }))))
-      .then(() => self.skipWaiting())
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      await Promise.all(APP_SHELL.map(async (url) => {
+        const response = await fetch(new Request(url, { cache: 'reload' }));
+        if (response.ok) await cache.put(url, response);
+      }));
+      await self.skipWaiting();
+    })()
   );
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => ![STATIC_CACHE, DATA_CACHE].includes(key)).map((key) => caches.delete(key))))
-      .then(() => self.clients.claim())
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)));
+      await self.clients.claim();
+    })()
   );
 });
 
@@ -34,32 +39,50 @@ self.addEventListener('message', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  const requestUrl = new URL(event.request.url);
-  if (event.request.method !== 'GET' || requestUrl.origin !== self.location.origin) return;
+  const request = event.request;
+  if (request.method !== 'GET') return;
 
-  if (requestUrl.pathname.endsWith('/data/features.json') || requestUrl.pathname.endsWith('/version.json')) {
-    event.respondWith(networkFirst(event.request));
+  const requestUrl = new URL(request.url);
+  const isSameOrigin = requestUrl.origin === self.location.origin;
+  const isHtml = request.mode === 'navigate' || (request.headers.get('accept') ?? '').includes('text/html');
+  const isAppData = isSameOrigin && (requestUrl.pathname.endsWith('/data/features.json') || requestUrl.pathname.endsWith('/version.json'));
+  const isSourceScript = isSameOrigin && requestUrl.pathname.startsWith(new URL('./src/', self.location.href).pathname) && requestUrl.pathname.endsWith('.js');
+
+  if (isHtml || isAppData || isSourceScript) {
+    event.respondWith(networkFirst(request));
     return;
   }
-  event.respondWith(cacheFirst(event.request));
+  event.respondWith(cacheFirst(request));
 });
 
 async function cacheFirst(request) {
-  const cached = await caches.match(request);
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request);
   if (cached) return cached;
-  const response = await fetch(request);
-  const cache = await caches.open(STATIC_CACHE);
-  cache.put(request, response.clone());
-  return response;
+  try {
+    const response = await fetch(new Request(request, { cache: 'no-cache' }));
+    if (response.ok) await cache.put(request, response.clone());
+    return response;
+  } catch {
+    return new Response('', { status: 503, statusText: 'Service Unavailable' });
+  }
 }
 
 async function networkFirst(request) {
-  const cache = await caches.open(DATA_CACHE);
+  const cache = await caches.open(CACHE_NAME);
   try {
-    const response = await fetch(request, { cache: 'no-store' });
-    cache.put(request, response.clone());
+    const response = await fetch(new Request(request, { cache: 'no-cache' }));
+    if (response.ok) await cache.put(request, response.clone());
     return response;
   } catch {
-    return (await cache.match(request)) || caches.match(request);
+    const cached = await cache.match(request);
+    if (cached) return cached;
+
+    const fallback =
+      await cache.match(new URL('./index.html', self.location.href).href) ||
+      await cache.match('./index.html') ||
+      await cache.match('./');
+    if (fallback) return fallback;
+    return new Response('', { status: 503, statusText: 'Service Unavailable' });
   }
 }

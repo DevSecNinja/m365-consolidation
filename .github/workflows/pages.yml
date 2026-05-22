@@ -24,6 +24,7 @@ jobs:
           node-version: 22
       - run: npm test
       - run: npm run build
+      - run: perl -0pi -e "s/__BUILD_ID__/${GITHUB_SHA}/g" service-worker.js
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name == 'pull_request'
         with:
@@ -42,6 +43,7 @@ jobs:
         with:
           node-version: 22
       - run: npm run build
+      - run: perl -0pi -e "s/__BUILD_ID__/${GITHUB_SHA}/g" service-worker.js
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

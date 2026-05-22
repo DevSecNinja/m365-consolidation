@@ -333,7 +333,20 @@ function bindEvents() {
 
 async function registerServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  const registration = await navigator.serviceWorker.register('service-worker.js');
+  let serviceWorkerUrl = 'service-worker.js';
+  try {
+    const response = await fetch('version.json', { cache: 'no-store' });
+    if (response.ok) {
+      const version = await response.json();
+      if (version.sha) serviceWorkerUrl = `service-worker.js?v=${encodeURIComponent(version.sha)}`;
+    } else {
+      serviceWorkerUrl = `service-worker.js?v=${Date.now()}`;
+    }
+  } catch {
+    serviceWorkerUrl = `service-worker.js?v=${Date.now()}`;
+  }
+
+  const registration = await navigator.serviceWorker.register(serviceWorkerUrl);
   registration.addEventListener('updatefound', () => {
     const worker = registration.installing;
     worker?.addEventListener('statechange', () => {
