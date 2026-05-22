@@ -1,5 +1,4 @@
 import {
-  CATEGORIES,
   PLANS,
   STATUSES,
   TARGET_PLANS,
@@ -7,10 +6,12 @@ import {
   exportFeaturesToCsv,
   featureKey,
   filterFeatures,
+  getFeatureCategories,
   getCoverageLabel,
   getKnownVendors,
   isCoveredValue,
   matchVendorsToFeatures,
+  parseMatrixFeatures,
   parseVendorList,
   summarizeCoverage
 } from './logic.js';
@@ -87,20 +88,21 @@ function renderVendors(summary) {
 }
 
 function renderSummary(summary) {
+  const categories = getFeatureCategories(features);
   elements.summaryCards.innerHTML = TARGET_PLANS.map((plan) => {
     const planSummary = summary.plans[plan];
     const inclusions = planSummary.notableInclusions.length ? planSummary.notableInclusions.join(', ') : 'Add vendors to see matches';
     return `<article class="summary-card"><p class="eyebrow">${plan}</p><strong>${planSummary.percent}% covered</strong><span>${planSummary.coveredCount} of ${planSummary.totalCount} tools mapped</span><small>${inclusions}</small></article>`;
   }).join('');
 
-  elements.categorySummary.innerHTML = CATEGORIES.map((category) => {
+  elements.categorySummary.innerHTML = categories.map((category) => {
     const scores = TARGET_PLANS.map((plan) => `<span><strong>${plan}</strong> ${summary.categories[category][plan]}</span>`).join('');
     return `<article><h3>${category}</h3><div>${scores}</div></article>`;
   }).join('');
 }
 
 function renderTabs() {
-  const categories = ['All', ...CATEGORIES];
+  const categories = ['All', ...getFeatureCategories(features)];
   elements.categoryTabs.innerHTML = categories.map((category) => `<button type="button" role="tab" aria-selected="${state.activeCategory === category}" data-category="${category}">${category}</button>`).join('');
 }
 
@@ -339,11 +341,9 @@ async function registerServiceWorker() {
     if (response.ok) {
       const version = await response.json();
       if (version.sha) serviceWorkerUrl = `service-worker.js?v=${encodeURIComponent(version.sha)}`;
-    } else {
-      serviceWorkerUrl = `service-worker.js?v=${Date.now()}`;
     }
   } catch {
-    serviceWorkerUrl = `service-worker.js?v=${Date.now()}`;
+    serviceWorkerUrl = 'service-worker.js';
   }
 
   const registration = await navigator.serviceWorker.register(serviceWorkerUrl);
@@ -355,12 +355,31 @@ async function registerServiceWorker() {
       }
     });
   });
-  navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshing) return;
+    refreshing = true;
+    window.location.reload();
+  });
 }
 
 async function init() {
-  const response = await fetch('data/features.json', { cache: 'no-cache' });
-  features = await response.json();
+  const [matrixResponse, metadataResponse, exclusionsResponse] = await Promise.all([
+    fetch('Microsoft-365-Matrix-Export.csv', { cache: 'no-cache' }),
+    fetch('data/features.json', { cache: 'no-cache' }),
+    fetch('data/exclusions.json', { cache: 'no-cache' })
+  ]);
+  if (!matrixResponse.ok) throw new Error('Could not load Microsoft-365-Matrix-Export.csv');
+  if (!metadataResponse.ok) throw new Error('Could not load feature metadata');
+
+  const matrixCsv = await matrixResponse.text();
+  const metadataFeatures = await metadataResponse.json();
+  const excludedFeatureNames = exclusionsResponse.ok ? new Set(await exclusionsResponse.json()) : new Set();
+  features = parseMatrixFeatures(matrixCsv, metadataFeatures, excludedFeatureNames);
+  if (state.activeCategory !== 'All' && !getFeatureCategories(features).includes(state.activeCategory)) {
+    state.activeCategory = 'All';
+    persist();
+  }
   elements.vendorOptions.innerHTML = getKnownVendors(features).map((vendor) => `<option value="${vendor}"></option>`).join('');
   bindEvents();
   setTheme(state.theme || 'auto');

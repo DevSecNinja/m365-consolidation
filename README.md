@@ -16,7 +16,7 @@ A static, browser-only planning tool for identifying third-party security and pr
 
 ## Data source and attribution
 
-Feature data is sourced from [M365 Maps](https://m365maps.com/matrix.htm#00000000000010011000000) by Aaron Dinnage and used with attribution. The data lives in [`data/features.json`](data/features.json) so it can be reviewed, version-controlled, and updated without changing application code.
+Feature coverage data is sourced from [M365 Maps](https://m365maps.com/matrix.htm#00000000000010011000000) by Aaron Dinnage and used with attribution. Replace [`Microsoft-365-Matrix-Export.csv`](Microsoft-365-Matrix-Export.csv) with a fresh M365 Maps export to update coverage without editing the source export. App-specific vendor metadata lives in [`data/features.json`](data/features.json), and optional exclusions live in [`data/exclusions.json`](data/exclusions.json).
 
 This project is not an official Microsoft tool. Licensing and feature availability can change; validate important decisions with Microsoft licensing guidance before acting.
 

@@ -1,15 +1,26 @@
 export const PLANS = ['E3', 'E5', 'E7'];
 export const TARGET_PLANS = ['E3', 'E5', 'E7'];
-export const CATEGORIES = [
-  'Identity',
-  'Email Security',
-  'Endpoint Security',
-  'Cloud Security',
-  'Compliance & Data Governance',
-  'Productivity',
-  'Windows'
-];
+export const CATEGORIES = [];
 export const STATUSES = ['unchecked', 'already covered', 'not needed', 'gap — need to evaluate'];
+export const MATRIX_CATEGORY_HEADERS = new Set([
+  'Office 365',
+  'Enterprise Mobility + Security',
+  'Windows',
+  'Suite Value',
+  'Related Services',
+  'Microsoft Entra',
+  'Microsoft Priva',
+  'Microsoft Purview',
+  'Microsoft Security Experts',
+  'Communications',
+  'Extra Capacity',
+  'Support Services',
+  'Education',
+  'Employee Experience',
+  'Power Platform',
+  'Companion Products & Services',
+  'Automation & Intelligence'
+]);
 
 export function normalizeText(value) {
   return String(value || '')
@@ -35,6 +46,135 @@ export function getCoverageLabel(value) {
   if (value === true) return 'Included';
   if (value === false || value === null || value === undefined || value === '') return 'Not included';
   return String(value);
+}
+
+export function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let inQuotes = false;
+
+  for (let index = 0; index < text.length; index += 1) {
+    const character = text[index];
+    const nextCharacter = text[index + 1];
+
+    if (character === '"') {
+      if (inQuotes && nextCharacter === '"') {
+        cell += '"';
+        index += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (character === ',' && !inQuotes) {
+      row.push(cell);
+      cell = '';
+      continue;
+    }
+
+    if ((character === '\n' || character === '\r') && !inQuotes) {
+      if (character === '\r' && nextCharacter === '\n') index += 1;
+      row.push(cell);
+      if (row.some((value) => value.trim())) rows.push(row);
+      row = [];
+      cell = '';
+      continue;
+    }
+
+    cell += character;
+  }
+
+  row.push(cell);
+  if (row.some((value) => value.trim())) rows.push(row);
+  return rows;
+}
+
+function cleanMatrixName(value) {
+  return String(value || '').replace(/^\ufeff/, '').trim();
+}
+
+function parseMatrixName(value) {
+  const raw = cleanMatrixName(value);
+  const prefix = raw.match(/^(?:\s*>\s*)+/)?.[0] || '';
+  return {
+    depth: (prefix.match(/>/g) || []).length,
+    name: raw.replace(/^(?:\s*>\s*)+/, '').trim()
+  };
+}
+
+function normalizeMetadataName(value) {
+  return normalizeText(value).replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function coverageFromMatrixCell(value) {
+  const cell = String(value || '').trim();
+  if (!cell) return false;
+  if (cell === '✔') return true;
+  if (cell === '+') return 'Add-on';
+  if (cell === 'Δ') return 'Available add-on';
+  if (cell === '⊡') return 'Package only';
+  if (cell === '?') return 'Unknown';
+  return cell;
+}
+
+function findMetadata(featureName, metadataByName) {
+  return metadataByName.get(normalizeText(featureName)) || metadataByName.get(normalizeMetadataName(featureName)) || {};
+}
+
+export function parseMatrixFeatures(csvText, metadataFeatures = [], excludedFeatureNames = new Set()) {
+  const rows = parseCsv(csvText);
+  const headerIndex = rows.findIndex((row) => cleanMatrixName(row[0]) === 'Feature');
+  if (headerIndex === -1) return [];
+
+  const plans = rows[headerIndex].slice(1, 4).map(cleanMatrixName).filter((plan) => PLANS.includes(plan));
+  const metadataByName = new Map();
+  for (const feature of metadataFeatures) {
+    metadataByName.set(normalizeText(feature.name), feature);
+    metadataByName.set(normalizeMetadataName(feature.name), feature);
+  }
+
+  const features = [];
+  const stack = [];
+  let category = 'Microsoft 365';
+
+  for (const row of rows.slice(headerIndex + 1)) {
+    const { depth, name } = parseMatrixName(row[0]);
+    if (!name || excludedFeatureNames.has(name)) continue;
+
+    const values = row.slice(1, 4);
+    const hasCoverage = values.some((value) => String(value || '').trim());
+    const isCategory = depth === 0 && (MATRIX_CATEGORY_HEADERS.has(name) || values.join('|') === 'E3|E5|E5');
+    if (isCategory) {
+      category = name;
+      stack.length = 0;
+      stack[0] = name;
+      continue;
+    }
+    if (!hasCoverage) continue;
+
+    const metadata = findMetadata(name, metadataByName);
+    const parentFeature = depth > 0 ? stack[depth - 1] || category : category;
+    const coverage = Object.fromEntries(plans.map((plan, index) => [plan, coverageFromMatrixCell(values[index])]));
+    features.push({
+      name,
+      category,
+      parentFeature,
+      coverage,
+      notes: metadata.notes || '',
+      commonVendors: metadata.commonVendors || []
+    });
+
+    stack.length = depth;
+    stack[depth] = name;
+  }
+
+  return features;
+}
+
+export function getFeatureCategories(features) {
+  return [...new Set(features.map((feature) => feature.category).filter(Boolean))];
 }
 
 export function coverageTone(feature, plan) {
@@ -118,7 +258,8 @@ export function groupParents(features) {
 export function summarizeCoverage(vendors, features, manualVendors = {}) {
   const matches = matchVendorsToFeatures(vendors, features, manualVendors);
   const uniqueVendors = [...new Set([...vendors, ...Object.values(manualVendors).flatMap(parseVendorList)].map(normalizeText).filter(Boolean))];
-  const categorySummary = Object.fromEntries(CATEGORIES.map((category) => [category, Object.fromEntries(TARGET_PLANS.map((plan) => [plan, 0]))]));
+  const categories = getFeatureCategories(features);
+  const categorySummary = Object.fromEntries(categories.map((category) => [category, Object.fromEntries(TARGET_PLANS.map((plan) => [plan, 0]))]));
 
   const planVendorCoverage = Object.fromEntries(TARGET_PLANS.map((plan) => [plan, new Set()]));
   for (const feature of features) {
@@ -128,7 +269,7 @@ export function summarizeCoverage(vendors, features, manualVendors = {}) {
       for (const vendor of matchedVendors) {
         planVendorCoverage[plan].add(normalizeText(vendor));
       }
-      if (matchedVendors.length > 0) categorySummary[feature.category][plan] += 1;
+      if (matchedVendors.length > 0 && categorySummary[feature.category]) categorySummary[feature.category][plan] += 1;
     }
   }
 
