@@ -72,6 +72,9 @@ main { width: min(1180px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: 
 .control-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: .85rem; align-items: end; }
 .check { display: flex; align-items: center; gap: .5rem; font-weight: 700; }
 .check input { width: auto; }
+.plan-visibility { border: 1px solid var(--border); border-radius: 18px; padding: .85rem 1rem 1rem; margin: 1rem 0 0; }
+.plan-visibility legend { font-weight: 700; padding: 0 .35rem; }
+.check-list { display: flex; flex-wrap: wrap; gap: .85rem; }
 .tabs, .action-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
 .tabs button { background: transparent; color: var(--text); border: 1px solid var(--border); }
 .tabs button[aria-selected="true"] { background: var(--blue); color: white; }
@@ -83,12 +86,18 @@ th, td { border-top: 1px solid var(--border); padding: .8rem; text-align: left; 
 thead th { background: color-mix(in srgb, var(--blue) 8%, var(--surface)); position: sticky; top: 0; z-index: 1; }
 tbody th small { display: block; color: var(--amber); margin-top: .2rem; }
 .matched-row { background: color-mix(in srgb, var(--amber) 12%, var(--surface)); }
+tbody tr { border-left: 4px solid transparent; }
+tbody tr.status-covered { border-left-color: var(--green); background: color-mix(in srgb, var(--green) 10%, var(--surface)); }
+tbody tr.status-not-needed { border-left-color: var(--muted); opacity: .78; }
+tbody tr.status-gap { border-left-color: var(--red); background: color-mix(in srgb, var(--red) 10%, var(--surface)); }
+tbody tr.matched-row.status-unchecked { background: color-mix(in srgb, var(--amber) 12%, var(--surface)); }
 .coverage { display: inline-flex; border-radius: 999px; padding: .28rem .58rem; font-size: .88rem; border: 1px solid currentColor; }
 .coverage.included { color: var(--green); background: color-mix(in srgb, var(--green) 10%, transparent); }
 .coverage.partial { color: var(--amber); background: color-mix(in srgb, var(--amber) 10%, transparent); }
 .coverage.not-included { color: var(--red); background: transparent; }
 .collapse { background: transparent; color: var(--text); padding: 0 .35rem 0 0; }
 .collapse-spacer { display: inline-block; width: 1rem; }
+.manual-vendor { min-width: 12rem; }
 .skip-link { position: absolute; left: -999px; background: var(--surface); padding: .7rem; z-index: 3; }
 .skip-link:focus { left: 1rem; top: 1rem; }
 .load-error { margin: 1rem; padding: 1rem; border: 1px solid var(--red); color: var(--red); background: var(--surface); }

@@ -12,6 +12,7 @@ import {
   groupParents,
   isCoveredValue,
   matchVendorsToFeatures,
+  parseVendorList,
   summarizeCoverage
 } from './logic.js';
 
@@ -32,6 +33,8 @@ const elements = {
   categoryTabs: document.querySelector('#category-tabs'),
   featureSearch: document.querySelector('#feature-search'),
   planFilter: document.querySelector('#plan-filter'),
+  planVisibility: document.querySelector('#plan-visibility'),
+  featureHeadings: document.querySelector('#feature-headings'),
   e5Uplift: document.querySelector('#e5-uplift'),
   filledOnly: document.querySelector('#filled-only'),
   featureRows: document.querySelector('#feature-rows'),
@@ -102,6 +105,42 @@ function renderTabs() {
   elements.categoryTabs.innerHTML = categories.map((category) => `<button type="button" role="tab" aria-selected="${state.activeCategory === category}" data-category="${category}">${category}</button>`).join('');
 }
 
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function statusClass(status) {
+  if (status === 'already covered') return 'status-covered';
+  if (status === 'not needed') return 'status-not-needed';
+  if (status === 'gap — need to evaluate') return 'status-gap';
+  return 'status-unchecked';
+}
+
+function getVisiblePlans() {
+  const hiddenPlans = new Set(state.hiddenPlans || []);
+  return PLANS.filter((plan) => !hiddenPlans.has(plan));
+}
+
+function renderPlanVisibility() {
+  const hiddenPlans = new Set(state.hiddenPlans || []);
+  elements.planVisibility.innerHTML = PLANS.map((plan) => `<label class="check"><input type="checkbox" value="${plan}" ${hiddenPlans.has(plan) ? '' : 'checked'}> ${plan}</label>`).join('');
+}
+
+function renderHeadings() {
+  elements.featureHeadings.innerHTML = [
+    '<th scope="col">Feature</th>',
+    '<th scope="col">Manual vendor</th>',
+    ...getVisiblePlans().map((plan) => `<th scope="col">${plan}</th>`),
+    '<th scope="col">Status</th>',
+    '<th scope="col">Notes</th>'
+  ].join('');
+}
+
 function coverageCell(feature, plan) {
   const value = feature.coverage?.[plan];
   const label = getCoverageLabel(value);
@@ -116,25 +155,27 @@ function renderRows(matches) {
   elements.featureRows.innerHTML = visibleFeatures.map((feature) => {
     const key = featureKey(feature);
     const matchedVendors = matches.mapped.get(key) || [];
+    const manualVendor = state.manualVendors?.[key] || '';
     const hasChildren = parentCounts.get(feature.name) > 0;
-    const rowClass = matchedVendors.length ? 'matched-row' : '';
-    const vendorText = matchedVendors.length ? `<small>Matches: ${matchedVendors.join(', ')}</small>` : '';
+    const rowClasses = [matchedVendors.length ? 'matched-row' : '', statusClass(state.statuses[key] || 'unchecked')].filter(Boolean).join(' ');
+    const vendorText = matchedVendors.length ? `<small>Matches: ${escapeHtml(matchedVendors.join(', '))}</small>` : '';
     const collapseButton = hasChildren
       ? `<button type="button" class="collapse" data-parent="${feature.name}" aria-expanded="${!collapsedParents.has(feature.name)}">${collapsedParents.has(feature.name) ? '▸' : '▾'}</button>`
       : '<span class="collapse-spacer"></span>';
     const status = state.statuses[key] || 'unchecked';
-    return `<tr class="${rowClass}">
-      <th scope="row">${collapseButton}<span>${feature.name}</span>${vendorText}</th>
-      ${PLANS.map((plan) => coverageCell(feature, plan)).join('')}
-      <td><select data-status="${key}" aria-label="Status for ${feature.name}">${STATUSES.map((option) => `<option ${option === status ? 'selected' : ''}>${option}</option>`).join('')}</select></td>
-      <td>${feature.notes || ''}</td>
+    return `<tr class="${rowClasses}">
+      <th scope="row">${collapseButton}<span>${escapeHtml(feature.name)}</span>${vendorText}</th>
+      <td><input class="manual-vendor" data-manual-vendor="${escapeHtml(key)}" type="search" list="vendor-options" value="${escapeHtml(manualVendor)}" aria-label="Manual vendor override for ${escapeHtml(feature.name)}" placeholder="Add vendor"></td>
+      ${getVisiblePlans().map((plan) => coverageCell(feature, plan)).join('')}
+      <td><select data-status="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(feature.name)}">${STATUSES.map((option) => `<option ${option === status ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select></td>
+      <td>${escapeHtml(feature.notes || '')}</td>
     </tr>`;
   }).join('');
   elements.visibleCount.textContent = `${visibleFeatures.length} of ${features.length} features shown`;
 }
 
 function render() {
-  const summary = summarizeCoverage(state.vendors, features);
+  const summary = summarizeCoverage(state.vendors, features, state.manualVendors);
   const matchedKeys = new Set(summary.matches.mapped.keys());
   visibleFeatures = filterFeatures(features, {
     category: state.activeCategory,
@@ -148,11 +189,13 @@ function render() {
   renderVendors(summary);
   renderSummary(summary);
   renderTabs();
+  renderPlanVisibility();
+  renderHeadings();
   renderRows(summary.matches);
 }
 
 function downloadCsv() {
-  const csv = exportFeaturesToCsv(visibleFeatures, state.vendors, state.statuses, new Date());
+  const csv = exportFeaturesToCsv(visibleFeatures, state.vendors, state.statuses, new Date(), state.manualVendors);
   const filterName = state.activeCategory !== 'All' ? state.activeCategory.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-') : 'all-features';
   const suffix = visibleFeatures.length !== features.length ? `-${filterName}` : '';
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
@@ -185,6 +228,16 @@ function bindEvents() {
     persist();
     render();
   });
+  elements.planVisibility.addEventListener('change', (event) => {
+    const checkbox = event.target.closest('input[type="checkbox"]');
+    if (!checkbox) return;
+    const hiddenPlans = new Set(state.hiddenPlans || []);
+    if (checkbox.checked) hiddenPlans.delete(checkbox.value);
+    else hiddenPlans.add(checkbox.value);
+    state.hiddenPlans = PLANS.filter((plan) => hiddenPlans.has(plan));
+    persist();
+    render();
+  });
   elements.e5Uplift.addEventListener('change', render);
   elements.filledOnly.addEventListener('change', render);
 
@@ -198,10 +251,23 @@ function bindEvents() {
   });
 
   elements.featureRows.addEventListener('change', (event) => {
+    const manualVendorInput = event.target.closest('input[data-manual-vendor]');
+    if (manualVendorInput) {
+      const key = manualVendorInput.dataset.manualVendor;
+      const manualVendor = parseVendorList(manualVendorInput.value).join('; ');
+      state.manualVendors = { ...(state.manualVendors || {}) };
+      if (manualVendor) state.manualVendors[key] = manualVendor;
+      else delete state.manualVendors[key];
+      persist();
+      render();
+      return;
+    }
+
     const select = event.target.closest('select[data-status]');
     if (!select) return;
     state.statuses[select.dataset.status] = select.value;
     persist();
+    render();
   });
 
   elements.exportCsv.addEventListener('click', downloadCsv);

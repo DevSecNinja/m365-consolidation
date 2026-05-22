@@ -75,6 +75,10 @@
           <label class="check"><input id="e5-uplift" type="checkbox"> What’s new in E5?</label>
           <label class="check"><input id="filled-only" type="checkbox"> Show only matched vendors</label>
         </div>
+        <fieldset class="plan-visibility">
+          <legend>Show plans in table</legend>
+          <div id="plan-visibility" class="check-list"></div>
+        </fieldset>
         <div id="category-tabs" class="tabs" role="tablist" aria-label="Feature categories"></div>
         <div class="action-row">
           <button id="export-csv" type="button">Export visible rows to CSV</button>
@@ -91,15 +95,7 @@
           <table id="feature-table">
             <caption>Microsoft 365 feature coverage by plan. Highlighted rows match your entered vendors.</caption>
             <thead>
-              <tr>
-                <th scope="col">Feature</th>
-                <th scope="col">E1</th>
-                <th scope="col">E3</th>
-                <th scope="col">E5</th>
-                <th scope="col">E7</th>
-                <th scope="col">Status</th>
-                <th scope="col">Notes</th>
-              </tr>
+              <tr id="feature-headings"></tr>
             </thead>
             <tbody id="feature-rows"></tbody>
           </table>

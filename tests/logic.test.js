@@ -25,6 +25,15 @@ test('vendor matching maps known vendors and keeps unmapped vendors', () => {
   assert.equal([...result.mapped.values()].some((vendors) => vendors.includes('Okta')), true);
 });
 
+test('manual vendor overrides map a vendor to a specific feature', () => {
+  const row = features.find((feature) => feature.name === 'Safe Attachments');
+  const key = featureKey(row);
+  const result = matchVendorsToFeatures(['Unknown Tool'], [row], { [key]: 'Proofpoint; Mimecast' });
+
+  assert.deepEqual(result.mapped.get(key), ['Proofpoint', 'Mimecast']);
+  assert.deepEqual(result.unmapped, ['Unknown Tool']);
+});
+
 test('feature filtering supports plan, category, search, uplift, and filled-only filters', () => {
   const matches = matchVendorsToFeatures(['Proofpoint'], features);
   const matchedKeys = new Set(matches.mapped.keys());
@@ -51,12 +60,20 @@ test('coverage summary counts unique covered vendors by target plan', () => {
   assert.deepEqual(summary.unmapped, ['Unknown Tool']);
 });
 
+test('coverage summary includes manual vendor overrides', () => {
+  const row = features.find((feature) => feature.name === 'Safe Attachments');
+  const summary = summarizeCoverage([], [row], { [featureKey(row)]: 'Proofpoint' });
+
+  assert.equal(summary.plans.E5.totalCount, 1);
+  assert.equal(summary.plans.E5.coveredCount, 1);
+});
+
 test('CSV export includes attribution, filtered rows, coverage, vendors, and status', () => {
   const row = features.find((feature) => feature.name === 'Safe Attachments');
   const key = featureKey(row);
-  const csv = exportFeaturesToCsv([row], ['Proofpoint'], { [key]: 'gap — need to evaluate' }, new Date('2026-05-22T13:57:21.706Z'));
+  const csv = exportFeaturesToCsv([row], ['Proofpoint'], { [key]: 'gap — need to evaluate' }, new Date('2026-05-22T13:57:21.706Z'), { [key]: 'Mimecast' });
   assert.match(csv, /^# Exported 2026-05-22T13:57:21.706Z \| Feature data sourced from M365 Maps by Aaron Dinnage/);
-  assert.match(csv, /Email Security,Safe Attachments,Defender for Office 365 Plan 1,Proofpoint,Not included,Included,Included/);
+  assert.match(csv, /Email Security,Safe Attachments,Defender for Office 365 Plan 1,Proofpoint; Mimecast,Mimecast,Not included,Included,Included/);
   assert.match(csv, /gap — need to evaluate/);
 });
 
@@ -68,9 +85,13 @@ test('storage adapter persists, loads, and resets local state', () => {
     removeItem: (key) => store.delete(key)
   };
   const adapter = createStorageAdapter(fakeStorage, 'test-key');
-  adapter.save({ vendors: ['Okta'], activePlan: 'E5' });
+  adapter.save({ vendors: ['Okta'], activePlan: 'E5', hiddenPlans: ['E1', 'E7'], manualVendors: { feature: 'ManualCo' } });
   assert.deepEqual(adapter.load().vendors, ['Okta']);
   assert.equal(adapter.load().activePlan, 'E5');
+  assert.deepEqual(adapter.load().hiddenPlans, ['E1', 'E7']);
+  assert.deepEqual(adapter.load().manualVendors, { feature: 'ManualCo' });
   assert.deepEqual(adapter.reset().vendors, []);
+  assert.deepEqual(adapter.reset().hiddenPlans, []);
+  assert.deepEqual(adapter.reset().manualVendors, {});
   assert.equal(store.has('test-key'), false);
 });

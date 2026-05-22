@@ -52,19 +52,29 @@ export function getKnownVendors(features) {
   return [...new Set(features.flatMap((feature) => feature.commonVendors || []))].sort((a, b) => a.localeCompare(b));
 }
 
-export function matchVendorsToFeatures(vendors, features) {
+export function parseVendorList(value) {
+  return String(value || '')
+    .split(/[;,]/)
+    .map((vendor) => vendor.trim())
+    .filter(Boolean);
+}
+
+export function matchVendorsToFeatures(vendors, features, manualVendors = {}) {
   const normalizedVendors = vendors.map((vendor) => ({ raw: vendor, normalized: normalizeText(vendor) })).filter((vendor) => vendor.normalized);
   const mapped = new Map();
   const recognized = new Set();
 
   for (const feature of features) {
+    const key = featureKey(feature);
     const featureVendors = (feature.commonVendors || []).map((vendor) => ({ raw: vendor, normalized: normalizeText(vendor) }));
-    const matches = normalizedVendors
+    const automaticMatches = normalizedVendors
       .filter((vendor) => featureVendors.some((known) => known.normalized === vendor.normalized))
       .map((vendor) => vendor.raw);
+    const manualMatches = parseVendorList(manualVendors[key]);
+    const matches = [...new Set([...automaticMatches, ...manualMatches])];
     if (matches.length > 0) {
-      mapped.set(featureKey(feature), matches);
-      matches.forEach((vendor) => recognized.add(normalizeText(vendor)));
+      mapped.set(key, matches);
+      automaticMatches.forEach((vendor) => recognized.add(normalizeText(vendor)));
     }
   }
 
@@ -105,9 +115,9 @@ export function groupParents(features) {
   return parentCounts;
 }
 
-export function summarizeCoverage(vendors, features) {
-  const matches = matchVendorsToFeatures(vendors, features);
-  const uniqueVendors = [...new Set(vendors.map(normalizeText).filter(Boolean))];
+export function summarizeCoverage(vendors, features, manualVendors = {}) {
+  const matches = matchVendorsToFeatures(vendors, features, manualVendors);
+  const uniqueVendors = [...new Set([...vendors, ...Object.values(manualVendors).flatMap(parseVendorList)].map(normalizeText).filter(Boolean))];
   const categorySummary = Object.fromEntries(CATEGORIES.map((category) => [category, Object.fromEntries(TARGET_PLANS.map((plan) => [plan, 0]))]));
 
   const planVendorCoverage = Object.fromEntries(TARGET_PLANS.map((plan) => [plan, new Set()]));
@@ -144,11 +154,11 @@ function csvEscape(value) {
   return stringValue;
 }
 
-export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp = new Date()) {
-  const matches = matchVendorsToFeatures(vendors, features);
+export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp = new Date(), manualVendors = {}) {
+  const matches = matchVendorsToFeatures(vendors, features, manualVendors);
   const lines = [
     `# Exported ${timestamp.toISOString()} | Feature data sourced from M365 Maps by Aaron Dinnage`,
-    ['Category', 'Feature Name', 'Parent Feature', 'Current Vendor', 'Covered in E3', 'Covered in E5', 'Covered in E7', 'Notes', 'Status'].join(',')
+    ['Category', 'Feature Name', 'Parent Feature', 'Current Vendor', 'Manual Vendor Override', 'Covered in E3', 'Covered in E5', 'Covered in E7', 'Notes', 'Status'].join(',')
   ];
 
   for (const feature of features) {
@@ -159,6 +169,7 @@ export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp 
       feature.name,
       feature.parentFeature || '',
       matchedVendors.join('; '),
+      parseVendorList(manualVendors[key]).join('; '),
       getCoverageLabel(feature.coverage?.E3),
       getCoverageLabel(feature.coverage?.E5),
       getCoverageLabel(feature.coverage?.E7),
@@ -170,7 +181,7 @@ export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp 
 }
 
 export function createStorageAdapter(storage, key = 'm365-consolidation-state') {
-  const defaults = { vendors: [], statuses: {}, activePlan: 'All', activeCategory: 'All', theme: 'auto' };
+  const defaults = { vendors: [], statuses: {}, manualVendors: {}, activePlan: 'All', activeCategory: 'All', hiddenPlans: [], theme: 'auto' };
   return {
     load() {
       try {
