@@ -1,0 +1,12 @@
+{
+  "name": "m365-consolidation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "node scripts/build-version.js",
+    "validate": "npm test && npm run build"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#2563eb">
+    <title>M365 vendor consolidation</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="src/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#feature-table">Skip to feature matrix</a>
+    <header class="hero">
+      <nav class="topbar" aria-label="Application">
+        <strong>M365 consolidation</strong>
+        <div class="topbar__actions">
+          <button id="theme-toggle" type="button" class="ghost">Use dark mode</button>
+          <a href="https://github.com/DevSecNinja/m365-consolidation" rel="noreferrer">GitHub</a>
+        </div>
+      </nav>
+      <section class="hero__content">
+        <p class="eyebrow">Microsoft 365 E3, E5, and E7 planning</p>
+        <h1>See which vendor tools Microsoft 365 can replace.</h1>
+        <p>Enter the tools you pay for today. The matrix highlights where Microsoft 365 includes similar capabilities, where a higher plan helps, and where you still need to evaluate gaps.</p>
+      </section>
+    </header>
+
+    <main>
+      <section class="panel vendor-panel" aria-labelledby="vendor-heading">
+        <div>
+          <p class="eyebrow">Current stack</p>
+          <h2 id="vendor-heading">Add vendors</h2>
+          <p>Choose a mapped vendor or type any vendor name. Unmapped vendors stay visible so you can review them manually.</p>
+        </div>
+        <form id="vendor-form" class="vendor-form">
+          <label for="vendor-input">Vendor name</label>
+          <div class="input-row">
+            <input id="vendor-input" name="vendor" type="search" list="vendor-options" autocomplete="off" placeholder="Okta, CrowdStrike, Proofpoint…">
+            <datalist id="vendor-options"></datalist>
+            <button type="submit">Add vendor</button>
+          </div>
+        </form>
+        <div id="vendor-tags" class="tag-list" aria-live="polite"></div>
+        <p id="unmapped-vendors" class="note"></p>
+      </section>
+
+      <section class="summary-grid" aria-label="Coverage summary" id="summary-cards"></section>
+
+      <section class="panel summary-panel" aria-labelledby="summary-heading">
+        <div>
+          <p class="eyebrow">Category score</p>
+          <h2 id="summary-heading">Coverage by category</h2>
+        </div>
+        <div id="category-summary" class="category-summary"></div>
+      </section>
+
+      <section class="panel controls" aria-labelledby="filters-heading">
+        <div>
+          <p class="eyebrow">Feature matrix</p>
+          <h2 id="filters-heading">Filter the comparison</h2>
+        </div>
+        <div class="control-grid">
+          <label>Search features
+            <input id="feature-search" type="search" placeholder="Safe Attachments, DLP, Teams…">
+          </label>
+          <label>Plan filter
+            <select id="plan-filter">
+              <option>All</option>
+              <option>E1</option>
+              <option>E3</option>
+              <option>E5</option>
+              <option>E7</option>
+            </select>
+          </label>
+          <label class="check"><input id="e5-uplift" type="checkbox"> What’s new in E5?</label>
+          <label class="check"><input id="filled-only" type="checkbox"> Show only matched vendors</label>
+        </div>
+        <div id="category-tabs" class="tabs" role="tablist" aria-label="Feature categories"></div>
+        <div class="action-row">
+          <button id="export-csv" type="button">Export visible rows to CSV</button>
+          <button id="reset-data" type="button" class="danger">Reset browser data</button>
+        </div>
+      </section>
+
+      <section class="table-shell" aria-labelledby="table-heading">
+        <div class="table-headline">
+          <h2 id="table-heading">Feature comparison</h2>
+          <p id="visible-count" class="note"></p>
+        </div>
+        <div class="table-scroll">
+          <table id="feature-table">
+            <caption>Microsoft 365 feature coverage by plan. Highlighted rows match your entered vendors.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">E1</th>
+                <th scope="col">E3</th>
+                <th scope="col">E5</th>
+                <th scope="col">E7</th>
+                <th scope="col">Status</th>
+                <th scope="col">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="feature-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Feature data sourced from <a href="https://m365maps.com/matrix.htm#00000000000010011000000">M365 Maps</a> by Aaron Dinnage, used with attribution.</p>
+      <p>This is an independent planning aid, not an official Microsoft tool. Data is provided “as is,” without warranty of any kind under the MIT License. Your vendors, notes, and filters are stored only in this browser with localStorage; there is no server-side database. Review the source in the <a href="https://github.com/DevSecNinja/m365-consolidation">GitHub repository</a>.</p>
+    </footer>
+
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
