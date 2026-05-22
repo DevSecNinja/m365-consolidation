@@ -4,6 +4,9 @@
     "category": "Identity",
     "parentFeature": "Microsoft Entra ID",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Identity and access management",
+    "businessFunction": "Provides core directory, SSO, basic MFA, and user administration.",
+    "businessValue": "Centralizes identity control for Microsoft 365 and connected apps.",
     "notes": "Core identity, SSO, basic MFA, and user management capabilities included with Microsoft 365 tenants.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity"]
   },
@@ -12,6 +15,9 @@
     "category": "Identity",
     "parentFeature": "Microsoft Entra ID",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Identity and access management",
+    "businessFunction": "Applies access policies across users, devices, apps, and conditions.",
+    "businessValue": "Reduces risky access while keeping user sign-in practical.",
     "notes": "Adds Conditional Access, hybrid identity, dynamic groups, and self-service password reset writeback.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity", "Duo"]
   },
@@ -20,6 +26,9 @@
     "category": "Identity",
     "parentFeature": "Microsoft Entra ID",
     "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Identity threat protection",
+    "businessFunction": "Detects identity risk and supports privileged access and access reviews.",
+    "businessValue": "Helps prevent account compromise and excessive standing access.",
     "notes": "Adds identity risk detection, Privileged Identity Management, and access reviews.",
     "commonVendors": ["Okta", "CyberArk", "BeyondTrust", "SailPoint"]
   },
@@ -28,6 +37,9 @@
     "category": "Identity",
     "parentFeature": "Entra ID Free",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Identity and access management",
+    "businessFunction": "Requires an additional verification factor during sign-in.",
+    "businessValue": "Reduces account takeover risk from stolen passwords.",
     "notes": "Baseline MFA is available broadly. Conditional Access-driven MFA requires Entra ID P1 or higher.",
     "commonVendors": ["Duo", "Okta Verify", "RSA SecurID"]
   },
@@ -36,6 +48,9 @@
     "category": "Identity",
     "parentFeature": "Entra ID P1",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Identity and access management",
+    "businessFunction": "Controls access based on user, device, app, location, and risk signals.",
+    "businessValue": "Enforces adaptive access without blocking trusted work patterns.",
     "notes": "Use policy-based access controls across users, devices, apps, and risk signals.",
     "commonVendors": ["Okta", "Duo", "Ping Identity"]
   },
@@ -44,6 +59,9 @@
     "category": "Identity",
     "parentFeature": "Entra ID P2",
     "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Identity threat protection",
+    "businessFunction": "Grants privileged roles only when needed and with approval controls.",
+    "businessValue": "Limits standing administrator access and reduces privilege abuse risk.",
     "notes": "Just-in-time privileged access for Entra ID and Azure roles.",
     "commonVendors": ["CyberArk", "BeyondTrust", "Delinea"]
   },
@@ -52,6 +70,9 @@
     "category": "Identity",
     "parentFeature": "Entra ID P2",
     "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Identity threat protection",
+    "businessFunction": "Detects risky users and sign-ins and can trigger remediation.",
+    "businessValue": "Speeds response to likely identity compromise.",
     "notes": "Risk-based detections and automated remediation require Entra ID P2.",
     "commonVendors": ["Okta", "Duo", "Ping Identity"]
   },
@@ -60,6 +81,9 @@
     "category": "Identity",
     "parentFeature": "Entra ID Free",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Identity and access management",
+    "businessFunction": "Provides single sign-on to cloud applications using common identity protocols.",
+    "businessValue": "Improves user experience while centralizing application access control.",
     "notes": "Integrated SAML, OIDC, and gallery app SSO for cloud applications.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity"]
   },
@@ -68,6 +92,9 @@
     "category": "Identity",
     "parentFeature": "Entra ID",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Identity and access management",
+    "businessFunction": "Enables passwordless sign-in with authenticator apps, security keys, or Windows Hello.",
+    "businessValue": "Reduces password dependence and improves phishing resistance.",
     "notes": "Supports Microsoft Authenticator, FIDO2 security keys, and Windows Hello for Business.",
     "commonVendors": ["Yubico", "Duo", "Okta"]
   },
@@ -76,6 +103,9 @@
     "category": "Email Security",
     "parentFeature": "Exchange Online",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Filters inbound and outbound mail for spam, malware, and known threats.",
+    "businessValue": "Reduces commodity email threats before they reach users.",
     "notes": "Baseline anti-spam and anti-malware protection for Exchange Online mailboxes.",
     "commonVendors": ["Proofpoint", "Mimecast", "Barracuda", "Cisco Secure Email"]
   },
@@ -84,6 +114,9 @@
     "category": "Email Security",
     "parentFeature": "Microsoft Defender for Office 365",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Adds advanced phishing, link, and attachment protections for Exchange Online.",
+    "businessValue": "Improves email defense without adding a separate gateway platform.",
     "notes": "Adds Safe Links, Safe Attachments, and enhanced anti-phishing controls; included with Microsoft 365 E3 and higher in M365 Maps.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -92,6 +125,9 @@
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Checks links at click time and detonates suspicious URLs.",
+    "businessValue": "Reduces successful phishing from malicious or rewritten links.",
     "notes": "Time-of-click URL detonation and rewrite protection.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -100,6 +136,9 @@
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Opens suspicious attachments in a sandbox before delivery.",
+    "businessValue": "Reduces malware risk from weaponized email attachments.",
     "notes": "Attachment sandboxing for Exchange, SharePoint, OneDrive, and Teams workloads.",
     "commonVendors": ["Proofpoint", "Mimecast", "FireEye"]
   },
@@ -108,6 +147,9 @@
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Detects spoofing, impersonation, and advanced phishing patterns.",
+    "businessValue": "Reduces business email compromise and credential theft risk.",
     "notes": "Advanced impersonation and spoof intelligence are in Defender for Office 365.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -116,6 +158,9 @@
     "category": "Email Security",
     "parentFeature": "Microsoft Defender for Office 365",
     "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Combines email threat investigation, automated response, and training simulations.",
+    "businessValue": "Improves readiness across security teams and end users.",
     "notes": "Includes Plan 1 plus Threat Explorer, automated investigation, and training simulations.",
     "commonVendors": ["Proofpoint", "Mimecast", "Cofense"]
   },
@@ -124,6 +169,9 @@
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 2",
     "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Hunts, investigates, and remediates email and collaboration threats.",
+    "businessValue": "Shortens investigation time and improves response consistency.",
     "notes": "Hunt, investigate, and remediate email and collaboration threats.",
     "commonVendors": ["Proofpoint", "Mimecast", "Splunk"]
   },
@@ -132,6 +180,9 @@
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 2",
     "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Office 365 Protection",
+    "businessFunction": "Simulates real-world attacks to train users and test defenses.",
+    "businessValue": "Reduces successful attacks by improving user awareness and behavior.",
     "notes": "Phishing simulation and end-user training campaigns.",
     "commonVendors": ["KnowBe4", "Cofense", "Proofpoint"]
   },
@@ -140,6 +191,9 @@
     "category": "Endpoint Security",
     "parentFeature": "Microsoft Defender for Endpoint",
     "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Endpoint protection",
+    "businessFunction": "Protects endpoints with antivirus, attack surface reduction, and endpoint controls.",
+    "businessValue": "Reduces endpoint compromise risk across managed devices.",
     "notes": "Endpoint protection, attack surface reduction, and next-generation protection for supported platforms.",
     "commonVendors": ["CrowdStrike", "SentinelOne", "Sophos", "Trend Micro"]
   },
@@ -148,6 +202,9 @@
     "category": "Endpoint Security",
     "parentFeature": "Microsoft Defender for Endpoint",
     "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Endpoint detection and response",
+    "businessFunction": "Provides EDR, automated investigation, advanced hunting, and vulnerability insights.",
+    "businessValue": "Improves endpoint threat detection, response, and prioritization.",
     "notes": "Adds EDR, automated investigation, threat and vulnerability management, and advanced hunting.",
     "commonVendors": ["CrowdStrike", "SentinelOne", "Carbon Black", "Sophos"]
   },

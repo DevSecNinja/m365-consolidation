@@ -8,8 +8,11 @@ const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8'
 test('feature matrix has keyboard reachable controls and table semantics', () => {
   assert.match(html, /<a class="skip-link" href="#feature-table">/);
   assert.match(html, /<div id="category-tabs" class="tabs" role="tablist"/);
+  assert.match(html, /<div class="table-actions">/);
+  assert.match(html, /<fieldset class="view-toggle">/);
+  assert.match(html, /id="table-view-toggle" type="checkbox" role="switch"/);
   assert.match(html, /<fieldset class="plan-visibility">/);
-  assert.match(html, /<caption>Microsoft 365 feature coverage by plan/);
+  assert.match(html, /<caption id="feature-caption">Microsoft 365 feature coverage by plan/);
   assert.match(html, /<tr id="feature-headings"><\/tr>/);
 });
 

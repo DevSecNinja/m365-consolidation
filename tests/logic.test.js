@@ -6,6 +6,9 @@ import {
   exportFeaturesToCsv,
   featureKey,
   filterFeatures,
+  getBusinessCapability,
+  getBusinessFunction,
+  getBusinessValue,
   matchVendorsToFeatures,
   parseMatrixFeatures,
   PLANS,
@@ -37,6 +40,18 @@ test('vendor matching maps known vendors and keeps unmapped vendors', () => {
   assert.equal([...result.mapped.values()].some((vendors) => vendors.includes('Okta')), true);
 });
 
+test('business view labels are loaded from metadata with feature-name fallbacks', () => {
+  const safeAttachments = features.find((feature) => feature.name === 'Safe Attachments');
+  const agent365 = features.find((feature) => feature.name === 'Agent 365');
+
+  assert.equal(getBusinessCapability(safeAttachments), 'Office 365 Protection');
+  assert.equal(getBusinessFunction(safeAttachments), 'Opens suspicious attachments in a sandbox before delivery.');
+  assert.equal(getBusinessValue(safeAttachments), 'Reduces malware risk from weaponized email attachments.');
+  assert.equal(getBusinessCapability(agent365), agent365.category);
+  assert.equal(getBusinessFunction(agent365), 'Agent 365');
+  assert.equal(getBusinessValue(agent365), 'Agent 365');
+});
+
 test('manual vendor overrides map a vendor to a specific feature', () => {
   const row = features.find((feature) => feature.name === 'Safe Attachments');
   const key = featureKey(row);
@@ -63,6 +78,15 @@ test('feature filtering supports plan, category, search, availability, and fille
   assert.ok(filtered.every((feature) => /threat/i.test(`${feature.name} ${feature.notes}`)));
   assert.ok(filtered.every((feature) => feature.coverage.E5));
   assert.ok(filtered.every((feature) => matchedKeys.has(featureKey(feature))));
+});
+
+test('feature filtering searches business value labels', () => {
+  const filtered = filterFeatures(features, {
+    category: 'Office 365',
+    query: 'weaponized email attachments'
+  });
+
+  assert.equal(filtered.some((feature) => feature.name === 'Safe Attachments'), true);
 });
 
 test('availability filter hides rows not included in shown suites', () => {
@@ -100,6 +124,15 @@ test('CSV export includes attribution, filtered rows, coverage, vendors, and sta
   assert.match(csv, /gap — need to evaluate/);
 });
 
+test('CSV export can use business value view columns', () => {
+  const row = features.find((feature) => feature.name === 'Safe Attachments');
+  const csv = exportFeaturesToCsv([row], ['Proofpoint'], {}, new Date('2026-05-22T13:57:21.706Z'), {}, { view: 'business' });
+
+  assert.match(csv, /Business Capability,Function,Business Value,Microsoft Feature,Category,Current Vendor/);
+  assert.doesNotMatch(csv.split('\n')[1], /Notes/);
+  assert.match(csv, /Office 365 Protection,Opens suspicious attachments in a sandbox before delivery\.,Reduces malware risk from weaponized email attachments\.,Safe Attachments,Office 365,Proofpoint/);
+});
+
 test('selected licensing rows match validated M365 Maps corrections', () => {
   const byName = new Map(features.map((feature) => [feature.name, feature]));
 
@@ -125,19 +158,21 @@ test('storage adapter persists, loads, and resets local state', () => {
     removeItem: (key) => store.delete(key)
   };
   const adapter = createStorageAdapter(fakeStorage, 'test-key');
-  adapter.save({ vendors: ['Okta'], activePlan: 'E5', hiddenPlans: ['E7'], manualVendors: { feature: 'ManualCo' } });
+  adapter.save({ vendors: ['Okta'], activePlan: 'E5', hiddenPlans: ['E7'], manualVendors: { feature: 'ManualCo' }, tableView: 'feature' });
   assert.deepEqual(adapter.load().vendors, ['Okta']);
   assert.equal(adapter.load().activePlan, 'E5');
   assert.deepEqual(adapter.load().hiddenPlans, ['E7']);
   assert.deepEqual(adapter.load().manualVendors, { feature: 'ManualCo' });
+  assert.equal(adapter.load().tableView, 'feature');
   assert.deepEqual(adapter.reset().vendors, []);
   assert.deepEqual(adapter.reset().hiddenPlans, []);
   assert.deepEqual(adapter.reset().manualVendors, {});
+  assert.equal(adapter.reset().tableView, 'business');
   assert.equal(store.has('test-key'), false);
 });
 
 test('storage adapter removes retired plans from saved state', () => {
-  const store = new Map([['test-key', JSON.stringify({ activePlan: 'E1', hiddenPlans: ['E1', 'E7'] })]]);
+  const store = new Map([['test-key', JSON.stringify({ activePlan: 'E1', hiddenPlans: ['E1', 'E7'], tableView: 'unknown' })]]);
   const fakeStorage = {
     getItem: (key) => store.get(key) || null,
     setItem: (key, value) => store.set(key, value),
@@ -147,4 +182,5 @@ test('storage adapter removes retired plans from saved state', () => {
 
   assert.equal(adapter.load().activePlan, 'All');
   assert.deepEqual(adapter.load().hiddenPlans, ['E7']);
+  assert.equal(adapter.load().tableView, 'business');
 });

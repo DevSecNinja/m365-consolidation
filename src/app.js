@@ -6,6 +6,9 @@ import {
   exportFeaturesToCsv,
   featureKey,
   filterFeatures,
+  getBusinessCapability,
+  getBusinessFunction,
+  getBusinessValue,
   getFeatureCategories,
   getCoverageLabel,
   getKnownVendors,
@@ -33,8 +36,10 @@ const elements = {
   categoryTabs: document.querySelector('#category-tabs'),
   featureSearch: document.querySelector('#feature-search'),
   planFilter: document.querySelector('#plan-filter'),
+  tableViewToggle: document.querySelector('#table-view-toggle'),
   planVisibility: document.querySelector('#plan-visibility'),
   featureHeadings: document.querySelector('#feature-headings'),
+  featureCaption: document.querySelector('#feature-caption'),
   availableOnly: document.querySelector('#available-only'),
   filledOnly: document.querySelector('#filled-only'),
   featureRows: document.querySelector('#feature-rows'),
@@ -133,13 +138,21 @@ function renderPlanVisibility() {
 }
 
 function renderHeadings() {
+  const featureColumns = state.tableView === 'business'
+    ? ['<th scope="col">Function</th>', '<th scope="col">Business value</th>', '<th scope="col">Microsoft feature</th>']
+    : ['<th scope="col">Feature</th>'];
+  const trailingColumns = state.tableView === 'business'
+    ? ['<th scope="col">Status</th>']
+    : ['<th scope="col">Status</th>', '<th scope="col">Notes</th>'];
   elements.featureHeadings.innerHTML = [
-    '<th scope="col">Feature</th>',
+    ...featureColumns,
     '<th scope="col">Manual vendor</th>',
     ...getVisiblePlans().map((plan) => `<th scope="col">${plan}</th>`),
-    '<th scope="col">Status</th>',
-    '<th scope="col">Notes</th>'
+    ...trailingColumns
   ].join('');
+  elements.featureCaption.textContent = state.tableView === 'business'
+    ? 'Microsoft 365 coverage grouped by customer-facing business capability. Highlighted rows match your entered vendors.'
+    : 'Microsoft 365 feature coverage by plan. Highlighted rows match your entered vendors.';
 }
 
 function coverageCell(feature, plan) {
@@ -159,12 +172,18 @@ function featureRow(feature, matches, isGrouped = false) {
   const vendorText = matchedVendors.length ? `<small>Matches: ${escapeHtml(matchedVendors.join(', '))}</small>` : '';
   const status = state.statuses[key] || 'unchecked';
 
+  const nameCell = state.tableView === 'business'
+    ? `<th scope="row"><span>${escapeHtml(getBusinessFunction(feature))}</span>${vendorText}</th><td>${escapeHtml(getBusinessValue(feature))}</td><td>${escapeHtml(feature.name)}</td>`
+    : `<th scope="row"><span>${escapeHtml(feature.name)}</span>${vendorText}</th>`;
+
+  const noteCell = state.tableView === 'business' ? '' : `<td>${escapeHtml(feature.notes || '')}</td>`;
+
   return `<tr class="${rowClasses}">
-      <th scope="row"><span>${escapeHtml(feature.name)}</span>${vendorText}</th>
+      ${nameCell}
       <td><input class="manual-vendor" data-manual-vendor="${escapeHtml(key)}" type="search" list="vendor-options" value="${escapeHtml(manualVendor)}" aria-label="Manual vendor override for ${escapeHtml(feature.name)}" placeholder="Add vendor"></td>
       ${getVisiblePlans().map((plan) => coverageCell(feature, plan)).join('')}
       <td><select data-status="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(feature.name)}">${STATUSES.map((option) => `<option ${option === status ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select></td>
-      <td>${escapeHtml(feature.notes || '')}</td>
+      ${noteCell}
     </tr>`;
 }
 
@@ -173,6 +192,18 @@ function getFeatureGroups() {
   const groupedByParent = new Map();
 
   for (const feature of visibleFeatures) {
+    if (state.tableView === 'business') {
+      const label = getBusinessCapability(feature);
+      const key = `business::${label}`;
+      if (!groupedByParent.has(key)) {
+        const group = { key, label, features: [] };
+        groupedByParent.set(key, group);
+        groups.push(group);
+      }
+      groupedByParent.get(key).features.push(feature);
+      continue;
+    }
+
     if (!feature.parentFeature) {
       groups.push({ key: featureKey(feature), label: '', features: [feature] });
       continue;
@@ -198,7 +229,7 @@ function getExpandedFeatures() {
 }
 
 function renderRows(matches) {
-  const columnCount = getVisiblePlans().length + 4;
+  const columnCount = getVisiblePlans().length + (state.tableView === 'business' ? 5 : 4);
   const renderedFeatureCount = getExpandedFeatures().length;
 
   elements.featureRows.innerHTML = getFeatureGroups().map((group) => {
@@ -246,7 +277,7 @@ function render() {
 
 function downloadCsv() {
   const exportedFeatures = getExpandedFeatures();
-  const csv = exportFeaturesToCsv(exportedFeatures, state.vendors, state.statuses, new Date(), state.manualVendors);
+  const csv = exportFeaturesToCsv(exportedFeatures, state.vendors, state.statuses, new Date(), state.manualVendors, { view: state.tableView });
   const filterName = state.activeCategory !== 'All' ? state.activeCategory.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-') : 'all-features';
   const suffix = exportedFeatures.length !== features.length ? `-${filterName}` : '';
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
@@ -286,6 +317,11 @@ function bindEvents() {
     if (checkbox.checked) hiddenPlans.delete(checkbox.value);
     else hiddenPlans.add(checkbox.value);
     state.hiddenPlans = PLANS.filter((plan) => hiddenPlans.has(plan));
+    persist();
+    render();
+  });
+  elements.tableViewToggle.addEventListener('change', () => {
+    state.tableView = elements.tableViewToggle.checked ? 'business' : 'feature';
     persist();
     render();
   });
@@ -329,6 +365,7 @@ function bindEvents() {
     elements.availableOnly.checked = false;
     elements.filledOnly.checked = false;
     elements.planFilter.value = state.activePlan;
+    elements.tableViewToggle.checked = state.tableView === 'business';
     render();
   });
   elements.themeToggle.addEventListener('click', () => setTheme(state.theme === 'dark' ? 'light' : 'dark'));
@@ -383,6 +420,7 @@ async function init() {
   }
   elements.vendorOptions.innerHTML = getKnownVendors(features).map((vendor) => `<option value="${vendor}"></option>`).join('');
   bindEvents();
+  elements.tableViewToggle.checked = state.tableView === 'business';
   setTheme(state.theme || 'auto');
   render();
   registerServiceWorker().catch(() => {});

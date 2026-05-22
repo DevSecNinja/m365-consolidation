@@ -88,11 +88,20 @@
       <section class="table-shell" aria-labelledby="table-heading">
         <div class="table-headline">
           <h2 id="table-heading">Feature comparison</h2>
-          <p id="visible-count" class="note"></p>
+          <div class="table-actions">
+            <p id="visible-count" class="note"></p>
+            <fieldset class="view-toggle">
+              <legend>Table view</legend>
+              <label class="switch">
+                <input id="table-view-toggle" type="checkbox" role="switch" aria-label="Use business value table view">
+                <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+              </label>
+            </fieldset>
+          </div>
         </div>
         <div class="table-scroll">
           <table id="feature-table">
-            <caption>Microsoft 365 feature coverage by plan. Highlighted rows match your entered vendors.</caption>
+            <caption id="feature-caption">Microsoft 365 feature coverage by plan. Highlighted rows match your entered vendors.</caption>
             <thead>
               <tr id="feature-headings"></tr>
             </thead>

@@ -1,5 +1,6 @@
 export const PLANS = ['E3', 'E5', 'E7'];
 export const TARGET_PLANS = ['E3', 'E5', 'E7'];
+export const TABLE_VIEWS = ['business', 'feature'];
 export const CATEGORIES = [];
 export const STATUSES = ['unchecked', 'already covered', 'not needed', 'gap — need to evaluate'];
 export const MATRIX_CATEGORY_HEADERS = new Set([
@@ -46,6 +47,18 @@ export function getCoverageLabel(value) {
   if (value === true) return 'Included';
   if (value === false || value === null || value === undefined || value === '') return 'Not included';
   return String(value);
+}
+
+export function getBusinessCapability(feature) {
+  return feature.businessCapability || feature.category || 'Microsoft 365';
+}
+
+export function getBusinessFunction(feature) {
+  return feature.businessFunction || feature.name;
+}
+
+export function getBusinessValue(feature) {
+  return feature.businessValue || feature.name;
 }
 
 export function parseCsv(text) {
@@ -163,7 +176,10 @@ export function parseMatrixFeatures(csvText, metadataFeatures = [], excludedFeat
       parentFeature,
       coverage,
       notes: metadata.notes || '',
-      commonVendors: metadata.commonVendors || []
+      commonVendors: metadata.commonVendors || [],
+      businessCapability: metadata.businessCapability || '',
+      businessFunction: metadata.businessFunction || '',
+      businessValue: metadata.businessValue || ''
     });
 
     stack.length = depth;
@@ -239,7 +255,7 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
 
   return features.filter((feature) => {
     if (category !== 'All' && feature.category !== category) return false;
-    if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${feature.notes}`).includes(normalizedQuery)) return false;
+    if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${feature.businessCapability} ${feature.businessFunction} ${feature.businessValue} ${feature.notes}`).includes(normalizedQuery)) return false;
     if (plan !== 'All' && !isCoveredValue(feature.coverage?.[plan])) return false;
     if (availableOnly && !visiblePlans.some((candidate) => isCoveredValue(feature.coverage?.[candidate]))) return false;
     if (filledOnly && !matchedFeatureKeys.has(featureKey(feature))) return false;
@@ -296,39 +312,46 @@ function csvEscape(value) {
   return stringValue;
 }
 
-export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp = new Date(), manualVendors = {}) {
+export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp = new Date(), manualVendors = {}, options = {}) {
   const matches = matchVendorsToFeatures(vendors, features, manualVendors);
+  const isBusinessView = options.view === 'business';
   const lines = [
     `# Exported ${timestamp.toISOString()} | Feature data sourced from M365 Maps by Aaron Dinnage`,
-    ['Category', 'Feature Name', 'Parent Feature', 'Current Vendor', 'Manual Vendor Override', 'Covered in E3', 'Covered in E5', 'Covered in E7', 'Notes', 'Status'].join(',')
+    (isBusinessView
+      ? ['Business Capability', 'Function', 'Business Value', 'Microsoft Feature', 'Category', 'Current Vendor', 'Manual Vendor Override', 'Covered in E3', 'Covered in E5', 'Covered in E7', 'Status']
+      : ['Category', 'Feature Name', 'Parent Feature', 'Current Vendor', 'Manual Vendor Override', 'Covered in E3', 'Covered in E5', 'Covered in E7', 'Notes', 'Status']
+    ).join(',')
   ];
 
   for (const feature of features) {
     const key = featureKey(feature);
     const matchedVendors = matches.mapped.get(key) || [];
-    lines.push([
-      feature.category,
-      feature.name,
-      feature.parentFeature || '',
+    const coverageFields = [
       matchedVendors.join('; '),
       parseVendorList(manualVendors[key]).join('; '),
       getCoverageLabel(feature.coverage?.E3),
       getCoverageLabel(feature.coverage?.E5),
-      getCoverageLabel(feature.coverage?.E7),
-      feature.notes || '',
-      statuses[key] || 'unchecked'
-    ].map(csvEscape).join(','));
+      getCoverageLabel(feature.coverage?.E7)
+    ];
+    const viewFields = isBusinessView
+      ? [getBusinessCapability(feature), getBusinessFunction(feature), getBusinessValue(feature), feature.name, feature.category]
+      : [feature.category, feature.name, feature.parentFeature || ''];
+    const trailingFields = isBusinessView
+      ? [statuses[key] || 'unchecked']
+      : [feature.notes || '', statuses[key] || 'unchecked'];
+    lines.push([...viewFields, ...coverageFields, ...trailingFields].map(csvEscape).join(','));
   }
   return `${lines.join('\n')}\n`;
 }
 
 export function createStorageAdapter(storage, key = 'm365-consolidation-state') {
-  const defaults = { vendors: [], statuses: {}, manualVendors: {}, activePlan: 'All', activeCategory: 'All', hiddenPlans: [], theme: 'auto' };
+  const defaults = { vendors: [], statuses: {}, manualVendors: {}, activePlan: 'All', activeCategory: 'All', hiddenPlans: [], theme: 'auto', tableView: 'business' };
   const normalizeState = (state) => ({
     ...defaults,
     ...state,
     activePlan: state.activePlan === 'All' || PLANS.includes(state.activePlan) ? state.activePlan : defaults.activePlan,
-    hiddenPlans: Array.isArray(state.hiddenPlans) ? state.hiddenPlans.filter((plan) => PLANS.includes(plan)) : defaults.hiddenPlans
+    hiddenPlans: Array.isArray(state.hiddenPlans) ? state.hiddenPlans.filter((plan) => PLANS.includes(plan)) : defaults.hiddenPlans,
+    tableView: TABLE_VIEWS.includes(state.tableView) ? state.tableView : defaults.tableView
   });
   return {
     load() {

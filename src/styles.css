@@ -74,11 +74,22 @@ main { width: min(1180px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: 
 .check input { width: auto; }
 .plan-visibility { border: 1px solid var(--border); border-radius: 18px; padding: .85rem 1rem 1rem; margin: 1rem 0 0; }
 .plan-visibility legend { font-weight: 700; padding: 0 .35rem; }
+.view-toggle { border: 0; padding: 0; margin: 0; }
+.view-toggle legend { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .check-list { display: flex; flex-wrap: wrap; gap: .85rem; }
+.switch { display: inline-flex; align-items: center; cursor: pointer; }
+.switch input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+.switch__track { position: relative; inline-size: 3.75rem; block-size: 1.9rem; flex: 0 0 auto; border: 0; border-radius: 999px; background: var(--muted); transition: background-color .15s ease; }
+.switch__thumb { position: absolute; inset-block-start: .18rem; inset-inline-start: .18rem; inline-size: 1.54rem; block-size: 1.54rem; border-radius: 50%; background: white; box-shadow: 0 1px 4px rgb(0 0 0 / 22%); transition: transform .15s ease; }
+.switch:has(input:checked) .switch__track { background: #2f7d20; }
+.switch:has(input:checked) .switch__thumb { transform: translateX(1.85rem); }
+.switch:has(input:focus-visible) .switch__track { outline: 3px solid color-mix(in srgb, var(--blue) 45%, transparent); outline-offset: 2px; }
 .tabs, .action-row { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
 .tabs button { background: transparent; color: var(--text); border: 1px solid var(--border); }
 .tabs button[aria-selected="true"] { background: var(--blue); color: white; }
-.table-headline { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.table-headline { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.table-actions { display: flex; align-items: center; justify-content: flex-end; gap: .85rem; flex-wrap: wrap; }
+.table-actions .note { margin: 0; }
 .table-scroll { overflow-x: auto; }
 table { width: 100%; min-width: 980px; border-collapse: collapse; }
 caption { text-align: left; color: var(--muted); padding: .5rem 0 1rem; }
@@ -109,5 +120,6 @@ footer { width: min(1180px, calc(100% - 2rem)); margin: 0 auto 2rem; color: var(
 @media (max-width: 900px) {
   .summary-grid, .control-grid { grid-template-columns: 1fr; }
   .input-row { grid-template-columns: 1fr; }
+  .table-actions { justify-content: flex-start; }
   main { margin-top: -2rem; }
 }
