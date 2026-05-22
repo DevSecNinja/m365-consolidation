@@ -46,21 +46,20 @@ test('manual vendor overrides map a vendor to a specific feature', () => {
   assert.deepEqual(result.unmapped, ['Unknown Tool']);
 });
 
-test('feature filtering supports plan, category, search, uplift, and filled-only filters', () => {
+test('feature filtering supports plan, category, search, and filled-only filters', () => {
   const matches = matchVendorsToFeatures(['Proofpoint'], features);
   const matchedKeys = new Set(matches.mapped.keys());
   const filtered = filterFeatures(features, {
     category: 'Office 365',
     query: 'Threat',
     plan: 'E5',
-    e5UpliftOnly: true,
     filledOnly: true
   }, matchedKeys);
 
   assert.ok(filtered.length > 0);
   assert.ok(filtered.every((feature) => feature.category === 'Office 365'));
   assert.ok(filtered.every((feature) => /threat/i.test(`${feature.name} ${feature.notes}`)));
-  assert.ok(filtered.every((feature) => !feature.coverage.E3 && feature.coverage.E5));
+  assert.ok(filtered.every((feature) => feature.coverage.E5));
   assert.ok(filtered.every((feature) => matchedKeys.has(featureKey(feature))));
 });
 

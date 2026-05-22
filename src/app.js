@@ -35,7 +35,6 @@ const elements = {
   planFilter: document.querySelector('#plan-filter'),
   planVisibility: document.querySelector('#plan-visibility'),
   featureHeadings: document.querySelector('#feature-headings'),
-  e5Uplift: document.querySelector('#e5-uplift'),
   filledOnly: document.querySelector('#filled-only'),
   featureRows: document.querySelector('#feature-rows'),
   visibleCount: document.querySelector('#visible-count'),
@@ -231,7 +230,6 @@ function render() {
     category: state.activeCategory,
     query: elements.featureSearch.value,
     plan: state.activePlan,
-    e5UpliftOnly: elements.e5Uplift.checked,
     filledOnly: elements.filledOnly.checked
   }, matchedKeys);
 
@@ -288,7 +286,6 @@ function bindEvents() {
     persist();
     render();
   });
-  elements.e5Uplift.addEventListener('change', render);
   elements.filledOnly.addEventListener('change', render);
 
   elements.featureRows.addEventListener('click', (event) => {
@@ -325,7 +322,6 @@ function bindEvents() {
     if (!confirm('Clear vendors, statuses, and filters stored in this browser?')) return;
     state = storage.reset();
     elements.featureSearch.value = '';
-    elements.e5Uplift.checked = false;
     elements.filledOnly.checked = false;
     elements.planFilter.value = state.activePlan;
     render();
