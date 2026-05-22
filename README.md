@@ -7,7 +7,7 @@ A static, browser-only planning tool for identifying third-party security and pr
 - Lets users enter current vendors such as Okta, CrowdStrike, Proofpoint, Zscaler, Slack, or Box.
 - Supports per-feature manual vendor overrides when automatic mapping needs a correction.
 - Highlights matching Microsoft 365 features by category and plan.
-- Compares E1 baseline coverage with E3, E5, and E7 consolidation targets.
+- Compares Microsoft 365 E3, E5, and E7 consolidation targets.
 - Filters by category, plan, feature search, E5 uplift, or only rows matched to entered vendors.
 - Hides one or more plan columns in the on-screen feature matrix.
 - Stores entered vendors, feature statuses, and active plan filter in `localStorage` only.

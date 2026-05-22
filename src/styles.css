@@ -96,10 +96,10 @@ tbody tr.matched-row.status-unchecked { background: color-mix(in srgb, var(--amb
 .parent-row .collapse span:nth-child(2) { font-weight: 750; }
 .parent-row .collapse small { margin-left: auto; color: var(--muted); font-weight: 650; }
 .grouped-row th:first-child { padding-left: 2.25rem; }
-.coverage { display: inline-flex; border-radius: 999px; padding: .28rem .58rem; font-size: .88rem; border: 1px solid currentColor; }
+.coverage { display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; border-radius: 999px; padding: .28rem .58rem; font-size: .88rem; line-height: 1.2; border: 1px solid currentColor; }
 .coverage.included { color: var(--green); background: color-mix(in srgb, var(--green) 10%, transparent); }
 .coverage.partial { color: var(--amber); background: color-mix(in srgb, var(--amber) 10%, transparent); }
-.coverage.not-included { color: var(--red); background: transparent; }
+.coverage.not-included { min-width: 6.75rem; color: var(--red); background: transparent; }
 .manual-vendor { min-width: 12rem; }
 .skip-link { position: absolute; left: -999px; background: var(--surface); padding: .7rem; z-index: 3; }
 .skip-link:focus { left: 1rem; top: 1rem; }

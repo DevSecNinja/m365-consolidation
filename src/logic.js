@@ -1,4 +1,4 @@
-export const PLANS = ['E1', 'E3', 'E5', 'E7'];
+export const PLANS = ['E3', 'E5', 'E7'];
 export const TARGET_PLANS = ['E3', 'E5', 'E7'];
 export const CATEGORIES = [
   'Identity',
@@ -182,16 +182,22 @@ export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp 
 
 export function createStorageAdapter(storage, key = 'm365-consolidation-state') {
   const defaults = { vendors: [], statuses: {}, manualVendors: {}, activePlan: 'All', activeCategory: 'All', hiddenPlans: [], theme: 'auto' };
+  const normalizeState = (state) => ({
+    ...defaults,
+    ...state,
+    activePlan: state.activePlan === 'All' || PLANS.includes(state.activePlan) ? state.activePlan : defaults.activePlan,
+    hiddenPlans: Array.isArray(state.hiddenPlans) ? state.hiddenPlans.filter((plan) => PLANS.includes(plan)) : defaults.hiddenPlans
+  });
   return {
     load() {
       try {
-        return { ...defaults, ...JSON.parse(storage.getItem(key) || '{}') };
+        return normalizeState(JSON.parse(storage.getItem(key) || '{}'));
       } catch {
         return { ...defaults };
       }
     },
     save(state) {
-      storage.setItem(key, JSON.stringify({ ...defaults, ...state }));
+      storage.setItem(key, JSON.stringify(normalizeState(state)));
     },
     reset() {
       storage.removeItem(key);

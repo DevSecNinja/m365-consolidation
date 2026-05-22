@@ -8,6 +8,7 @@ import {
   featureKey,
   filterFeatures,
   matchVendorsToFeatures,
+  PLANS,
   summarizeCoverage
 } from '../src/logic.js';
 
@@ -16,6 +17,11 @@ const features = JSON.parse(await readFile(new URL('../data/features.json', impo
 test('feature data covers required MVP categories', () => {
   const categories = new Set(features.map((feature) => feature.category));
   for (const category of CATEGORIES) assert.equal(categories.has(category), true, `${category} is present`);
+});
+
+test('feature data only exposes Microsoft 365 target plans', () => {
+  assert.deepEqual(PLANS, ['E3', 'E5', 'E7']);
+  assert.ok(features.every((feature) => !Object.hasOwn(feature.coverage, 'E1')));
 });
 
 test('vendor matching maps known vendors and keeps unmapped vendors', () => {
@@ -83,7 +89,7 @@ test('selected licensing rows match validated M365 Maps corrections', () => {
   assert.equal(byName.get('Defender for Office 365 Plan 1').coverage.E3, true);
   assert.equal(byName.get('Safe Links').coverage.E3, true);
   assert.equal(byName.get('Safe Attachments').coverage.E3, true);
-  assert.equal(byName.get('Defender Vulnerability Management').coverage.E7, false);
+  assert.equal(byName.get('Defender Vulnerability Management').coverage.E7, 'Core');
   assert.equal(byName.get('Data Lifecycle Management').coverage.E3, false);
   assert.equal(byName.get('Microsoft Teams').coverage.E7, 'Optional');
 });
@@ -96,13 +102,26 @@ test('storage adapter persists, loads, and resets local state', () => {
     removeItem: (key) => store.delete(key)
   };
   const adapter = createStorageAdapter(fakeStorage, 'test-key');
-  adapter.save({ vendors: ['Okta'], activePlan: 'E5', hiddenPlans: ['E1', 'E7'], manualVendors: { feature: 'ManualCo' } });
+  adapter.save({ vendors: ['Okta'], activePlan: 'E5', hiddenPlans: ['E7'], manualVendors: { feature: 'ManualCo' } });
   assert.deepEqual(adapter.load().vendors, ['Okta']);
   assert.equal(adapter.load().activePlan, 'E5');
-  assert.deepEqual(adapter.load().hiddenPlans, ['E1', 'E7']);
+  assert.deepEqual(adapter.load().hiddenPlans, ['E7']);
   assert.deepEqual(adapter.load().manualVendors, { feature: 'ManualCo' });
   assert.deepEqual(adapter.reset().vendors, []);
   assert.deepEqual(adapter.reset().hiddenPlans, []);
   assert.deepEqual(adapter.reset().manualVendors, {});
   assert.equal(store.has('test-key'), false);
+});
+
+test('storage adapter removes retired plans from saved state', () => {
+  const store = new Map([['test-key', JSON.stringify({ activePlan: 'E1', hiddenPlans: ['E1', 'E7'] })]]);
+  const fakeStorage = {
+    getItem: (key) => store.get(key) || null,
+    setItem: (key, value) => store.set(key, value),
+    removeItem: (key) => store.delete(key)
+  };
+  const adapter = createStorageAdapter(fakeStorage, 'test-key');
+
+  assert.equal(adapter.load().activePlan, 'All');
+  assert.deepEqual(adapter.load().hiddenPlans, ['E7']);
 });

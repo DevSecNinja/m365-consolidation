@@ -3,7 +3,7 @@
     "name": "Entra ID Free",
     "category": "Identity",
     "parentFeature": "Microsoft Entra ID",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Core identity, SSO, basic MFA, and user management capabilities included with Microsoft 365 tenants.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity"]
   },
@@ -11,7 +11,7 @@
     "name": "Entra ID P1",
     "category": "Identity",
     "parentFeature": "Microsoft Entra ID",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Adds Conditional Access, hybrid identity, dynamic groups, and self-service password reset writeback.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity", "Duo"]
   },
@@ -19,7 +19,7 @@
     "name": "Entra ID P2",
     "category": "Identity",
     "parentFeature": "Microsoft Entra ID",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Adds identity risk detection, Privileged Identity Management, and access reviews.",
     "commonVendors": ["Okta", "CyberArk", "BeyondTrust", "SailPoint"]
   },
@@ -27,7 +27,7 @@
     "name": "Multifactor Authentication",
     "category": "Identity",
     "parentFeature": "Entra ID Free",
-    "coverage": { "E1": "Security defaults", "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Baseline MFA is available broadly. Conditional Access-driven MFA requires Entra ID P1 or higher.",
     "commonVendors": ["Duo", "Okta Verify", "RSA SecurID"]
   },
@@ -35,7 +35,7 @@
     "name": "Conditional Access",
     "category": "Identity",
     "parentFeature": "Entra ID P1",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Use policy-based access controls across users, devices, apps, and risk signals.",
     "commonVendors": ["Okta", "Duo", "Ping Identity"]
   },
@@ -43,7 +43,7 @@
     "name": "Privileged Identity Management",
     "category": "Identity",
     "parentFeature": "Entra ID P2",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Just-in-time privileged access for Entra ID and Azure roles.",
     "commonVendors": ["CyberArk", "BeyondTrust", "Delinea"]
   },
@@ -51,7 +51,7 @@
     "name": "Entra ID Protection",
     "category": "Identity",
     "parentFeature": "Entra ID P2",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Risk-based detections and automated remediation require Entra ID P2.",
     "commonVendors": ["Okta", "Duo", "Ping Identity"]
   },
@@ -59,7 +59,7 @@
     "name": "Single Sign-On",
     "category": "Identity",
     "parentFeature": "Entra ID Free",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Integrated SAML, OIDC, and gallery app SSO for cloud applications.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity"]
   },
@@ -67,7 +67,7 @@
     "name": "Passwordless Authentication",
     "category": "Identity",
     "parentFeature": "Entra ID",
-    "coverage": { "E1": "Basic", "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Supports Microsoft Authenticator, FIDO2 security keys, and Windows Hello for Business.",
     "commonVendors": ["Yubico", "Duo", "Okta"]
   },
@@ -75,7 +75,7 @@
     "name": "Exchange Online Protection",
     "category": "Email Security",
     "parentFeature": "Exchange Online",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Baseline anti-spam and anti-malware protection for Exchange Online mailboxes.",
     "commonVendors": ["Proofpoint", "Mimecast", "Barracuda", "Cisco Secure Email"]
   },
@@ -83,7 +83,7 @@
     "name": "Defender for Office 365 Plan 1",
     "category": "Email Security",
     "parentFeature": "Microsoft Defender for Office 365",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Adds Safe Links, Safe Attachments, and enhanced anti-phishing controls; included with Microsoft 365 E3 and higher in M365 Maps.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -91,7 +91,7 @@
     "name": "Safe Links",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Time-of-click URL detonation and rewrite protection.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -99,7 +99,7 @@
     "name": "Safe Attachments",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Attachment sandboxing for Exchange, SharePoint, OneDrive, and Teams workloads.",
     "commonVendors": ["Proofpoint", "Mimecast", "FireEye"]
   },
@@ -107,7 +107,7 @@
     "name": "Anti-Phishing Policies",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
-    "coverage": { "E1": "Basic", "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Advanced impersonation and spoof intelligence are in Defender for Office 365.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -115,7 +115,7 @@
     "name": "Defender for Office 365 Plan 2",
     "category": "Email Security",
     "parentFeature": "Microsoft Defender for Office 365",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Includes Plan 1 plus Threat Explorer, automated investigation, and training simulations.",
     "commonVendors": ["Proofpoint", "Mimecast", "Cofense"]
   },
@@ -123,7 +123,7 @@
     "name": "Threat Explorer",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 2",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Hunt, investigate, and remediate email and collaboration threats.",
     "commonVendors": ["Proofpoint", "Mimecast", "Splunk"]
   },
@@ -131,7 +131,7 @@
     "name": "Attack Simulation Training",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 2",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Phishing simulation and end-user training campaigns.",
     "commonVendors": ["KnowBe4", "Cofense", "Proofpoint"]
   },
@@ -139,7 +139,7 @@
     "name": "Defender for Endpoint Plan 1",
     "category": "Endpoint Security",
     "parentFeature": "Microsoft Defender for Endpoint",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Endpoint protection, attack surface reduction, and next-generation protection for supported platforms.",
     "commonVendors": ["CrowdStrike", "SentinelOne", "Sophos", "Trend Micro"]
   },
@@ -147,7 +147,7 @@
     "name": "Defender for Endpoint Plan 2",
     "category": "Endpoint Security",
     "parentFeature": "Microsoft Defender for Endpoint",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Adds EDR, automated investigation, threat and vulnerability management, and advanced hunting.",
     "commonVendors": ["CrowdStrike", "SentinelOne", "Carbon Black", "Sophos"]
   },
@@ -155,7 +155,7 @@
     "name": "Defender Antivirus",
     "category": "Endpoint Security",
     "parentFeature": "Windows Security",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Built into Windows and managed through Defender for Endpoint and Intune.",
     "commonVendors": ["Symantec", "McAfee", "Trend Micro", "Sophos"]
   },
@@ -163,15 +163,15 @@
     "name": "Defender Vulnerability Management",
     "category": "Endpoint Security",
     "parentFeature": "Defender for Endpoint Plan 2",
-    "coverage": { "E1": false, "E3": false, "E5": "Core", "E7": false },
-    "notes": "Core vulnerability management is included with Defender for Endpoint Plan 2 in E5. M365 Maps lists premium vulnerability management as an add-on, and it is not included in the E7 step-up map.",
+    "coverage": { "E3": false, "E5": "Core", "E7": "Core" },
+    "notes": "Core vulnerability management is included with Defender for Endpoint Plan 2 in E5 and E7. Premium Defender Vulnerability Management capabilities are licensed as an add-on.",
     "commonVendors": ["Tenable", "Qualys", "Rapid7"]
   },
   {
     "name": "Intune Plan 1",
     "category": "Endpoint Security",
     "parentFeature": "Microsoft Intune",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Device and application management for modern endpoints.",
     "commonVendors": ["Jamf", "VMware Workspace ONE", "MobileIron", "Ivanti"]
   },
@@ -179,7 +179,7 @@
     "name": "Defender for Cloud Apps",
     "category": "Cloud Security",
     "parentFeature": "Microsoft Defender XDR",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "SaaS discovery, cloud app risk, session controls, and app governance signals.",
     "commonVendors": ["Netskope", "Zscaler", "Bitglass", "Skyhigh Security"]
   },
@@ -187,7 +187,7 @@
     "name": "App Governance",
     "category": "Cloud Security",
     "parentFeature": "Defender for Cloud Apps",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "OAuth app governance and remediation for Microsoft 365 apps.",
     "commonVendors": ["Netskope", "Zscaler", "AppOmni"]
   },
@@ -195,7 +195,7 @@
     "name": "Defender for Identity",
     "category": "Cloud Security",
     "parentFeature": "Microsoft Defender XDR",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Detects identity threats across on-premises Active Directory signals.",
     "commonVendors": ["Varonis", "Semperis", "CrowdStrike Identity Protection"]
   },
@@ -203,7 +203,7 @@
     "name": "Adaptive Protection",
     "category": "Cloud Security",
     "parentFeature": "Microsoft Purview Insider Risk Management",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Dynamically adjusts DLP controls based on insider risk levels.",
     "commonVendors": ["Forcepoint", "Proofpoint", "Netskope"]
   },
@@ -211,7 +211,7 @@
     "name": "Data Loss Prevention",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "DLP for Exchange, SharePoint, OneDrive, Teams, and endpoints depending on workload and plan.",
     "commonVendors": ["Symantec DLP", "Forcepoint", "Netskope", "Digital Guardian"]
   },
@@ -219,7 +219,7 @@
     "name": "Information Protection",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Sensitivity labels and encryption support; automatic classification expands in E5.",
     "commonVendors": ["Varonis", "Titus", "Boldon James"]
   },
@@ -227,7 +227,7 @@
     "name": "eDiscovery Standard",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview eDiscovery",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Core content search, holds, and export workflows.",
     "commonVendors": ["Relativity", "Everlaw", "Logikcull"]
   },
@@ -235,7 +235,7 @@
     "name": "eDiscovery Premium",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview eDiscovery",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Adds custodians, review sets, analytics, and richer legal workflows.",
     "commonVendors": ["Relativity", "Everlaw", "OpenText"]
   },
@@ -243,7 +243,7 @@
     "name": "Communication Compliance",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Detects and reviews inappropriate, sensitive, or regulated communications.",
     "commonVendors": ["Smarsh", "Global Relay", "Proofpoint"]
   },
@@ -251,7 +251,7 @@
     "name": "Insider Risk Management",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Correlates activities and signals for potential data leakage or policy violations.",
     "commonVendors": ["Forcepoint", "DTEX", "Proofpoint"]
   },
@@ -259,7 +259,7 @@
     "name": "Records Management",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Advanced retention labels, disposition review, and record declaration.",
     "commonVendors": ["OpenText", "Iron Mountain", "AvePoint"]
   },
@@ -267,7 +267,7 @@
     "name": "Data Lifecycle Management",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Advanced Purview Data Lifecycle Management is listed with E5 and E7; basic retention policies are tracked separately.",
     "commonVendors": ["AvePoint", "Veritas", "OpenText"]
   },
@@ -275,7 +275,7 @@
     "name": "Audit Standard",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview Audit",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Unified audit logging for Microsoft 365 activity.",
     "commonVendors": ["Splunk", "Sumo Logic", "LogRhythm"]
   },
@@ -283,7 +283,7 @@
     "name": "Audit Premium",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview Audit",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Longer retention and high-value event auditing for investigations.",
     "commonVendors": ["Splunk", "Elastic", "Sumo Logic"]
   },
@@ -291,7 +291,7 @@
     "name": "Retention Policies",
     "category": "Compliance & Data Governance",
     "parentFeature": "Data Lifecycle Management",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Manage retention and deletion across Microsoft 365 workloads.",
     "commonVendors": ["Veritas", "AvePoint", "OpenText"]
   },
@@ -299,7 +299,7 @@
     "name": "Information Barriers",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview Information Barriers",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E3": false, "E5": true, "E7": true },
     "notes": "Limit communication and collaboration between groups for regulatory needs.",
     "commonVendors": ["Smarsh", "Global Relay"]
   },
@@ -307,7 +307,7 @@
     "name": "Exchange Online",
     "category": "Productivity",
     "parentFeature": "Microsoft 365 Productivity",
-    "coverage": { "E1": "50 GB", "E3": "100 GB", "E5": "100 GB", "E7": "100 GB" },
+    "coverage": { "E3": "100 GB", "E5": "100 GB", "E7": "100 GB" },
     "notes": "Business email, calendar, contacts, and mailbox features. Archive capacity varies by plan and configuration.",
     "commonVendors": ["Google Workspace", "Gmail", "Proofpoint Essentials"]
   },
@@ -315,7 +315,7 @@
     "name": "SharePoint Online",
     "category": "Productivity",
     "parentFeature": "Microsoft 365 Productivity",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Sites, intranet, content services, lists, and document management.",
     "commonVendors": ["Box", "Dropbox", "Google Drive", "Confluence"]
   },
@@ -323,7 +323,7 @@
     "name": "OneDrive for Business",
     "category": "Productivity",
     "parentFeature": "Microsoft 365 Productivity",
-    "coverage": { "E1": "1 TB", "E3": "1 TB+", "E5": "1 TB+", "E7": "1 TB+" },
+    "coverage": { "E3": "1 TB+", "E5": "1 TB+", "E7": "1 TB+" },
     "notes": "Personal file storage and sync for Microsoft 365 users.",
     "commonVendors": ["Box", "Dropbox", "Google Drive"]
   },
@@ -331,7 +331,7 @@
     "name": "Microsoft Teams",
     "category": "Productivity",
     "parentFeature": "Microsoft 365 Productivity",
-    "coverage": { "E1": "Optional", "E3": "Optional", "E5": "Optional", "E7": "Optional" },
+    "coverage": { "E3": "Optional", "E5": "Optional", "E7": "Optional" },
     "notes": "Chat, meetings, channels, calling integrations, and collaboration. M365 Maps marks Teams as optional; telephony features require add-ons.",
     "commonVendors": ["Slack", "Zoom", "Webex", "Google Meet"]
   },
@@ -339,15 +339,15 @@
     "name": "Microsoft 365 Apps",
     "category": "Productivity",
     "parentFeature": "Microsoft 365 Productivity",
-    "coverage": { "E1": "Web apps", "E3": true, "E5": true, "E7": true },
-    "notes": "Desktop Office apps are included with E3 and higher; E1 includes web and mobile apps.",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "notes": "Desktop Office apps are included with Microsoft 365 E3 and higher.",
     "commonVendors": ["Google Workspace", "LibreOffice", "Adobe Acrobat"]
   },
   {
     "name": "Power Apps for Microsoft 365",
     "category": "Productivity",
     "parentFeature": "Power Platform",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Use standard connectors within Microsoft 365 rights; premium connectors require additional licensing.",
     "commonVendors": ["Airtable", "AppSheet", "ServiceNow"]
   },
@@ -355,7 +355,7 @@
     "name": "Power Automate for Microsoft 365",
     "category": "Productivity",
     "parentFeature": "Power Platform",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Automate workflows using standard connectors within Microsoft 365 rights.",
     "commonVendors": ["Zapier", "Workato", "IFTTT"]
   },
@@ -363,7 +363,7 @@
     "name": "Viva Insights",
     "category": "Productivity",
     "parentFeature": "Microsoft Viva",
-    "coverage": { "E1": "Personal insights", "E3": "Personal insights", "E5": "Advanced insights", "E7": "Advanced insights" },
+    "coverage": { "E3": "Personal insights", "E5": "Advanced insights", "E7": "Advanced insights" },
     "notes": "Personal insights are broadly available; advanced organization insights require higher licensing.",
     "commonVendors": ["Workday Peakon", "Culture Amp", "Tableau"]
   },
@@ -371,7 +371,7 @@
     "name": "BitLocker",
     "category": "Windows",
     "parentFeature": "Windows Enterprise",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Full-disk encryption for Windows devices, managed through policy.",
     "commonVendors": ["Symantec Encryption", "McAfee Complete Data Protection"]
   },
@@ -379,7 +379,7 @@
     "name": "Windows Hello for Business",
     "category": "Windows",
     "parentFeature": "Windows Enterprise",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Passwordless, phishing-resistant sign-in for Windows devices.",
     "commonVendors": ["Yubico", "Duo", "Okta"]
   },
@@ -387,7 +387,7 @@
     "name": "Windows Autopatch",
     "category": "Windows",
     "parentFeature": "Windows Enterprise",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Microsoft-managed update rings for Windows, Microsoft 365 Apps, Edge, and Teams.",
     "commonVendors": ["Ivanti", "ManageEngine", "Automox"]
   },
@@ -395,7 +395,7 @@
     "name": "Application Control for Business",
     "category": "Windows",
     "parentFeature": "Windows Enterprise",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Application allow-listing and control using Windows security features.",
     "commonVendors": ["BeyondTrust", "CyberArk", "Airlock Digital"]
   },
@@ -403,7 +403,7 @@
     "name": "Windows LAPS",
     "category": "Windows",
     "parentFeature": "Windows Enterprise",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Local administrator password management built into Windows and Entra joined scenarios.",
     "commonVendors": ["Delinea", "CyberArk", "BeyondTrust"]
   },
@@ -411,7 +411,7 @@
     "name": "Windows Update for Business",
     "category": "Windows",
     "parentFeature": "Windows Enterprise",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "coverage": { "E3": true, "E5": true, "E7": true },
     "notes": "Manage Windows update policies, rings, and deployment timing.",
     "commonVendors": ["Ivanti", "ManageEngine", "Automox"]
   }
