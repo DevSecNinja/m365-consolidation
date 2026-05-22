@@ -9,7 +9,6 @@ import {
   filterFeatures,
   getCoverageLabel,
   getKnownVendors,
-  groupParents,
   isCoveredValue,
   matchVendorsToFeatures,
   parseVendorList,
@@ -150,28 +149,77 @@ function coverageCell(feature, plan) {
   return `<td><span class="coverage ${tone}">${label}</span></td>`;
 }
 
-function renderRows(matches) {
-  const parentCounts = groupParents(features);
-  elements.featureRows.innerHTML = visibleFeatures.map((feature) => {
-    const key = featureKey(feature);
-    const matchedVendors = matches.mapped.get(key) || [];
-    const manualVendor = state.manualVendors?.[key] || '';
-    const hasChildren = parentCounts.get(feature.name) > 0;
-    const rowClasses = [matchedVendors.length ? 'matched-row' : '', statusClass(state.statuses[key] || 'unchecked')].filter(Boolean).join(' ');
-    const vendorText = matchedVendors.length ? `<small>Matches: ${escapeHtml(matchedVendors.join(', '))}</small>` : '';
-    const collapseButton = hasChildren
-      ? `<button type="button" class="collapse" data-parent="${feature.name}" aria-expanded="${!collapsedParents.has(feature.name)}">${collapsedParents.has(feature.name) ? '▸' : '▾'}</button>`
-      : '<span class="collapse-spacer"></span>';
-    const status = state.statuses[key] || 'unchecked';
-    return `<tr class="${rowClasses}">
-      <th scope="row">${collapseButton}<span>${escapeHtml(feature.name)}</span>${vendorText}</th>
+function featureRow(feature, matches, isGrouped = false) {
+  const key = featureKey(feature);
+  const matchedVendors = matches.mapped.get(key) || [];
+  const manualVendor = state.manualVendors?.[key] || '';
+  const rowClasses = [isGrouped ? 'grouped-row' : '', matchedVendors.length ? 'matched-row' : '', statusClass(state.statuses[key] || 'unchecked')].filter(Boolean).join(' ');
+  const vendorText = matchedVendors.length ? `<small>Matches: ${escapeHtml(matchedVendors.join(', '))}</small>` : '';
+  const status = state.statuses[key] || 'unchecked';
+
+  return `<tr class="${rowClasses}">
+      <th scope="row"><span>${escapeHtml(feature.name)}</span>${vendorText}</th>
       <td><input class="manual-vendor" data-manual-vendor="${escapeHtml(key)}" type="search" list="vendor-options" value="${escapeHtml(manualVendor)}" aria-label="Manual vendor override for ${escapeHtml(feature.name)}" placeholder="Add vendor"></td>
       ${getVisiblePlans().map((plan) => coverageCell(feature, plan)).join('')}
       <td><select data-status="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(feature.name)}">${STATUSES.map((option) => `<option ${option === status ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select></td>
       <td>${escapeHtml(feature.notes || '')}</td>
     </tr>`;
+}
+
+function getFeatureGroups() {
+  const groups = [];
+  const groupedByParent = new Map();
+
+  for (const feature of visibleFeatures) {
+    if (!feature.parentFeature) {
+      groups.push({ key: featureKey(feature), label: '', features: [feature] });
+      continue;
+    }
+
+    if (!groupedByParent.has(feature.parentFeature)) {
+      const group = { key: feature.parentFeature, label: feature.parentFeature, features: [] };
+      groupedByParent.set(feature.parentFeature, group);
+      groups.push(group);
+    }
+
+    groupedByParent.get(feature.parentFeature).features.push(feature);
+  }
+
+  return groups;
+}
+
+function getExpandedFeatures() {
+  return getFeatureGroups().flatMap((group) => {
+    if (group.label && collapsedParents.has(group.key)) return [];
+    return group.features;
+  });
+}
+
+function renderRows(matches) {
+  const columnCount = getVisiblePlans().length + 4;
+  const renderedFeatureCount = getExpandedFeatures().length;
+
+  elements.featureRows.innerHTML = getFeatureGroups().map((group) => {
+    if (!group.label) {
+      return featureRow(group.features[0], matches);
+    }
+
+    const isCollapsed = collapsedParents.has(group.key);
+    const groupRows = isCollapsed
+      ? ''
+      : group.features.map((feature) => featureRow(feature, matches, true)).join('');
+
+    return `<tr class="parent-row">
+      <th scope="rowgroup" colspan="${columnCount}">
+        <button type="button" class="collapse" data-parent="${escapeHtml(group.key)}" aria-expanded="${!isCollapsed}" aria-label="${isCollapsed ? 'Expand' : 'Collapse'} ${escapeHtml(group.label)}">
+          <span aria-hidden="true">${isCollapsed ? '▸' : '▾'}</span>
+          <span>${escapeHtml(group.label)}</span>
+          <small>${group.features.length} ${group.features.length === 1 ? 'feature' : 'features'}</small>
+        </button>
+      </th>
+    </tr>${groupRows}`;
   }).join('');
-  elements.visibleCount.textContent = `${visibleFeatures.length} of ${features.length} features shown`;
+  elements.visibleCount.textContent = `${renderedFeatureCount} of ${features.length} features shown`;
 }
 
 function render() {
@@ -182,8 +230,7 @@ function render() {
     query: elements.featureSearch.value,
     plan: state.activePlan,
     e5UpliftOnly: elements.e5Uplift.checked,
-    filledOnly: elements.filledOnly.checked,
-    collapsedParents
+    filledOnly: elements.filledOnly.checked
   }, matchedKeys);
 
   renderVendors(summary);
@@ -195,9 +242,10 @@ function render() {
 }
 
 function downloadCsv() {
-  const csv = exportFeaturesToCsv(visibleFeatures, state.vendors, state.statuses, new Date(), state.manualVendors);
+  const exportedFeatures = getExpandedFeatures();
+  const csv = exportFeaturesToCsv(exportedFeatures, state.vendors, state.statuses, new Date(), state.manualVendors);
   const filterName = state.activeCategory !== 'All' ? state.activeCategory.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-') : 'all-features';
-  const suffix = visibleFeatures.length !== features.length ? `-${filterName}` : '';
+  const suffix = exportedFeatures.length !== features.length ? `-${filterName}` : '';
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);

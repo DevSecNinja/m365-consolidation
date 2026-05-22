@@ -91,12 +91,15 @@ tbody tr.status-covered { border-left-color: var(--green); background: color-mix
 tbody tr.status-not-needed { border-left-color: var(--muted); opacity: .78; }
 tbody tr.status-gap { border-left-color: var(--red); background: color-mix(in srgb, var(--red) 10%, var(--surface)); }
 tbody tr.matched-row.status-unchecked { background: color-mix(in srgb, var(--amber) 12%, var(--surface)); }
+.parent-row th { padding: .55rem .8rem; background: color-mix(in srgb, var(--blue) 9%, var(--surface)); border-top: 1px solid var(--border); }
+.parent-row .collapse { width: 100%; display: flex; align-items: center; gap: .55rem; background: transparent; color: var(--text); border-radius: 8px; padding: .35rem .45rem; text-align: left; }
+.parent-row .collapse span:nth-child(2) { font-weight: 750; }
+.parent-row .collapse small { margin-left: auto; color: var(--muted); font-weight: 650; }
+.grouped-row th:first-child { padding-left: 2.25rem; }
 .coverage { display: inline-flex; border-radius: 999px; padding: .28rem .58rem; font-size: .88rem; border: 1px solid currentColor; }
 .coverage.included { color: var(--green); background: color-mix(in srgb, var(--green) 10%, transparent); }
 .coverage.partial { color: var(--amber); background: color-mix(in srgb, var(--amber) 10%, transparent); }
 .coverage.not-included { color: var(--red); background: transparent; }
-.collapse { background: transparent; color: var(--text); padding: 0 .35rem 0 0; }
-.collapse-spacer { display: inline-block; width: 1rem; }
 .manual-vendor { min-width: 12rem; }
 .skip-link { position: absolute; left: -999px; background: var(--surface); padding: .7rem; z-index: 3; }
 .skip-link:focus { left: 1rem; top: 1rem; }
