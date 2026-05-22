@@ -76,9 +76,9 @@ main { width: min(1180px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: 
 .plan-visibility legend { font-weight: 700; padding: 0 .35rem; }
 .view-toggle { display: inline-flex; align-items: center; gap: .55rem; border: 0; padding: 0; margin: 0; }
 .view-toggle legend { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.view-toggle__description { color: var(--muted); font-size: .9rem; font-weight: 750; line-height: 1.9rem; }
+.view-toggle__description { display: inline-flex; align-items: center; min-height: 1.9rem; color: var(--muted); font-size: .9rem; font-weight: 750; line-height: 1; }
 .check-list { display: flex; flex-wrap: wrap; gap: .85rem; }
-.switch { display: inline-flex; align-items: center; cursor: pointer; }
+.switch { display: inline-flex; align-items: center; min-height: 1.9rem; cursor: pointer; }
 .switch input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
 .switch__track { position: relative; inline-size: 3.75rem; block-size: 1.9rem; flex: 0 0 auto; border: 0; border-radius: 999px; background: var(--muted); transition: background-color .15s ease; }
 .switch__thumb { position: absolute; inset-block-start: .18rem; inset-inline-start: .18rem; inline-size: 1.54rem; block-size: 1.54rem; border-radius: 50%; background: white; box-shadow: 0 1px 4px rgb(0 0 0 / 22%); transition: transform .15s ease; }
@@ -90,7 +90,7 @@ main { width: min(1180px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: 
 .tabs button[aria-selected="true"] { background: var(--blue); color: white; }
 .table-headline { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; }
 .table-actions { display: flex; align-items: center; justify-content: flex-end; gap: .85rem; flex-wrap: wrap; }
-.table-actions .note { margin: 0; line-height: 1.9rem; }
+.table-actions .note { display: inline-flex; align-items: center; min-height: 1.9rem; margin: 0; line-height: 1; }
 .table-scroll { overflow-x: auto; }
 table { width: 100%; min-width: 980px; border-collapse: collapse; }
 caption { text-align: left; color: var(--muted); padding: .5rem 0 1rem; }
