@@ -33,7 +33,7 @@ export function isFullyCoveredValue(value) {
 
 export function getCoverageLabel(value) {
   if (value === true) return 'Included';
-  if (value === false || value == null || value === '') return 'Not included';
+  if (value === false || value === null || value === undefined || value === '') return 'Not included';
   return String(value);
 }
 
