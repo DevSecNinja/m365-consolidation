@@ -1,0 +1,10 @@
+{
+  "name": "M365 vendor consolidation",
+  "short_name": "M365 consolidation",
+  "description": "Compare existing vendor tools with Microsoft 365 E3, E5, and E7 coverage.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#2563eb",
+  "icons": []
+}
