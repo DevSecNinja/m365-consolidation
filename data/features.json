@@ -83,15 +83,15 @@
     "name": "Defender for Office 365 Plan 1",
     "category": "Email Security",
     "parentFeature": "Microsoft Defender for Office 365",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
-    "notes": "Adds Safe Links, Safe Attachments, and enhanced anti-phishing controls.",
+    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
+    "notes": "Adds Safe Links, Safe Attachments, and enhanced anti-phishing controls; included with Microsoft 365 E3 and higher in M365 Maps.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
   {
     "name": "Safe Links",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
     "notes": "Time-of-click URL detonation and rewrite protection.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -99,7 +99,7 @@
     "name": "Safe Attachments",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
-    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
     "notes": "Attachment sandboxing for Exchange, SharePoint, OneDrive, and Teams workloads.",
     "commonVendors": ["Proofpoint", "Mimecast", "FireEye"]
   },
@@ -107,7 +107,7 @@
     "name": "Anti-Phishing Policies",
     "category": "Email Security",
     "parentFeature": "Defender for Office 365 Plan 1",
-    "coverage": { "E1": "Basic", "E3": "Basic", "E5": true, "E7": true },
+    "coverage": { "E1": "Basic", "E3": true, "E5": true, "E7": true },
     "notes": "Advanced impersonation and spoof intelligence are in Defender for Office 365.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
   },
@@ -163,8 +163,8 @@
     "name": "Defender Vulnerability Management",
     "category": "Endpoint Security",
     "parentFeature": "Defender for Endpoint Plan 2",
-    "coverage": { "E1": false, "E3": false, "E5": "Core", "E7": true },
-    "notes": "Core vulnerability management is included with Defender for Endpoint Plan 2; premium add-ons may be licensed separately.",
+    "coverage": { "E1": false, "E3": false, "E5": "Core", "E7": false },
+    "notes": "Core vulnerability management is included with Defender for Endpoint Plan 2 in E5. M365 Maps lists premium vulnerability management as an add-on, and it is not included in the E7 step-up map.",
     "commonVendors": ["Tenable", "Qualys", "Rapid7"]
   },
   {
@@ -267,8 +267,8 @@
     "name": "Data Lifecycle Management",
     "category": "Compliance & Data Governance",
     "parentFeature": "Microsoft Purview",
-    "coverage": { "E1": false, "E3": true, "E5": true, "E7": true },
-    "notes": "Retention labels and policies for Microsoft 365 content.",
+    "coverage": { "E1": false, "E3": false, "E5": true, "E7": true },
+    "notes": "Advanced Purview Data Lifecycle Management is listed with E5 and E7; basic retention policies are tracked separately.",
     "commonVendors": ["AvePoint", "Veritas", "OpenText"]
   },
   {
@@ -331,8 +331,8 @@
     "name": "Microsoft Teams",
     "category": "Productivity",
     "parentFeature": "Microsoft 365 Productivity",
-    "coverage": { "E1": true, "E3": true, "E5": true, "E7": true },
-    "notes": "Chat, meetings, channels, calling integrations, and collaboration. Some telephony features require add-ons.",
+    "coverage": { "E1": "Optional", "E3": "Optional", "E5": "Optional", "E7": "Optional" },
+    "notes": "Chat, meetings, channels, calling integrations, and collaboration. M365 Maps marks Teams as optional; telephony features require add-ons.",
     "commonVendors": ["Slack", "Zoom", "Webex", "Google Meet"]
   },
   {

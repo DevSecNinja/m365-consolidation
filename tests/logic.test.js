@@ -39,7 +39,7 @@ test('feature filtering supports plan, category, search, uplift, and filled-only
   const matchedKeys = new Set(matches.mapped.keys());
   const filtered = filterFeatures(features, {
     category: 'Email Security',
-    query: 'Safe',
+    query: 'Threat',
     plan: 'E5',
     e5UpliftOnly: true,
     filledOnly: true
@@ -47,7 +47,7 @@ test('feature filtering supports plan, category, search, uplift, and filled-only
 
   assert.ok(filtered.length > 0);
   assert.ok(filtered.every((feature) => feature.category === 'Email Security'));
-  assert.ok(filtered.every((feature) => /safe/i.test(`${feature.name} ${feature.notes}`)));
+  assert.ok(filtered.every((feature) => /threat/i.test(`${feature.name} ${feature.notes}`)));
   assert.ok(filtered.every((feature) => !feature.coverage.E3 && feature.coverage.E5));
   assert.ok(filtered.every((feature) => matchedKeys.has(featureKey(feature))));
 });
@@ -73,8 +73,19 @@ test('CSV export includes attribution, filtered rows, coverage, vendors, and sta
   const key = featureKey(row);
   const csv = exportFeaturesToCsv([row], ['Proofpoint'], { [key]: 'gap — need to evaluate' }, new Date('2026-05-22T13:57:21.706Z'), { [key]: 'Mimecast' });
   assert.match(csv, /^# Exported 2026-05-22T13:57:21.706Z \| Feature data sourced from M365 Maps by Aaron Dinnage/);
-  assert.match(csv, /Email Security,Safe Attachments,Defender for Office 365 Plan 1,Proofpoint; Mimecast,Mimecast,Not included,Included,Included/);
+  assert.match(csv, /Email Security,Safe Attachments,Defender for Office 365 Plan 1,Proofpoint; Mimecast,Mimecast,Included,Included,Included/);
   assert.match(csv, /gap — need to evaluate/);
+});
+
+test('selected licensing rows match validated M365 Maps corrections', () => {
+  const byName = new Map(features.map((feature) => [feature.name, feature]));
+
+  assert.equal(byName.get('Defender for Office 365 Plan 1').coverage.E3, true);
+  assert.equal(byName.get('Safe Links').coverage.E3, true);
+  assert.equal(byName.get('Safe Attachments').coverage.E3, true);
+  assert.equal(byName.get('Defender Vulnerability Management').coverage.E7, false);
+  assert.equal(byName.get('Data Lifecycle Management').coverage.E3, false);
+  assert.equal(byName.get('Microsoft Teams').coverage.E7, 'Optional');
 });
 
 test('storage adapter persists, loads, and resets local state', () => {
