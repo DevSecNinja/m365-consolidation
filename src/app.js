@@ -35,6 +35,7 @@ const elements = {
   planFilter: document.querySelector('#plan-filter'),
   planVisibility: document.querySelector('#plan-visibility'),
   featureHeadings: document.querySelector('#feature-headings'),
+  availableOnly: document.querySelector('#available-only'),
   filledOnly: document.querySelector('#filled-only'),
   featureRows: document.querySelector('#feature-rows'),
   visibleCount: document.querySelector('#visible-count'),
@@ -230,6 +231,8 @@ function render() {
     category: state.activeCategory,
     query: elements.featureSearch.value,
     plan: state.activePlan,
+    availableOnly: elements.availableOnly.checked,
+    visiblePlans: getVisiblePlans(),
     filledOnly: elements.filledOnly.checked
   }, matchedKeys);
 
@@ -286,6 +289,7 @@ function bindEvents() {
     persist();
     render();
   });
+  elements.availableOnly.addEventListener('change', render);
   elements.filledOnly.addEventListener('change', render);
 
   elements.featureRows.addEventListener('click', (event) => {
@@ -322,6 +326,7 @@ function bindEvents() {
     if (!confirm('Clear vendors, statuses, and filters stored in this browser?')) return;
     state = storage.reset();
     elements.featureSearch.value = '';
+    elements.availableOnly.checked = false;
     elements.filledOnly.checked = false;
     elements.planFilter.value = state.activePlan;
     render();

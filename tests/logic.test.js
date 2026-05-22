@@ -46,13 +46,15 @@ test('manual vendor overrides map a vendor to a specific feature', () => {
   assert.deepEqual(result.unmapped, ['Unknown Tool']);
 });
 
-test('feature filtering supports plan, category, search, and filled-only filters', () => {
+test('feature filtering supports plan, category, search, availability, and filled-only filters', () => {
   const matches = matchVendorsToFeatures(['Proofpoint'], features);
   const matchedKeys = new Set(matches.mapped.keys());
   const filtered = filterFeatures(features, {
     category: 'Office 365',
     query: 'Threat',
     plan: 'E5',
+    availableOnly: true,
+    visiblePlans: ['E3', 'E5'],
     filledOnly: true
   }, matchedKeys);
 
@@ -61,6 +63,16 @@ test('feature filtering supports plan, category, search, and filled-only filters
   assert.ok(filtered.every((feature) => /threat/i.test(`${feature.name} ${feature.notes}`)));
   assert.ok(filtered.every((feature) => feature.coverage.E5));
   assert.ok(filtered.every((feature) => matchedKeys.has(featureKey(feature))));
+});
+
+test('availability filter hides rows not included in shown suites', () => {
+  const filtered = filterFeatures(features, {
+    availableOnly: true,
+    visiblePlans: ['E3', 'E5']
+  });
+
+  assert.equal(filtered.some((feature) => feature.name === 'Agent 365'), false);
+  assert.equal(filtered.some((feature) => feature.name === 'Defender for Endpoint Plan 2'), true);
 });
 
 test('coverage summary counts unique covered vendors by target plan', () => {

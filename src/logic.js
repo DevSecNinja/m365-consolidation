@@ -230,6 +230,8 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
     category = 'All',
     query = '',
     plan = 'All',
+    availableOnly = false,
+    visiblePlans = PLANS,
     filledOnly = false,
     collapsedParents = new Set()
   } = filters;
@@ -239,6 +241,7 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
     if (category !== 'All' && feature.category !== category) return false;
     if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${feature.notes}`).includes(normalizedQuery)) return false;
     if (plan !== 'All' && !isCoveredValue(feature.coverage?.[plan])) return false;
+    if (availableOnly && !visiblePlans.some((candidate) => isCoveredValue(feature.coverage?.[candidate]))) return false;
     if (filledOnly && !matchedFeatureKeys.has(featureKey(feature))) return false;
     if (feature.parentFeature && collapsedParents.has(feature.parentFeature)) return false;
     return true;
