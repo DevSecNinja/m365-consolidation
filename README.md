@@ -9,7 +9,7 @@ A static, browser-only planning tool for identifying third-party security and pr
 - Highlights matching Microsoft 365 features by category and plan.
 - Defaults to a business value table view for customer conversations, with a product feature view toggle when licensing detail is needed.
 - Compares Microsoft 365 E3, E5, and E7 consolidation targets.
-- Filters by category, plan, feature search, or only rows matched to entered vendors.
+- Filters by category, plan, higher-plan feature differences, feature search, or only rows matched to entered vendors.
 - Hides one or more plan columns in the on-screen feature matrix.
 - Stores entered vendors, feature statuses, and active plan filter in `localStorage` only.
 - Exports the currently visible rows to CSV with attribution and a timestamp.

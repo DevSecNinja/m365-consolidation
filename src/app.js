@@ -1,5 +1,6 @@
 import {
   PLANS,
+  PLAN_DIFFS,
   STATUSES,
   TARGET_PLANS,
   createStorageAdapter,
@@ -36,6 +37,7 @@ const elements = {
   categoryTabs: document.querySelector('#category-tabs'),
   featureSearch: document.querySelector('#feature-search'),
   planFilter: document.querySelector('#plan-filter'),
+  planDiffFilter: document.querySelector('#plan-diff-filter'),
   tableViewToggle: document.querySelector('#table-view-toggle'),
   planVisibility: document.querySelector('#plan-visibility'),
   featureHeadings: document.querySelector('#feature-headings'),
@@ -262,6 +264,7 @@ function render() {
     category: state.activeCategory,
     query: elements.featureSearch.value,
     plan: state.activePlan,
+    planDiff: state.activePlanDiff,
     availableOnly: elements.availableOnly.checked,
     visiblePlans: getVisiblePlans(),
     filledOnly: elements.filledOnly.checked
@@ -307,6 +310,12 @@ function bindEvents() {
   elements.planFilter.value = state.activePlan;
   elements.planFilter.addEventListener('change', () => {
     state.activePlan = elements.planFilter.value;
+    persist();
+    render();
+  });
+  elements.planDiffFilter.value = state.activePlanDiff;
+  elements.planDiffFilter.addEventListener('change', () => {
+    state.activePlanDiff = elements.planDiffFilter.value;
     persist();
     render();
   });
@@ -365,6 +374,7 @@ function bindEvents() {
     elements.availableOnly.checked = false;
     elements.filledOnly.checked = false;
     elements.planFilter.value = state.activePlan;
+    elements.planDiffFilter.value = state.activePlanDiff;
     elements.tableViewToggle.checked = state.tableView === 'business';
     render();
   });
@@ -435,6 +445,7 @@ async function init() {
     persist();
   }
   elements.vendorOptions.innerHTML = getKnownVendors(features).map((vendor) => `<option value="${vendor}"></option>`).join('');
+  elements.planDiffFilter.innerHTML = PLAN_DIFFS.map((diff) => `<option value="${diff.value}">${diff.label}</option>`).join('');
   bindEvents();
   elements.tableViewToggle.checked = state.tableView === 'business';
   setTheme(state.theme || 'auto');
