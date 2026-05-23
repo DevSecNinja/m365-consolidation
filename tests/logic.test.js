@@ -12,6 +12,7 @@ import {
   matchVendorsToFeatures,
   parseMatrixFeatures,
   PLANS,
+  PLAN_DIFFS,
   summarizeCoverage
 } from '../src/logic.js';
 
@@ -111,6 +112,18 @@ test('availability filter hides rows not included in shown suites', () => {
   assert.equal(filtered.some((feature) => feature.name === 'Defender for Endpoint Plan 2'), true);
 });
 
+test('feature filtering can show only features added by higher plans', () => {
+  const sampleFeatures = [
+    { name: 'Base feature', category: 'Suite', coverage: { E3: true, E5: true, E7: true } },
+    { name: 'E5 feature', category: 'Suite', coverage: { E3: false, E5: true, E7: true } },
+    { name: 'E7 feature', category: 'Suite', coverage: { E3: false, E5: false, E7: true } },
+    { name: 'Add-on in base', category: 'Suite', coverage: { E3: 'Add-on', E5: true, E7: true } }
+  ];
+
+  assert.deepEqual(filterFeatures(sampleFeatures, { planDiff: 'E5-over-E3' }).map((feature) => feature.name), ['E5 feature']);
+  assert.deepEqual(filterFeatures(sampleFeatures, { planDiff: 'E7-over-E5' }).map((feature) => feature.name), ['E7 feature']);
+});
+
 test('coverage summary counts unique covered vendors by target plan', () => {
   const summary = summarizeCoverage(['CrowdStrike', 'Proofpoint', 'Unknown Tool'], features);
   assert.equal(summary.plans.E5.totalCount, 3);
@@ -170,9 +183,10 @@ test('storage adapter persists, loads, and resets local state', () => {
     removeItem: (key) => store.delete(key)
   };
   const adapter = createStorageAdapter(fakeStorage, 'test-key');
-  adapter.save({ vendors: ['Okta'], activePlan: 'E5', hiddenPlans: ['E7'], manualVendors: { feature: 'ManualCo' }, tableView: 'feature' });
+  adapter.save({ vendors: ['Okta'], activePlan: 'E5', activePlanDiff: 'E5-over-E3', hiddenPlans: ['E7'], manualVendors: { feature: 'ManualCo' }, tableView: 'feature' });
   assert.deepEqual(adapter.load().vendors, ['Okta']);
   assert.equal(adapter.load().activePlan, 'E5');
+  assert.equal(adapter.load().activePlanDiff, 'E5-over-E3');
   assert.deepEqual(adapter.load().hiddenPlans, ['E7']);
   assert.deepEqual(adapter.load().manualVendors, { feature: 'ManualCo' });
   assert.equal(adapter.load().tableView, 'feature');
@@ -193,6 +207,11 @@ test('storage adapter removes retired plans from saved state', () => {
   const adapter = createStorageAdapter(fakeStorage, 'test-key');
 
   assert.equal(adapter.load().activePlan, 'All');
+  assert.equal(adapter.load().activePlanDiff, 'All');
   assert.deepEqual(adapter.load().hiddenPlans, ['E7']);
   assert.equal(adapter.load().tableView, 'business');
+});
+
+test('plan diff filter options are available for higher plan comparisons', () => {
+  assert.deepEqual(PLAN_DIFFS.map((diff) => diff.value), ['All', 'E5-over-E3', 'E7-over-E5']);
 });

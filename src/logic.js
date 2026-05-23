@@ -1,5 +1,10 @@
 export const PLANS = ['E3', 'E5', 'E7'];
 export const TARGET_PLANS = ['E3', 'E5', 'E7'];
+export const PLAN_DIFFS = [
+  { value: 'All', label: 'All features' },
+  { value: 'E5-over-E3', label: 'E5 additions over E3', basePlan: 'E3', targetPlan: 'E5' },
+  { value: 'E7-over-E5', label: 'E7 additions over E5', basePlan: 'E5', targetPlan: 'E7' }
+];
 export const TABLE_VIEWS = ['business', 'feature'];
 export const CATEGORIES = [];
 export const STATUSES = ['unchecked', 'already covered', 'not needed', 'gap — need to evaluate'];
@@ -287,17 +292,20 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
     category = 'All',
     query = '',
     plan = 'All',
+    planDiff = 'All',
     availableOnly = false,
     visiblePlans = PLANS,
     filledOnly = false,
     collapsedParents = new Set()
   } = filters;
   const normalizedQuery = normalizeText(query);
+  const diff = PLAN_DIFFS.find((candidate) => candidate.value === planDiff);
 
   return features.filter((feature) => {
     if (category !== 'All' && feature.category !== category) return false;
     if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${getBusinessCapability(feature)} ${getBusinessFunction(feature)} ${getBusinessValue(feature)} ${feature.notes}`).includes(normalizedQuery)) return false;
     if (plan !== 'All' && !isCoveredValue(feature.coverage?.[plan])) return false;
+    if (diff?.basePlan && (!isCoveredValue(feature.coverage?.[diff.targetPlan]) || isCoveredValue(feature.coverage?.[diff.basePlan]))) return false;
     if (availableOnly && !visiblePlans.some((candidate) => isCoveredValue(feature.coverage?.[candidate]))) return false;
     if (filledOnly && !matchedFeatureKeys.has(featureKey(feature))) return false;
     if (feature.parentFeature && collapsedParents.has(feature.parentFeature)) return false;
@@ -386,11 +394,12 @@ export function exportFeaturesToCsv(features, vendors, statuses = {}, timestamp 
 }
 
 export function createStorageAdapter(storage, key = 'm365-consolidation-state') {
-  const defaults = { vendors: [], statuses: {}, manualVendors: {}, activePlan: 'All', activeCategory: 'All', hiddenPlans: [], theme: 'auto', tableView: 'business' };
+  const defaults = { vendors: [], statuses: {}, manualVendors: {}, activePlan: 'All', activePlanDiff: 'All', activeCategory: 'All', hiddenPlans: [], theme: 'auto', tableView: 'business' };
   const normalizeState = (state) => ({
     ...defaults,
     ...state,
     activePlan: state.activePlan === 'All' || PLANS.includes(state.activePlan) ? state.activePlan : defaults.activePlan,
+    activePlanDiff: PLAN_DIFFS.some((diff) => diff.value === state.activePlanDiff) ? state.activePlanDiff : defaults.activePlanDiff,
     hiddenPlans: Array.isArray(state.hiddenPlans) ? state.hiddenPlans.filter((plan) => PLANS.includes(plan)) : defaults.hiddenPlans,
     tableView: TABLE_VIEWS.includes(state.tableView) ? state.tableView : defaults.tableView
   });
