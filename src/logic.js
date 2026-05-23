@@ -305,7 +305,11 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
     if (category !== 'All' && feature.category !== category) return false;
     if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${getBusinessCapability(feature)} ${getBusinessFunction(feature)} ${getBusinessValue(feature)} ${feature.notes}`).includes(normalizedQuery)) return false;
     if (plan !== 'All' && !isCoveredValue(feature.coverage?.[plan])) return false;
-    if (diff?.basePlan && (!isCoveredValue(feature.coverage?.[diff.targetPlan]) || isCoveredValue(feature.coverage?.[diff.basePlan]))) return false;
+    if (diff?.basePlan) {
+      const isInTargetPlan = isCoveredValue(feature.coverage?.[diff.targetPlan]);
+      const isInBasePlan = isCoveredValue(feature.coverage?.[diff.basePlan]);
+      if (!isInTargetPlan || isInBasePlan) return false;
+    }
     if (availableOnly && !visiblePlans.some((candidate) => isCoveredValue(feature.coverage?.[candidate]))) return false;
     if (filledOnly && !matchedFeatureKeys.has(featureKey(feature))) return false;
     if (feature.parentFeature && collapsedParents.has(feature.parentFeature)) return false;
