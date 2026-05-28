@@ -170,7 +170,15 @@ function featureRow(feature, matches, isGrouped = false) {
   const key = featureKey(feature);
   const matchedVendors = matches.mapped.get(key) || [];
   const manualVendor = state.manualVendors?.[key] || '';
-  const rowClasses = [isGrouped ? 'grouped-row' : '', matchedVendors.length ? 'matched-row' : '', statusClass(state.statuses[key] || 'unchecked')].filter(Boolean).join(' ');
+  const depth = Number(feature.depth) || 0;
+  const isBundleParent = Boolean(feature.isParent);
+  const rowClasses = [
+    isGrouped ? 'grouped-row' : '',
+    matchedVendors.length ? 'matched-row' : '',
+    isBundleParent ? 'bundle-row' : '',
+    depth > 0 ? 'nested-row' : '',
+    statusClass(state.statuses[key] || 'unchecked')
+  ].filter(Boolean).join(' ');
   const vendorText = matchedVendors.length ? `<small>Matches: ${escapeHtml(matchedVendors.join(', '))}</small>` : '';
   const status = state.statuses[key] || 'unchecked';
 
@@ -180,7 +188,7 @@ function featureRow(feature, matches, isGrouped = false) {
 
   const noteCell = state.tableView === 'business' ? '' : `<td>${escapeHtml(feature.notes || '')}</td>`;
 
-  return `<tr class="${rowClasses}">
+  return `<tr class="${rowClasses}" style="--depth: ${depth}">
       ${nameCell}
       <td><input class="manual-vendor" data-manual-vendor="${escapeHtml(key)}" type="search" list="vendor-options" value="${escapeHtml(manualVendor)}" aria-label="Manual vendor override for ${escapeHtml(feature.name)}" placeholder="Add vendor"></td>
       ${getVisiblePlans().map((plan) => coverageCell(feature, plan)).join('')}
