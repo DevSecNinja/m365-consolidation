@@ -83,6 +83,13 @@ test('metadata feature names and aliases are unique within data/features.json', 
   assert.deepEqual(duplicates, [], `Duplicate metadata names/aliases:\n  - ${duplicates.join('\n  - ')}`);
 });
 
+test('every metadata entry has an explicit businessFunction and businessValue', () => {
+  const missingFunction = metadataFeatures.filter((entry) => !entry.businessFunction || !String(entry.businessFunction).trim()).map((entry) => entry.name);
+  const missingValue = metadataFeatures.filter((entry) => !entry.businessValue || !String(entry.businessValue).trim()).map((entry) => entry.name);
+  assert.deepEqual(missingFunction, [], `Metadata entries missing businessFunction:\n  - ${missingFunction.join('\n  - ')}`);
+  assert.deepEqual(missingValue, [], `Metadata entries missing businessValue:\n  - ${missingValue.join('\n  - ')}`);
+});
+
 test('vendor matching maps known vendors and keeps unmapped vendors', () => {
   const result = matchVendorsToFeatures(['Okta', 'Unknown Tool'], features);
   assert.equal(result.unmapped.includes('Unknown Tool'), true);
@@ -101,7 +108,7 @@ test('business view labels are loaded from metadata with feature-name fallbacks'
   assert.equal(getBusinessFunction(oneDrive), 'Personal cloud file storage, sync and sharing');
   assert.equal(getBusinessCapability(agent365), agent365.category);
   assert.equal(getBusinessFunction(agent365), 'AI agent management & governance');
-  assert.equal(getBusinessValue(agent365), 'Helps reduce separate tooling by using Microsoft 365 included capabilities.');
+  assert.equal(getBusinessValue(agent365), 'Brings security, identity, and governance to AI agents.');
 });
 
 test('business view has concise sub-capability and value copy for every parsed feature', () => {

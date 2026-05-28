@@ -78,26 +78,7 @@ export function getBusinessFunction(feature) {
 
 export function getBusinessValue(feature) {
   if (feature.businessValue) return feature.businessValue;
-  const category = feature.category || '';
-  if (category === 'Office 365' || category === 'Productivity' || category === 'Communications' || category === 'Employee Experience') {
-    return 'Helps consolidate collaboration and productivity capabilities in Microsoft 365.';
-  }
-  if (category === 'Enterprise Mobility + Security' || category === 'Microsoft Entra') {
-    return 'Helps strengthen identity, access, and device security controls.';
-  }
-  if (category === 'Windows') {
-    return 'Helps secure and manage Windows devices with built-in platform capabilities.';
-  }
-  if (category === 'Microsoft Purview' || category === 'Microsoft Priva' || category === 'Compliance & Data Governance') {
-    return 'Helps meet governance, privacy, and compliance obligations in Microsoft 365.';
-  }
-  if (category === 'Power Platform' || category === 'Automation & Intelligence') {
-    return 'Helps automate processes and extend business apps inside Microsoft 365.';
-  }
-  if (category === 'Education') {
-    return 'Supports education workflows with Microsoft 365 capabilities.';
-  }
-  return 'Helps reduce separate tooling by using Microsoft 365 included capabilities.';
+  return '';
 }
 
 export function parseCsv(text) {
