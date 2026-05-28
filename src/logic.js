@@ -348,7 +348,12 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
     if (plan !== 'All' && !isCoveredForFilter(feature.coverage?.[plan], coverageOptions)) return false;
     if (diff?.basePlan) {
       const isInTargetPlan = isCoveredForFilter(feature.coverage?.[diff.targetPlan], coverageOptions);
-      const isInBasePlan = isCoveredForFilter(feature.coverage?.[diff.basePlan], coverageOptions);
+      // Azure-consumption services (Sentinel, Defender for Cloud / for Servers, …)
+      // are Azure-billed regardless of the user's M365 plan, so they always
+      // appear identically in E3 / E5 / E7. Treat them as "not in base" so the
+      // upgrade-diff view surfaces them as discussion openers when the user has
+      // opted in via the Include Azure consumption toggle.
+      const isInBasePlan = isCoveredForFilter(feature.coverage?.[diff.basePlan], { ...coverageOptions, includeAzureConsumption: false });
       if (!isInTargetPlan || isInBasePlan) return false;
     }
     if (availableOnly && !visiblePlans.some((candidate) => isCoveredForFilter(feature.coverage?.[candidate], coverageOptions))) return false;

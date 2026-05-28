@@ -239,7 +239,8 @@ test('feature filtering can show only features added by higher plans', () => {
     { name: 'E5 feature', category: 'Suite', coverage: { E3: false, E5: true, E7: true } },
     { name: 'E7 feature', category: 'Suite', coverage: { E3: false, E5: false, E7: true } },
     { name: 'Add-on in base', category: 'Suite', coverage: { E3: 'Add-on', E5: true, E7: true } },
-    { name: 'Azure-billed E5', category: 'Suite', coverage: { E3: false, E5: 'Azure consumption', E7: 'Azure consumption' } }
+    { name: 'Azure-billed E5', category: 'Suite', coverage: { E3: false, E5: 'Azure consumption', E7: 'Azure consumption' } },
+    { name: 'Azure-billed in both', category: 'Suite', coverage: { E3: 'Azure consumption', E5: 'Azure consumption', E7: 'Azure consumption' } }
   ];
 
   // Default: add-ons and Azure consumption are not treated as "covered" by the
@@ -261,10 +262,13 @@ test('feature filtering can show only features added by higher plans', () => {
     ['E5 feature']
   );
 
-  // includeAzureConsumption surfaces Azure-billed E5 services in the diff.
+  // includeAzureConsumption surfaces Azure-billed E5 services in the diff,
+  // including ones that are also Azure-billed in the base plan (they're billed
+  // through Azure regardless of the M365 plan, so they belong in the upgrade
+  // conversation as a discussion opener).
   assert.deepEqual(
     filterFeatures(sampleFeatures, { planDiff: 'E5-over-E3', includeAzureConsumption: true }).map((feature) => feature.name),
-    ['E5 feature', 'Add-on in base', 'Azure-billed E5']
+    ['E5 feature', 'Add-on in base', 'Azure-billed E5', 'Azure-billed in both']
   );
 });
 
