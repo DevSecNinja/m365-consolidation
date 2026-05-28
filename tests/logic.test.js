@@ -10,7 +10,9 @@ import {
   getBusinessFunction,
   getBusinessValue,
   matchVendorsToFeatures,
+  MATRIX_CATEGORY_HEADERS,
   normalizeText,
+  parseCsv,
   parseMatrixFeatures,
   PLANS,
   PLAN_DIFFS,
@@ -47,6 +49,74 @@ test('matrix export only exposes Microsoft 365 target plans', () => {
   assert.ok(features.length > 500);
   assert.ok(features.every((feature) => !Object.hasOwn(feature.coverage, 'E1')));
   assert.ok(features.every((feature) => Object.keys(feature.coverage).join(',') === 'E3,E5,E7'));
+});
+
+test('parsed features match the Microsoft-365-Matrix-Export.csv rows 1:1 (name + E3/E5/E7)', () => {
+  // Independent re-read of the CSV using a self-contained symbol map.
+  // Any drift between the parser and the source CSV (extra rows, missing rows,
+  // mis-mapped coverage cells) will fail this test.
+  const SYMBOLS = {
+    '✔': true,
+    '+': 'Add-on',
+    'Δ': 'Available add-on',
+    '⊡': 'Package only',
+    '?': 'Unknown'
+  };
+  const cellToCoverage = (cell) => {
+    const value = String(cell || '').trim();
+    if (!value) return false;
+    if (Object.hasOwn(SYMBOLS, value)) return SYMBOLS[value];
+    return value;
+  };
+  const cleanName = (value) => String(value || '').replace(/^\ufeff/, '').trim();
+  const stripHierarchy = (value) => cleanName(value).replace(/^(?:\s*>\s*)+/, '').trim();
+
+  const rawRows = parseCsv(matrixCsv);
+  const headerIndex = rawRows.findIndex((row) => cleanName(row[0]) === 'Feature');
+  assert.notEqual(headerIndex, -1, 'CSV must contain a Feature header row');
+  const headerCells = rawRows[headerIndex].slice(1, 4).map(cleanName);
+  assert.deepEqual(headerCells, ['E3', 'E5', 'E7']);
+
+  const expected = [];
+  for (const row of rawRows.slice(headerIndex + 1)) {
+    const rawCell = row[0];
+    if (rawCell === undefined) continue;
+    const name = stripHierarchy(rawCell);
+    if (!name) continue;
+    const cells = row.slice(1, 4);
+    const isPlanHeaderRow = cells.map(cleanName).join('|') === 'E3|E5|E5';
+    if (MATRIX_CATEGORY_HEADERS.has(name) || isPlanHeaderRow) continue;
+    if (!cells.some((cell) => String(cell || '').trim())) continue;
+    expected.push({
+      name,
+      coverage: {
+        E3: cellToCoverage(cells[0]),
+        E5: cellToCoverage(cells[1]),
+        E7: cellToCoverage(cells[2])
+      }
+    });
+  }
+
+  // Parse with no metadata and no exclusions so the comparison is purely CSV-derived.
+  const parsed = parseMatrixFeatures(matrixCsv, [], new Set());
+
+  assert.equal(parsed.length, expected.length, `Parsed feature count (${parsed.length}) must equal CSV feature row count (${expected.length})`);
+
+  const mismatches = [];
+  for (let i = 0; i < expected.length; i += 1) {
+    const exp = expected[i];
+    const got = parsed[i];
+    if (got.name !== exp.name) {
+      mismatches.push(`row ${i}: name "${got.name}" !== "${exp.name}"`);
+      continue;
+    }
+    for (const plan of ['E3', 'E5', 'E7']) {
+      if (got.coverage[plan] !== exp.coverage[plan]) {
+        mismatches.push(`"${exp.name}" ${plan}: parsed ${JSON.stringify(got.coverage[plan])} !== CSV ${JSON.stringify(exp.coverage[plan])}`);
+      }
+    }
+  }
+  assert.deepEqual(mismatches, [], `CSV/parser mismatches:\n  - ${mismatches.join('\n  - ')}`);
 });
 
 test('every matrix feature has a matching metadata entry in data/features.json', () => {
