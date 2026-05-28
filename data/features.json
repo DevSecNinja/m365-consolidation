@@ -5,7 +5,7 @@
     "parentFeature": "Microsoft Entra ID",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Identity and access management",
-    "businessFunction": "Provides core directory, SSO, basic MFA, and user administration.",
+    "businessFunction": "Cloud identity directory (IdP)",
     "businessValue": "Centralizes identity control for Microsoft 365 and connected apps.",
     "notes": "Core identity, SSO, basic MFA, and user management capabilities included with Microsoft 365 tenants.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity"]
@@ -17,7 +17,7 @@
     "parentFeature": "Microsoft Entra ID",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Identity and access management",
-    "businessFunction": "Applies access policies across users, devices, apps, and conditions.",
+    "businessFunction": "Conditional / risk-based access policies",
     "businessValue": "Reduces risky access while keeping user sign-in practical.",
     "notes": "Adds Conditional Access, hybrid identity, dynamic groups, and self-service password reset writeback.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity", "Duo"]
@@ -29,7 +29,7 @@
     "parentFeature": "Microsoft Entra ID",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Identity threat protection",
-    "businessFunction": "Detects identity risk and supports privileged access and access reviews.",
+    "businessFunction": "Identity Protection, PIM and access reviews",
     "businessValue": "Helps prevent account compromise and excessive standing access.",
     "notes": "Adds identity risk detection, Privileged Identity Management, and access reviews.",
     "commonVendors": ["Okta", "CyberArk", "BeyondTrust", "SailPoint"]
@@ -41,7 +41,7 @@
     "parentFeature": "Entra ID Free",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Identity and access management",
-    "businessFunction": "Requires an additional verification factor during sign-in.",
+    "businessFunction": "Multi-Factor Authentication (MFA)",
     "businessValue": "Reduces account takeover risk from stolen passwords.",
     "notes": "Baseline MFA is available broadly. Conditional Access-driven MFA requires Entra ID P1 or higher.",
     "commonVendors": ["Duo", "Okta Verify", "RSA SecurID"]
@@ -52,7 +52,7 @@
     "parentFeature": "Entra ID P1",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Identity and access management",
-    "businessFunction": "Controls access based on user, device, app, location, and risk signals.",
+    "businessFunction": "Conditional Access (adaptive access policies)",
     "businessValue": "Enforces adaptive access without blocking trusted work patterns.",
     "notes": "Use policy-based access controls across users, devices, apps, and risk signals.",
     "commonVendors": ["Okta", "Duo", "Ping Identity"]
@@ -63,7 +63,7 @@
     "parentFeature": "Entra ID P2",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Identity threat protection",
-    "businessFunction": "Grants privileged roles only when needed and with approval controls.",
+    "businessFunction": "Privileged Access Management (PAM) / just-in-time admin",
     "businessValue": "Limits standing administrator access and reduces privilege abuse risk.",
     "notes": "Just-in-time privileged access for Entra ID and Azure roles.",
     "commonVendors": ["CyberArk", "BeyondTrust", "Delinea"]
@@ -74,7 +74,7 @@
     "parentFeature": "Entra ID P2",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Identity threat protection",
-    "businessFunction": "Detects risky users and sign-ins and can trigger remediation.",
+    "businessFunction": "Identity Threat Detection & Response (ITDR) for cloud identities",
     "businessValue": "Speeds response to likely identity compromise.",
     "notes": "Risk-based detections and automated remediation require Entra ID P2.",
     "commonVendors": ["Okta", "Duo", "Ping Identity"]
@@ -86,7 +86,7 @@
     "parentFeature": "Entra ID Free",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Identity and access management",
-    "businessFunction": "Provides single sign-on to cloud applications using common identity protocols.",
+    "businessFunction": "Single Sign-On (SSO) to SaaS apps",
     "businessValue": "Improves user experience while centralizing application access control.",
     "notes": "Integrated SAML, OIDC, and gallery app SSO for cloud applications.",
     "commonVendors": ["Okta", "OneLogin", "Ping Identity"]
@@ -97,7 +97,7 @@
     "parentFeature": "Entra ID",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Identity and access management",
-    "businessFunction": "Enables passwordless sign-in with authenticator apps, security keys, or Windows Hello.",
+    "businessFunction": "Passwordless / phishing-resistant authentication (FIDO2)",
     "businessValue": "Reduces password dependence and improves phishing resistance.",
     "notes": "Supports Microsoft Authenticator, FIDO2 security keys, and Windows Hello for Business.",
     "commonVendors": ["Yubico", "Duo", "Okta"]
@@ -108,7 +108,7 @@
     "parentFeature": "Exchange Online",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Filters inbound and outbound mail for spam, malware, and known threats.",
+    "businessFunction": "Secure Email Gateway (SEG) anti-spam / anti-malware",
     "businessValue": "Reduces commodity email threats before they reach users.",
     "notes": "Baseline anti-spam and anti-malware protection for Exchange Online mailboxes.",
     "commonVendors": ["Proofpoint", "Mimecast", "Barracuda", "Cisco Secure Email"]
@@ -119,7 +119,7 @@
     "parentFeature": "Microsoft Defender for Office 365",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Adds advanced phishing, link, and attachment protections for Exchange Online.",
+    "businessFunction": "Advanced email threat protection (anti-phishing, URL & attachment)",
     "businessValue": "Improves email defense without adding a separate gateway platform.",
     "notes": "Adds Safe Links, Safe Attachments, and enhanced anti-phishing controls; included with Microsoft 365 E3 and higher in M365 Maps.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
@@ -130,7 +130,7 @@
     "parentFeature": "Defender for Office 365 Plan 1",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Checks links at click time and detonates suspicious URLs.",
+    "businessFunction": "URL / link protection (time-of-click)",
     "businessValue": "Reduces successful phishing from malicious or rewritten links.",
     "notes": "Time-of-click URL detonation and rewrite protection.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
@@ -141,7 +141,7 @@
     "parentFeature": "Defender for Office 365 Plan 1",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Opens suspicious attachments in a sandbox before delivery.",
+    "businessFunction": "Email attachment sandboxing",
     "businessValue": "Reduces malware risk from weaponized email attachments.",
     "notes": "Attachment sandboxing for Exchange, SharePoint, OneDrive, and Teams workloads.",
     "commonVendors": ["Proofpoint", "Mimecast", "FireEye"]
@@ -153,7 +153,7 @@
     "parentFeature": "Defender for Office 365 Plan 1",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Detects spoofing, impersonation, and advanced phishing patterns.",
+    "businessFunction": "Anti-phishing / impersonation protection",
     "businessValue": "Reduces business email compromise and credential theft risk.",
     "notes": "Advanced impersonation and spoof intelligence are in Defender for Office 365.",
     "commonVendors": ["Proofpoint", "Mimecast", "Abnormal Security"]
@@ -164,7 +164,7 @@
     "parentFeature": "Microsoft Defender for Office 365",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Combines email threat investigation, automated response, and training simulations.",
+    "businessFunction": "Email threat investigation, response (SOAR) & training",
     "businessValue": "Improves readiness across security teams and end users.",
     "notes": "Includes Plan 1 plus Threat Explorer, automated investigation, and training simulations.",
     "commonVendors": ["Proofpoint", "Mimecast", "Cofense"]
@@ -175,7 +175,7 @@
     "parentFeature": "Defender for Office 365 Plan 2",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Hunts, investigates, and remediates email and collaboration threats.",
+    "businessFunction": "Email & collaboration threat hunting / investigation",
     "businessValue": "Shortens investigation time and improves response consistency.",
     "notes": "Hunt, investigate, and remediate email and collaboration threats.",
     "commonVendors": ["Proofpoint", "Mimecast", "Splunk"]
@@ -186,7 +186,7 @@
     "parentFeature": "Defender for Office 365 Plan 2",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Office 365 Protection",
-    "businessFunction": "Simulates real-world attacks to train users and test defenses.",
+    "businessFunction": "Security Awareness Training & phishing simulations",
     "businessValue": "Reduces successful attacks by improving user awareness and behavior.",
     "notes": "Phishing simulation and end-user training campaigns.",
     "commonVendors": ["KnowBe4", "Cofense", "Proofpoint"]
@@ -197,7 +197,7 @@
     "parentFeature": "Microsoft Defender for Endpoint",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Endpoint protection",
-    "businessFunction": "Protects endpoints with antivirus, attack surface reduction, and endpoint controls.",
+    "businessFunction": "Endpoint protection (EPP) — antivirus & ASR",
     "businessValue": "Reduces endpoint compromise risk across managed devices.",
     "notes": "Endpoint protection, attack surface reduction, and next-generation protection for supported platforms.",
     "commonVendors": ["CrowdStrike", "SentinelOne", "Sophos", "Trend Micro"]
@@ -208,7 +208,7 @@
     "parentFeature": "Microsoft Defender for Endpoint",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Endpoint detection and response",
-    "businessFunction": "Provides EDR, automated investigation, advanced hunting, and vulnerability insights.",
+    "businessFunction": "Endpoint Detection & Response (EDR) with automated investigation",
     "businessValue": "Improves endpoint threat detection, response, and prioritization.",
     "notes": "Adds EDR, automated investigation, threat and vulnerability management, and advanced hunting.",
     "commonVendors": ["CrowdStrike", "SentinelOne", "Carbon Black", "Sophos"]
@@ -219,7 +219,7 @@
     "parentFeature": "Windows Security",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Endpoint protection",
-    "businessFunction": "Protects Windows devices with built-in antivirus and malware prevention.",
+    "businessFunction": "Antivirus / anti-malware (built-in to Windows)",
     "businessValue": "Reduces endpoint malware risk using controls already included with Windows.",
     "notes": "Built into Windows and managed through Defender for Endpoint and Intune.",
     "commonVendors": ["Symantec", "McAfee", "Trend Micro", "Sophos"]
@@ -230,7 +230,7 @@
     "parentFeature": "Defender for Endpoint Plan 2",
     "coverage": { "E3": false, "E5": "Core", "E7": "Core" },
     "businessCapability": "Endpoint vulnerability management",
-    "businessFunction": "Discovers endpoint vulnerabilities and prioritizes remediation by risk.",
+    "businessFunction": "Vulnerability management (endpoint)",
     "businessValue": "Helps security teams reduce exploitable exposure on managed devices.",
     "notes": "Core vulnerability management is included with Defender for Endpoint Plan 2 in E5 and E7. Premium Defender Vulnerability Management capabilities are licensed as an add-on.",
     "commonVendors": ["Tenable", "Qualys", "Rapid7"]
@@ -241,7 +241,7 @@
     "parentFeature": "Microsoft Intune",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Endpoint management",
-    "businessFunction": "Manages device configuration, compliance, and applications across endpoints.",
+    "businessFunction": "Unified Endpoint Management (UEM / MDM / MAM)",
     "businessValue": "Improves endpoint control without relying on separate device management tools.",
     "notes": "Device and application management for modern endpoints.",
     "commonVendors": ["Jamf", "VMware Workspace ONE", "MobileIron", "Ivanti"]
@@ -252,7 +252,7 @@
     "parentFeature": "Microsoft Defender XDR",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Cloud app security",
-    "businessFunction": "Discovers SaaS usage and applies controls to risky cloud applications.",
+    "businessFunction": "Cloud Access Security Broker (CASB) / SaaS discovery",
     "businessValue": "Reduces shadow IT and cloud app exposure across the organization.",
     "notes": "SaaS discovery, cloud app risk, session controls, and app governance signals.",
     "commonVendors": ["Netskope", "Zscaler", "Bitglass", "Skyhigh Security"]
@@ -263,7 +263,7 @@
     "parentFeature": "Defender for Cloud Apps",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "App governance",
-    "businessFunction": "Monitors OAuth apps and remediates risky application behavior.",
+    "businessFunction": "SaaS app governance (OAuth app risk)",
     "businessValue": "Reduces data exposure from over-permissioned or suspicious cloud apps.",
     "notes": "OAuth app governance and remediation for Microsoft 365 apps.",
     "commonVendors": ["Netskope", "Zscaler", "AppOmni"]
@@ -274,7 +274,7 @@
     "parentFeature": "Microsoft Defender XDR",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Identity threat detection",
-    "businessFunction": "Detects suspicious activity against on-premises Active Directory identities.",
+    "businessFunction": "Identity Threat Detection & Response (ITDR) for Active Directory",
     "businessValue": "Improves visibility into identity attacks that start outside the cloud.",
     "notes": "Detects identity threats across on-premises Active Directory signals.",
     "commonVendors": ["Varonis", "Semperis", "CrowdStrike Identity Protection"]
@@ -285,7 +285,7 @@
     "parentFeature": "Microsoft Purview Insider Risk Management",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Insider risk protection",
-    "businessFunction": "Adjusts data protection controls based on detected insider risk levels.",
+    "businessFunction": "Adaptive insider-risk-driven DLP controls",
     "businessValue": "Applies stronger controls where user behavior indicates higher data risk.",
     "notes": "Dynamically adjusts DLP controls based on insider risk levels.",
     "commonVendors": ["Forcepoint", "Proofpoint", "Netskope"]
@@ -296,7 +296,7 @@
     "parentFeature": "Microsoft Purview",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Data loss prevention",
-    "businessFunction": "Detects and controls sensitive data sharing across Microsoft 365 workloads.",
+    "businessFunction": "Data Loss Prevention (DLP)",
     "businessValue": "Reduces accidental or unauthorized leakage of regulated information.",
     "notes": "DLP for Exchange, SharePoint, OneDrive, Teams, and endpoints depending on workload and plan.",
     "commonVendors": ["Symantec DLP", "Forcepoint", "Netskope", "Digital Guardian"]
@@ -307,7 +307,7 @@
     "parentFeature": "Microsoft Purview",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Information protection",
-    "businessFunction": "Classifies, labels, and protects sensitive content with policy-based controls.",
+    "businessFunction": "Data classification & sensitivity labeling (MIP)",
     "businessValue": "Keeps sensitive data protected as it moves across users and locations.",
     "notes": "Sensitivity labels and encryption support; automatic classification expands in E5.",
     "commonVendors": ["Varonis", "Titus", "Boldon James"]
@@ -319,7 +319,7 @@
     "parentFeature": "Microsoft Purview eDiscovery",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Legal discovery",
-    "businessFunction": "Searches, preserves, and exports Microsoft 365 content for legal matters.",
+    "businessFunction": "eDiscovery — content search, hold and export",
     "businessValue": "Supports common legal discovery needs without a separate discovery platform.",
     "notes": "Core content search, holds, and export workflows.",
     "commonVendors": ["Relativity", "Everlaw", "Logikcull"]
@@ -331,7 +331,7 @@
     "parentFeature": "Microsoft Purview eDiscovery",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Legal discovery",
-    "businessFunction": "Adds custodian management, review sets, analytics, and richer review workflows.",
+    "businessFunction": "eDiscovery & legal review (custodians, review sets, analytics)",
     "businessValue": "Improves legal review efficiency for complex investigations and litigation.",
     "notes": "Adds custodians, review sets, analytics, and richer legal workflows.",
     "commonVendors": ["Relativity", "Everlaw", "OpenText"]
@@ -342,7 +342,7 @@
     "parentFeature": "Microsoft Purview",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Communications risk management",
-    "businessFunction": "Detects and reviews inappropriate, sensitive, or regulated communications.",
+    "businessFunction": "Communications supervision / surveillance",
     "businessValue": "Helps compliance teams address communication risks before they escalate.",
     "notes": "Detects and reviews inappropriate, sensitive, or regulated communications.",
     "commonVendors": ["Smarsh", "Global Relay", "Proofpoint"]
@@ -353,7 +353,7 @@
     "parentFeature": "Microsoft Purview",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Insider risk management",
-    "businessFunction": "Correlates user activity signals to identify potential insider risk events.",
+    "businessFunction": "Insider Risk Management (IRM / UEBA)",
     "businessValue": "Helps detect risky data behavior while supporting structured investigations.",
     "notes": "Correlates activities and signals for potential data leakage or policy violations.",
     "commonVendors": ["Forcepoint", "DTEX", "Proofpoint"]
@@ -364,7 +364,7 @@
     "parentFeature": "Microsoft Purview",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Records management",
-    "businessFunction": "Applies advanced retention labels, record declaration, and disposition workflows.",
+    "businessFunction": "Records management & retention (with disposition)",
     "businessValue": "Supports defensible records retention and disposal for regulated content.",
     "notes": "Advanced retention labels, disposition review, and record declaration.",
     "commonVendors": ["OpenText", "Iron Mountain", "AvePoint"]
@@ -375,7 +375,7 @@
     "parentFeature": "Microsoft Purview",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Data lifecycle governance",
-    "businessFunction": "Manages advanced retention and deletion policies across Microsoft 365 data.",
+    "businessFunction": "Data lifecycle / retention & deletion management",
     "businessValue": "Reduces stale data and supports governance obligations at scale.",
     "notes": "Advanced Purview Data Lifecycle Management is listed with E5 and E7; basic retention policies are tracked separately.",
     "commonVendors": ["AvePoint", "Veritas", "OpenText"]
@@ -387,7 +387,7 @@
     "parentFeature": "Microsoft Purview Audit",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Audit and investigations",
-    "businessFunction": "Records user and admin activity across Microsoft 365 services.",
+    "businessFunction": "Audit logging (user & admin activity)",
     "businessValue": "Provides baseline investigation evidence for security and compliance reviews.",
     "notes": "Unified audit logging for Microsoft 365 activity.",
     "commonVendors": ["Splunk", "Sumo Logic", "LogRhythm"]
@@ -399,7 +399,7 @@
     "parentFeature": "Microsoft Purview Audit",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Audit and investigations",
-    "businessFunction": "Provides longer audit retention and high-value event visibility.",
+    "businessFunction": "Long-term audit log retention & high-value events",
     "businessValue": "Strengthens investigations that require deeper historical evidence.",
     "notes": "Longer retention and high-value event auditing for investigations.",
     "commonVendors": ["Splunk", "Elastic", "Sumo Logic"]
@@ -410,7 +410,7 @@
     "parentFeature": "Data Lifecycle Management",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Data lifecycle governance",
-    "businessFunction": "Applies retention and deletion rules across Microsoft 365 workloads.",
+    "businessFunction": "Retention & deletion policies (baseline)",
     "businessValue": "Helps meet retention obligations while reducing unmanaged data growth.",
     "notes": "Manage retention and deletion across Microsoft 365 workloads.",
     "commonVendors": ["Veritas", "AvePoint", "OpenText"]
@@ -421,7 +421,7 @@
     "parentFeature": "Microsoft Purview Information Barriers",
     "coverage": { "E3": false, "E5": true, "E7": true },
     "businessCapability": "Collaboration controls",
-    "businessFunction": "Restricts communication and collaboration between defined user groups.",
+    "businessFunction": "Ethical walls / information barriers",
     "businessValue": "Supports ethical wall and regulatory separation requirements.",
     "notes": "Limit communication and collaboration between groups for regulatory needs.",
     "commonVendors": ["Smarsh", "Global Relay"]
@@ -432,7 +432,7 @@
     "parentFeature": "Microsoft 365 Productivity",
     "coverage": { "E3": "100 GB", "E5": "100 GB", "E7": "100 GB" },
     "businessCapability": "Business email",
-    "businessFunction": "Provides business email, calendar, contacts, and mailbox services.",
+    "businessFunction": "Business email & calendaring",
     "businessValue": "Consolidates core messaging and scheduling into Microsoft 365.",
     "notes": "Business email, calendar, contacts, and mailbox features. Archive capacity varies by plan and configuration.",
     "commonVendors": ["Google Workspace", "Gmail", "Proofpoint Essentials"]
@@ -443,7 +443,7 @@
     "parentFeature": "Microsoft 365 Productivity",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Content collaboration",
-    "businessFunction": "Hosts team sites, intranet content, lists, and document libraries.",
+    "businessFunction": "Intranet / document collaboration & content management",
     "businessValue": "Centralizes collaboration and content management for business teams.",
     "notes": "Sites, intranet, content services, lists, and document management.",
     "commonVendors": ["Box", "Dropbox", "Google Drive", "Confluence"]
@@ -455,7 +455,7 @@
     "parentFeature": "Microsoft 365 Productivity",
     "coverage": { "E3": "1 TB+", "E5": "1 TB+", "E7": "1 TB+" },
     "businessCapability": "File storage and sync",
-    "businessFunction": "Provides personal file storage, sync, sharing, and recovery for users.",
+    "businessFunction": "Personal cloud file storage, sync and sharing",
     "businessValue": "Reduces dependence on separate file sync and sharing platforms.",
     "notes": "Personal file storage and sync for Microsoft 365 users.",
     "commonVendors": ["Box", "Dropbox", "Google Drive"]
@@ -466,7 +466,7 @@
     "parentFeature": "Microsoft 365 Productivity",
     "coverage": { "E3": "Optional", "E5": "Optional", "E7": "Optional" },
     "businessCapability": "Team collaboration",
-    "businessFunction": "Provides chat, meetings, channels, calling integrations, and collaboration spaces.",
+    "businessFunction": "Team chat, meetings & calling",
     "businessValue": "Consolidates real-time teamwork into the Microsoft 365 experience.",
     "notes": "Chat, meetings, channels, calling integrations, and collaboration. M365 Maps marks Teams as optional; telephony features require add-ons.",
     "commonVendors": ["Slack", "Zoom", "Webex", "Google Meet"]
@@ -477,7 +477,7 @@
     "parentFeature": "Microsoft 365 Productivity",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Office productivity",
-    "businessFunction": "Provides desktop Office apps for documents, spreadsheets, presentations, and mail.",
+    "businessFunction": "Office productivity suite (Word, Excel, PowerPoint, Outlook)",
     "businessValue": "Supports everyday productivity with standard Microsoft 365 applications.",
     "notes": "Desktop Office apps are included with Microsoft 365 E3 and higher.",
     "commonVendors": ["Google Workspace", "LibreOffice", "Adobe Acrobat"]
@@ -489,7 +489,7 @@
     "parentFeature": "Power Platform",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Low-code applications",
-    "businessFunction": "Builds business apps using standard connectors within Microsoft 365 rights.",
+    "businessFunction": "Low-code app development platform",
     "businessValue": "Enables teams to digitize processes without full custom development.",
     "notes": "Use standard connectors within Microsoft 365 rights; premium connectors require additional licensing.",
     "commonVendors": ["Airtable", "AppSheet", "ServiceNow"]
@@ -501,7 +501,7 @@
     "parentFeature": "Power Platform",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Workflow automation",
-    "businessFunction": "Automates workflows and approvals using standard Microsoft 365 connectors.",
+    "businessFunction": "Workflow automation / iPaaS (standard connectors)",
     "businessValue": "Reduces manual process work across common business tasks.",
     "notes": "Automate workflows using standard connectors within Microsoft 365 rights.",
     "commonVendors": ["Zapier", "Workato", "IFTTT"]
@@ -513,7 +513,7 @@
     "parentFeature": "Microsoft Viva",
     "coverage": { "E3": "Personal insights", "E5": "Advanced insights", "E7": "Advanced insights" },
     "businessCapability": "Employee experience analytics",
-    "businessFunction": "Provides personal and organizational insights into work patterns.",
+    "businessFunction": "Workforce analytics / employee experience insights",
     "businessValue": "Helps improve productivity, wellbeing, and collaboration habits.",
     "notes": "Personal insights are broadly available; advanced organization insights require higher licensing.",
     "commonVendors": ["Workday Peakon", "Culture Amp", "Tableau"]
@@ -524,7 +524,7 @@
     "parentFeature": "Windows Enterprise",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Device encryption",
-    "businessFunction": "Encrypts Windows device drives and protects data at rest.",
+    "businessFunction": "Full-disk encryption (Windows)",
     "businessValue": "Reduces data exposure if a device is lost or stolen.",
     "notes": "Full-disk encryption for Windows devices, managed through policy.",
     "commonVendors": ["Symantec Encryption", "McAfee Complete Data Protection"]
@@ -535,7 +535,7 @@
     "parentFeature": "Windows Enterprise",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Passwordless device sign-in",
-    "businessFunction": "Enables phishing-resistant sign-in to Windows using biometrics or PIN-backed keys.",
+    "businessFunction": "Passwordless Windows sign-in (biometric / PIN)",
     "businessValue": "Improves sign-in security while reducing password reliance.",
     "notes": "Passwordless, phishing-resistant sign-in for Windows devices.",
     "commonVendors": ["Yubico", "Duo", "Okta"]
@@ -546,7 +546,7 @@
     "parentFeature": "Windows Enterprise",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Managed updates",
-    "businessFunction": "Uses Microsoft-managed update rings for Windows, Microsoft 365 Apps, Edge, and Teams.",
+    "businessFunction": "Patch / update management (managed service)",
     "businessValue": "Reduces operational effort for keeping managed endpoints current.",
     "notes": "Microsoft-managed update rings for Windows, Microsoft 365 Apps, Edge, and Teams.",
     "commonVendors": ["Ivanti", "ManageEngine", "Automox"]
@@ -558,7 +558,7 @@
     "parentFeature": "Windows Enterprise",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Application control",
-    "businessFunction": "Restricts which applications and code can run on Windows devices.",
+    "businessFunction": "Application allow-listing / control",
     "businessValue": "Reduces malware and unauthorized software execution risk.",
     "notes": "Application allow-listing and control using Windows security features.",
     "commonVendors": ["BeyondTrust", "CyberArk", "Airlock Digital"]
@@ -570,7 +570,7 @@
     "parentFeature": "Windows Enterprise",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Local admin password management",
-    "businessFunction": "Manages and rotates local administrator passwords on Windows devices.",
+    "businessFunction": "Local admin password management (LAPS)",
     "businessValue": "Reduces lateral movement risk from reused local admin credentials.",
     "notes": "Local administrator password management built into Windows and Entra joined scenarios.",
     "commonVendors": ["Delinea", "CyberArk", "BeyondTrust"]
@@ -581,9 +581,121 @@
     "parentFeature": "Windows Enterprise",
     "coverage": { "E3": true, "E5": true, "E7": true },
     "businessCapability": "Managed updates",
-    "businessFunction": "Controls Windows update policies, rings, and deployment timing.",
+    "businessFunction": "Patch / update management (Windows updates)",
     "businessValue": "Keeps endpoints current while reducing update disruption.",
     "notes": "Manage Windows update policies, rings, and deployment timing.",
     "commonVendors": ["Ivanti", "ManageEngine", "Automox"]
+  },
+  {
+    "name": "Intune Cloud PKI",
+    "businessCapability": "Certificate services",
+    "businessFunction": "Public Key Infrastructure (PKI) for user & device certificates",
+    "businessValue": "Replaces on-premises ADCS for device/user certificate issuance.",
+    "notes": "Cloud-based PKI for issuing user and device certificates managed via Intune.",
+    "commonVendors": ["Microsoft AD Certificate Services (ADCS)", "DigiCert", "Sectigo", "SCEPman", "Entrust", "Keyfactor"]
+  },
+  {
+    "name": "Intune Endpoint Privilege Management",
+    "businessCapability": "Endpoint privilege management",
+    "businessFunction": "Endpoint Privilege Management (EPM) \u2014 local admin elevation",
+    "businessValue": "Removes standing local admin rights while allowing controlled elevation.",
+    "notes": "Allows standard users to run approved tasks with elevated rights on Windows.",
+    "commonVendors": ["BeyondTrust", "CyberArk", "Delinea", "AutoElevate"]
+  },
+  {
+    "name": "Intune Remote Help",
+    "businessCapability": "Remote support",
+    "businessFunction": "Remote support / assistance",
+    "businessValue": "Provides authenticated remote support for managed endpoints.",
+    "notes": "Cloud remote-assistance tool integrated with Intune and Entra ID.",
+    "commonVendors": ["TeamViewer", "BeyondTrust Remote Support", "LogMeIn Rescue", "ConnectWise ScreenConnect", "Splashtop"]
+  },
+  {
+    "name": "Tunnel for MAM",
+    "businessCapability": "Mobile access",
+    "businessFunction": "Per-app VPN for mobile (MAM)",
+    "businessValue": "Gives unmanaged mobile devices secure access to internal apps.",
+    "notes": "Per-app VPN for iOS/Android apps managed through Intune App Protection.",
+    "commonVendors": ["Cisco AnyConnect", "Palo Alto GlobalProtect", "Zscaler", "Netskope"]
+  },
+  {
+    "name": "Microsoft Tunnel",
+    "businessCapability": "Remote access",
+    "businessFunction": "VPN gateway (remote access)",
+    "businessValue": "Provides VPN connectivity for Intune-managed devices.",
+    "notes": "VPN gateway for Intune-managed iOS and Android devices.",
+    "commonVendors": ["Cisco AnyConnect", "Palo Alto GlobalProtect", "Fortinet FortiClient", "Zscaler"]
+  },
+  {
+    "name": "Always On VPN",
+    "businessCapability": "Remote access",
+    "businessFunction": "VPN (always-on remote access)",
+    "businessValue": "Provides built-in Windows remote access to corporate networks.",
+    "notes": "Built-in Windows VPN platform supporting always-on user and device tunnels.",
+    "commonVendors": ["Cisco AnyConnect", "Palo Alto GlobalProtect", "Fortinet FortiClient", "Pulse Secure", "Check Point"]
+  },
+  {
+    "name": "Entra Internet Access",
+    "businessCapability": "Secure internet access",
+    "businessFunction": "Secure Web Gateway (SWG) / SSE internet access",
+    "businessValue": "Filters and inspects internet traffic without a separate SWG.",
+    "notes": "Identity-centric Secure Web Gateway delivered as part of Microsoft's SSE.",
+    "commonVendors": ["Zscaler Internet Access", "Netskope", "Cisco Umbrella", "Palo Alto Prisma Access", "Cloudflare Gateway"]
+  },
+  {
+    "name": "Entra Private Access",
+    "businessCapability": "Private application access",
+    "businessFunction": "Zero Trust Network Access (ZTNA) to private apps",
+    "businessValue": "Replaces traditional VPN for application-level access to internal apps.",
+    "notes": "Identity-centric ZTNA delivered as part of Microsoft's SSE.",
+    "commonVendors": ["Zscaler Private Access", "Netskope Private Access", "Palo Alto Prisma Access", "Cloudflare Access", "Cisco Duo Network Gateway"]
+  },
+  {
+    "name": "Endpoint DLP",
+    "businessCapability": "Data loss prevention",
+    "businessFunction": "Endpoint Data Loss Prevention (DLP)",
+    "businessValue": "Monitors and controls sensitive data movement on endpoints.",
+    "notes": "Purview DLP enforcement on Windows and macOS endpoints.",
+    "commonVendors": ["Symantec DLP", "Forcepoint", "Trellix DLP", "Digital Guardian", "Netskope"]
+  },
+  {
+    "name": "Microsoft Sentinel",
+    "businessCapability": "Security operations",
+    "businessFunction": "SIEM & SOAR",
+    "businessValue": "Consolidates security telemetry and automated response.",
+    "notes": "Cloud-native SIEM and SOAR for Microsoft and third-party signals.",
+    "commonVendors": ["Splunk", "IBM QRadar", "Elastic Security", "Sumo Logic", "Exabeam", "Google Chronicle"]
+  },
+  {
+    "name": "Defender for Cloud",
+    "businessCapability": "Cloud workload protection",
+    "businessFunction": "Cloud Workload Protection Platform (CWPP) / CSPM",
+    "businessValue": "Protects multi-cloud workloads and assesses cloud posture.",
+    "notes": "CWPP and CSPM across Azure, AWS, and GCP workloads.",
+    "commonVendors": ["Wiz", "Prisma Cloud", "CrowdStrike Falcon Cloud Security", "Lacework", "Orca Security"]
+  },
+  {
+    "name": "Universal Print",
+    "businessCapability": "Print services",
+    "businessFunction": "Cloud print management",
+    "businessValue": "Removes the need for on-premises print servers.",
+    "notes": "Cloud-managed printing for Microsoft 365 users without on-prem print servers.",
+    "commonVendors": ["PaperCut", "PrinterLogic", "Equitrac", "Pharos"]
+  },
+  {
+    "name": "Privileged Access Management",
+    "businessCapability": "Privileged access management",
+    "businessFunction": "Privileged Access Management (PAM) for Microsoft 365 roles",
+    "businessValue": "Adds approval and time-bound access for Microsoft 365 admin tasks.",
+    "notes": "Just-in-time elevation for Microsoft 365 administrative tasks.",
+    "commonVendors": ["CyberArk", "BeyondTrust", "Delinea"]
+  },
+  {
+    "name": "Customer Lockbox",
+    "businessCapability": "Tenant access control",
+    "businessFunction": "Approval workflow for Microsoft support access",
+    "businessValue": "Gives customers explicit control over Microsoft engineer access to data.",
+    "notes": "Customer approval workflow for Microsoft engineer access to tenant data.",
+    "commonVendors": []
   }
 ]

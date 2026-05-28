@@ -25,6 +25,11 @@ function isConciseSentence(value) {
   return text.length > 0 && /[.!?]$/.test(text) && text.split(/\s+/).length <= 18;
 }
 
+function isConciseLabel(value) {
+  const text = String(value || '').trim();
+  return text.split(/\s+/).filter(Boolean).length <= 14;
+}
+
 test('matrix export parses expected top-level categories', () => {
   const categories = new Set(features.map((feature) => feature.category));
   for (const category of ['Office 365', 'Enterprise Mobility + Security', 'Windows', 'Suite Value', 'Related Services']) {
@@ -52,16 +57,16 @@ test('business view labels are loaded from metadata with feature-name fallbacks'
   const oneDrive = features.find((feature) => feature.name === 'OneDrive');
 
   assert.equal(getBusinessCapability(safeAttachments), 'Office 365 Protection');
-  assert.equal(getBusinessFunction(safeAttachments), 'Opens suspicious attachments in a sandbox before delivery.');
+  assert.equal(getBusinessFunction(safeAttachments), 'Email attachment sandboxing');
   assert.equal(getBusinessValue(safeAttachments), 'Reduces malware risk from weaponized email attachments.');
-  assert.equal(getBusinessFunction(oneDrive), 'Provides personal file storage, sync, sharing, and recovery for users.');
+  assert.equal(getBusinessFunction(oneDrive), 'Personal cloud file storage, sync and sharing');
   assert.equal(getBusinessCapability(agent365), agent365.category);
-  assert.equal(getBusinessFunction(agent365), 'Provides Agent 365 capabilities.');
+  assert.equal(getBusinessFunction(agent365), '');
   assert.equal(getBusinessValue(agent365), 'Helps reduce separate tooling by using Microsoft 365 included capabilities.');
 });
 
-test('business view has concise function and value copy for every parsed feature', () => {
-  assert.equal(features.every((feature) => isConciseSentence(getBusinessFunction(feature))), true);
+test('business view has concise sub-capability and value copy for every parsed feature', () => {
+  assert.equal(features.every((feature) => isConciseLabel(getBusinessFunction(feature))), true);
   assert.equal(features.every((feature) => isConciseSentence(getBusinessValue(feature))), true);
 });
 
@@ -155,7 +160,7 @@ test('CSV export can use business value view columns', () => {
 
   assert.match(csv, /Business Capability,Function,Business Value,Microsoft Feature,Category,Current Vendor/);
   assert.doesNotMatch(csv.split('\n')[1], /Notes/);
-  assert.match(csv, /Office 365 Protection,Opens suspicious attachments in a sandbox before delivery\.,Reduces malware risk from weaponized email attachments\.,Safe Attachments,Office 365,Proofpoint/);
+  assert.match(csv, /Office 365 Protection,Email attachment sandboxing,Reduces malware risk from weaponized email attachments\.,Safe Attachments,Office 365,Proofpoint/);
 });
 
 test('selected licensing rows match validated M365 Maps corrections', () => {

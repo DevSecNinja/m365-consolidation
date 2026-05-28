@@ -73,8 +73,7 @@ export function getBusinessCapability(feature) {
 
 export function getBusinessFunction(feature) {
   if (feature.businessFunction) return feature.businessFunction;
-  if (feature.notes) return firstSentence(feature.notes);
-  return `Provides ${feature.name} capabilities.`;
+  return '';
 }
 
 export function getBusinessValue(feature) {
