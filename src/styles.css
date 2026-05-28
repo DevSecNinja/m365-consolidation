@@ -44,7 +44,7 @@ button.danger { background: transparent; color: var(--red); border: 1px solid cu
 input, select { width: 100%; border: 1px solid var(--border); border-radius: 12px; padding: .8rem .9rem; background: var(--surface); color: var(--text); }
 main { width: min(1720px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: grid; gap: 1.25rem; }
 .hero { background: radial-gradient(circle at top right, #60a5fa 0, #2563eb 35%, #13294b 100%); color: white; padding: 1rem 1rem 6rem; }
-.topbar { width: min(1720px, 100%); margin: auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.topbar { width: min(1180px, 100%); margin: auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .topbar a { color: white; }
 .topbar__actions { display: flex; align-items: center; gap: .75rem; }
 .hero__content { width: min(1180px, 100%); margin: auto; padding: 5rem 0 2rem; }
