@@ -42,9 +42,9 @@ button:hover, button:focus-visible, a:focus-visible, input:focus-visible, select
 button.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
 button.danger { background: transparent; color: var(--red); border: 1px solid currentColor; }
 input, select { width: 100%; border: 1px solid var(--border); border-radius: 12px; padding: .8rem .9rem; background: var(--surface); color: var(--text); }
-main { width: min(1180px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: grid; gap: 1.25rem; }
+main { width: min(1480px, calc(100% - 2rem)); margin: -3rem auto 4rem; display: grid; gap: 1.25rem; }
 .hero { background: radial-gradient(circle at top right, #60a5fa 0, #2563eb 35%, #13294b 100%); color: white; padding: 1rem 1rem 6rem; }
-.topbar, .hero__content { width: min(1180px, 100%); margin: auto; }
+.topbar, .hero__content { width: min(1480px, 100%); margin: auto; }
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .topbar a { color: white; }
 .topbar__actions { display: flex; align-items: center; gap: .75rem; }
@@ -124,14 +124,14 @@ tbody tr.matched-row.status-unchecked { background: color-mix(in srgb, var(--amb
 .coverage.included { color: var(--green); background: color-mix(in srgb, var(--green) 10%, transparent); }
 .coverage.partial { color: var(--amber); background: color-mix(in srgb, var(--amber) 10%, transparent); }
 .coverage.not-included { min-width: 6.75rem; color: var(--red); background: transparent; }
-.manual-vendor { min-width: 12rem; }
-.plan-col, .plan-cell { width: 6rem; text-align: center; }
-.status-col, .status-cell { min-width: 13rem; width: 13rem; }
+.manual-vendor { min-width: 10rem; }
+.plan-col, .plan-cell { width: 5.5rem; text-align: center; }
+.status-col, .status-cell { min-width: 11.5rem; width: 11.5rem; }
 .status-cell select { width: 100%; padding: .5rem .6rem; }
 .skip-link { position: absolute; left: -999px; background: var(--surface); padding: .7rem; z-index: 3; }
 .skip-link:focus { left: 1rem; top: 1rem; }
 .load-error { margin: 1rem; padding: 1rem; border: 1px solid var(--red); color: var(--red); background: var(--surface); }
-footer { width: min(1180px, calc(100% - 2rem)); margin: 0 auto 2rem; color: var(--muted); font-size: .95rem; }
+footer { width: min(1480px, calc(100% - 2rem)); margin: 0 auto 2rem; color: var(--muted); font-size: .95rem; }
 
 @media (max-width: 900px) {
   .summary-grid, .control-grid { grid-template-columns: 1fr; }
