@@ -8,12 +8,16 @@ export const PLAN_DIFFS = [
 export const TABLE_VIEWS = ['business', 'feature'];
 export const CATEGORIES = [];
 export const STATUSES = ['unchecked', 'already covered', 'not needed', 'gap — need to evaluate'];
-export const MATRIX_CATEGORY_HEADERS = new Set([
+export const TOP_CATEGORIES = new Set([
   'Office 365',
   'Enterprise Mobility + Security',
   'Windows',
   'Suite Value',
-  'Related Services',
+  'Related Services'
+]);
+
+export const SUB_CATEGORIES = new Set([
+  'Security & Compliance',
   'Microsoft Entra',
   'Microsoft Priva',
   'Microsoft Purview',
@@ -27,6 +31,8 @@ export const MATRIX_CATEGORY_HEADERS = new Set([
   'Companion Products & Services',
   'Automation & Intelligence'
 ]);
+
+export const MATRIX_CATEGORY_HEADERS = new Set([...TOP_CATEGORIES, ...SUB_CATEGORIES]);
 
 export function normalizeText(value) {
   return String(value || '')
@@ -175,8 +181,9 @@ export function parseMatrixFeatures(csvText, metadataFeatures = [], excludedFeat
   }
 
   const features = [];
-  const stack = [];
+  const stack = []; // stack of feature objects keyed by depth
   let category = 'Microsoft 365';
+  let subCategory = '';
 
   for (const row of rows.slice(headerIndex + 1)) {
     const { depth, name } = parseMatrixName(row[0]);
@@ -184,32 +191,47 @@ export function parseMatrixFeatures(csvText, metadataFeatures = [], excludedFeat
 
     const values = row.slice(1, 4);
     const hasCoverage = values.some((value) => String(value || '').trim());
-    const isCategory = depth === 0 && (MATRIX_CATEGORY_HEADERS.has(name) || values.join('|') === 'E3|E5|E5');
-    if (isCategory) {
+    const isTopCategory = depth === 0 && (TOP_CATEGORIES.has(name) || values.join('|') === 'E3|E5|E5');
+    if (isTopCategory) {
       category = name;
+      subCategory = '';
       stack.length = 0;
-      stack[0] = name;
+      continue;
+    }
+    const isSubCategory = depth === 0 && !hasCoverage && SUB_CATEGORIES.has(name);
+    if (isSubCategory) {
+      subCategory = name;
+      stack.length = 0;
       continue;
     }
     if (!hasCoverage) continue;
 
     const metadata = findMetadata(name, metadataByName);
-    const parentFeature = depth > 0 ? stack[depth - 1] || category : category;
+    const ancestry = stack.slice(0, depth).map((entry) => entry.name);
+    const parentFeature = depth > 0 ? ancestry[depth - 1] || category : category;
     const coverage = Object.fromEntries(plans.map((plan, index) => [plan, coverageFromMatrixCell(values[index])]));
-    features.push({
+    const feature = {
       name,
       category,
+      subCategory,
       parentFeature,
+      depth,
+      ancestry,
+      isParent: false,
       coverage,
       notes: metadata.notes || '',
       commonVendors: metadata.commonVendors || [],
       businessCapability: metadata.businessCapability || '',
       businessFunction: metadata.businessFunction || '',
       businessValue: metadata.businessValue || ''
-    });
+    };
+    features.push(feature);
 
+    if (depth > 0 && stack[depth - 1]) {
+      stack[depth - 1].isParent = true;
+    }
     stack.length = depth;
-    stack[depth] = name;
+    stack[depth] = feature;
   }
 
   return features;

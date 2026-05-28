@@ -336,3 +336,52 @@ test('storage adapter removes retired plans from saved state', () => {
 test('plan diff filter options are available for higher plan comparisons', () => {
   assert.deepEqual(PLAN_DIFFS.map((diff) => diff.value), ['All', 'E5-over-E3', 'E7-over-E5']);
 });
+
+test('hybrid parent rows expose hierarchy via depth, ancestry and isParent', () => {
+  const byName = new Map(features.map((feature) => [`${feature.category}::${feature.parentFeature}::${feature.name}`, feature]));
+
+  const dfo2 = features.find((f) => f.name === 'Defender for Office 365 Plan 2');
+  assert.ok(dfo2, 'Defender for Office 365 Plan 2 row exists');
+  assert.equal(dfo2.depth, 0);
+  assert.equal(dfo2.isParent, true);
+  assert.deepEqual(dfo2.ancestry, []);
+  assert.equal(dfo2.category, 'Office 365');
+
+  const dfo1 = features.find((f) => f.name === 'Defender for Office 365 Plan 1' && f.parentFeature === 'Defender for Office 365 Plan 2');
+  assert.ok(dfo1, 'nested Defender for Office 365 Plan 1 row exists');
+  assert.equal(dfo1.depth, 1);
+  assert.equal(dfo1.isParent, true);
+  assert.deepEqual(dfo1.ancestry, ['Defender for Office 365 Plan 2']);
+
+  const anti = features.find((f) => f.name === 'Advanced Anti-Phishing');
+  assert.ok(anti);
+  assert.equal(anti.depth, 2);
+  assert.equal(anti.isParent, false);
+  assert.deepEqual(anti.ancestry, ['Defender for Office 365 Plan 2', 'Defender for Office 365 Plan 1']);
+
+  // The deeply nested Entra ID chain should preserve full lineage.
+  const mfa = features.find((f) => f.name === 'Multi-Factor Auth (MFA)');
+  assert.ok(mfa);
+  assert.ok(mfa.depth >= 4);
+  assert.equal(mfa.ancestry[0], 'Entra ID Plan 2');
+});
+
+test('Related Services sub-categories are captured as subCategory, not as category', () => {
+  // Intune Suite appears twice: once under EMS, once under Related Services > Security & Compliance.
+  const occurrences = features.filter((f) => f.name === 'Intune Suite');
+  assert.equal(occurrences.length, 2, 'Intune Suite occurs in two sections');
+
+  const ems = occurrences.find((f) => f.category === 'Enterprise Mobility + Security');
+  const related = occurrences.find((f) => f.category === 'Related Services');
+  assert.ok(ems, 'EMS occurrence exists');
+  assert.ok(related, 'Related Services occurrence exists');
+  assert.equal(ems.subCategory, '');
+  assert.equal(related.subCategory, 'Security & Compliance');
+
+  // No feature should have category === parentFeature pointing at a top category (former sub-heading bug).
+  for (const f of features) {
+    if (f.category === 'Related Services' && f.depth === 0) {
+      assert.notEqual(f.subCategory, '', `${f.name} under Related Services must have a subCategory`);
+    }
+  }
+});
