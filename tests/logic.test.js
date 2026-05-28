@@ -61,7 +61,7 @@ test('business view labels are loaded from metadata with feature-name fallbacks'
   assert.equal(getBusinessValue(safeAttachments), 'Reduces malware risk from weaponized email attachments.');
   assert.equal(getBusinessFunction(oneDrive), 'Personal cloud file storage, sync and sharing');
   assert.equal(getBusinessCapability(agent365), agent365.category);
-  assert.equal(getBusinessFunction(agent365), '');
+  assert.equal(getBusinessFunction(agent365), 'AI agent management & governance');
   assert.equal(getBusinessValue(agent365), 'Helps reduce separate tooling by using Microsoft 365 included capabilities.');
 });
 
