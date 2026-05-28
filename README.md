@@ -1,4 +1,4 @@
-# M365 vendor consolidation
+# M365 Vendor Consolidation
 
 A static, browser-only planning tool for identifying third-party security and productivity tools that may be replaced or reduced when moving to Microsoft 365 E3, E5, or E7.
 
