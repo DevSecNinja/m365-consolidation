@@ -21,40 +21,12 @@
       <section class="hero__content">
         <p class="eyebrow">Microsoft 365 Enterprise (E3, E5, E7) planning</p>
         <h1>See which vendor tools Microsoft 365 can replace.</h1>
-        <p>Enter the tools you pay for today. The matrix highlights where Microsoft 365 includes similar capabilities, where a higher plan helps, and where you still need to evaluate gaps.</p>
+        <p>The matrix lists every Microsoft 365 feature side-by-side with its E3/E5/E7 coverage and business value. Use the per-row vendor field to record what you pay for today and where you can consolidate.</p>
         <p class="hero__scope"><strong>Scope:</strong> Microsoft 365 Enterprise only. Microsoft 365 Business, Frontline (F1/F3), Education, and Government plans are out of scope.</p>
       </section>
     </header>
 
     <main>
-      <section class="panel vendor-panel" aria-labelledby="vendor-heading">
-        <div>
-          <p class="eyebrow">Current stack</p>
-          <h2 id="vendor-heading">Add vendors</h2>
-          <p>Choose a mapped vendor or type any vendor name. Unmapped vendors stay visible so you can review them manually.</p>
-        </div>
-        <form id="vendor-form" class="vendor-form">
-          <label for="vendor-input">Vendor name</label>
-          <div class="input-row">
-            <input id="vendor-input" name="vendor" type="search" list="vendor-options" autocomplete="off" placeholder="Okta, CrowdStrike, Proofpoint…">
-            <datalist id="vendor-options"></datalist>
-            <button type="submit">Add vendor</button>
-          </div>
-        </form>
-        <div id="vendor-tags" class="tag-list" aria-live="polite"></div>
-        <p id="unmapped-vendors" class="note"></p>
-      </section>
-
-      <section class="summary-grid" aria-label="Coverage summary" id="summary-cards"></section>
-
-      <section class="panel summary-panel" aria-labelledby="summary-heading">
-        <div>
-          <p class="eyebrow">Category score</p>
-          <h2 id="summary-heading">Coverage by category</h2>
-        </div>
-        <div id="category-summary" class="category-summary"></div>
-      </section>
-
       <section class="panel controls" aria-labelledby="filters-heading">
         <div>
           <p class="eyebrow">Feature matrix</p>
@@ -81,7 +53,7 @@
         </div>
         <div class="check-row" role="group" aria-label="Row filters">
           <label class="check"><input id="available-only" type="checkbox"> Hide unavailable for shown plans<span class="info-tip" tabindex="0" role="img" aria-label="Help: Hide unavailable" title="Hide rows that none of the currently shown plan columns cover.">i</span></label>
-          <label class="check"><input id="filled-only" type="checkbox"> Show only matched vendors<span class="info-tip" tabindex="0" role="img" aria-label="Help: Show only matched vendors" title="Hide rows that do not match any vendor — neither from the Current stack textarea above nor from a per-row manual vendor override in the table below.">i</span></label>
+          <label class="check"><input id="filled-only" type="checkbox"> Show only matched vendors<span class="info-tip" tabindex="0" role="img" aria-label="Help: Show only matched vendors" title="Hide rows that do not have a per-row manual vendor filled in.">i</span></label>
           <label class="check"><input id="include-addons" type="checkbox"> Include add-ons<span class="info-tip" tabindex="0" role="img" aria-label="Help: Include add-ons" title="Treat Add-on, Available add-on and Package only coverage as covered for the Plan filter and Plan diff. Useful to surface SharePoint Premium, Defender for Office 365 Plan 2, etc.">i</span></label>
           <label class="check"><input id="include-azure" type="checkbox"> Include Azure consumption<span class="info-tip" tabindex="0" role="img" aria-label="Help: Include Azure consumption" title="Treat Azure consumption coverage (Sentinel SIEM/SOAR, Defender for Cloud, Defender for Servers) as covered for the Plan filter and Plan diff.">i</span></label>
         </div>
@@ -113,7 +85,7 @@
         </div>
         <div class="table-scroll">
           <table id="feature-table">
-            <caption id="feature-caption">Microsoft 365 feature coverage by plan. Highlighted rows match your entered vendors.</caption>
+            <caption id="feature-caption">Microsoft 365 feature coverage by plan. Highlighted rows have a manual vendor recorded.</caption>
             <thead>
               <tr id="feature-headings"></tr>
             </thead>
@@ -125,7 +97,7 @@
 
     <footer>
       <p>Feature data sourced from <a href="https://m365maps.com/matrix.htm#00000000000010011000000">M365 Maps</a> by Aaron Dinnage, used with attribution. Matrix export dated <time id="data-date">unknown</time>.</p>
-      <p>This is an independent planning aid, not an official Microsoft tool. Data is provided “as is,” without warranty of any kind under the MIT License. Your vendors, notes, and filters are stored only in this browser with localStorage; there is no server-side database. Review the source in the <a href="https://github.com/DevSecNinja/m365-consolidation">GitHub repository</a>.</p>
+      <p>This is an independent planning aid, not an official Microsoft tool. Data is provided “as is,” without warranty of any kind under the MIT License. Your manual vendors, notes, and filters are stored only in this browser with localStorage; there is no server-side database. Review the source in the <a href="https://github.com/DevSecNinja/m365-consolidation">GitHub repository</a>.</p>
     </footer>
 
     <script type="module" src="src/app.js"></script>

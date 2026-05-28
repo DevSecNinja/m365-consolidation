@@ -2,7 +2,6 @@ import {
   PLANS,
   PLAN_DIFFS,
   STATUSES,
-  TARGET_PLANS,
   createStorageAdapter,
   exportFeaturesToCsv,
   featureKey,
@@ -12,13 +11,11 @@ import {
   getBusinessValue,
   getFeatureCategories,
   getCoverageLabel,
-  getKnownVendors,
   isCoveredValue,
   matchVendorsToFeatures,
   parseMatrixFeatures,
   parseMatrixExportDate,
-  parseVendorList,
-  summarizeCoverage
+  parseVendorList
 } from './logic.js';
 
 const storage = createStorageAdapter(window.localStorage);
@@ -28,13 +25,6 @@ let collapsedParents = new Set();
 let visibleFeatures = [];
 
 const elements = {
-  vendorForm: document.querySelector('#vendor-form'),
-  vendorInput: document.querySelector('#vendor-input'),
-  vendorOptions: document.querySelector('#vendor-options'),
-  vendorTags: document.querySelector('#vendor-tags'),
-  unmappedVendors: document.querySelector('#unmapped-vendors'),
-  summaryCards: document.querySelector('#summary-cards'),
-  categorySummary: document.querySelector('#category-summary'),
   categoryTabs: document.querySelector('#category-tabs'),
   featureSearch: document.querySelector('#feature-search'),
   planFilter: document.querySelector('#plan-filter'),
@@ -63,52 +53,6 @@ function setTheme(theme) {
   document.documentElement.dataset.theme = theme === 'auto' ? '' : theme;
   elements.themeToggle.textContent = theme === 'dark' ? 'Use light mode' : 'Use dark mode';
   persist();
-}
-
-function addVendor(name) {
-  const vendor = name.trim();
-  if (!vendor) return;
-  if (!state.vendors.some((existing) => existing.toLowerCase() === vendor.toLowerCase())) {
-    state.vendors.push(vendor);
-    persist();
-    render();
-  }
-}
-
-function removeVendor(vendor) {
-  state.vendors = state.vendors.filter((item) => item !== vendor);
-  persist();
-  render();
-}
-
-function renderVendors(summary) {
-  elements.vendorTags.innerHTML = '';
-  for (const vendor of state.vendors) {
-    const tag = document.createElement('button');
-    tag.type = 'button';
-    tag.className = 'tag';
-    tag.textContent = `${vendor} ×`;
-    tag.setAttribute('aria-label', `Remove ${vendor}`);
-    tag.addEventListener('click', () => removeVendor(vendor));
-    elements.vendorTags.append(tag);
-  }
-  elements.unmappedVendors.textContent = summary.unmapped.length
-    ? `Not mapped: ${summary.unmapped.join(', ')}. Check these tools manually.`
-    : '';
-}
-
-function renderSummary(summary) {
-  const categories = getFeatureCategories(features);
-  elements.summaryCards.innerHTML = TARGET_PLANS.map((plan) => {
-    const planSummary = summary.plans[plan];
-    const inclusions = planSummary.notableInclusions.length ? planSummary.notableInclusions.join(', ') : 'Add vendors to see matches';
-    return `<article class="summary-card"><p class="eyebrow">${plan}</p><strong>${planSummary.percent}% covered</strong><span>${planSummary.coveredCount} of ${planSummary.totalCount} tools mapped</span><small>${inclusions}</small></article>`;
-  }).join('');
-
-  elements.categorySummary.innerHTML = categories.map((category) => {
-    const scores = TARGET_PLANS.map((plan) => `<span><strong>${plan}</strong> ${summary.categories[category][plan]}</span>`).join('');
-    return `<article><h3>${category}</h3><div>${scores}</div></article>`;
-  }).join('');
 }
 
 function renderTabs() {
@@ -156,8 +100,8 @@ function renderHeadings() {
     ...trailingColumns
   ].join('');
   elements.featureCaption.textContent = state.tableView === 'business'
-    ? 'Microsoft 365 coverage grouped by customer-facing business capability. Highlighted rows match your entered vendors.'
-    : 'Microsoft 365 feature coverage by plan. Highlighted rows match your entered vendors.';
+    ? 'Microsoft 365 coverage grouped by customer-facing business capability. Highlighted rows have a manual vendor recorded.'
+    : 'Microsoft 365 feature coverage by plan. Highlighted rows have a manual vendor recorded.';
 }
 
 function coverageCell(feature, plan) {
@@ -320,8 +264,8 @@ function renderRows(matches) {
 }
 
 function render() {
-  const summary = summarizeCoverage(state.vendors, features, state.manualVendors);
-  const matchedKeys = new Set(summary.matches.mapped.keys());
+  const matches = matchVendorsToFeatures([], features, state.manualVendors);
+  const matchedKeys = new Set(matches.mapped.keys());
   visibleFeatures = filterFeatures(features, {
     category: state.activeCategory,
     query: elements.featureSearch.value,
@@ -334,17 +278,15 @@ function render() {
     includeAzureConsumption: elements.includeAzureConsumption.checked
   }, matchedKeys);
 
-  renderVendors(summary);
-  renderSummary(summary);
   renderTabs();
   renderPlanVisibility();
   renderHeadings();
-  renderRows(summary.matches);
+  renderRows(matches);
 }
 
 function downloadCsv() {
   const exportedFeatures = getExpandedFeatures();
-  const csv = exportFeaturesToCsv(exportedFeatures, state.vendors, state.statuses, new Date(), state.manualVendors, { view: state.tableView });
+  const csv = exportFeaturesToCsv(exportedFeatures, [], state.statuses, new Date(), state.manualVendors, { view: state.tableView });
   const filterName = state.activeCategory !== 'All' ? state.activeCategory.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-') : 'all-features';
   const suffix = exportedFeatures.length !== features.length ? `-${filterName}` : '';
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
@@ -356,12 +298,6 @@ function downloadCsv() {
 }
 
 function bindEvents() {
-  elements.vendorForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    addVendor(elements.vendorInput.value);
-    elements.vendorInput.value = '';
-  });
-
   elements.categoryTabs.addEventListener('click', (event) => {
     const button = event.target.closest('button[data-category]');
     if (!button) return;
@@ -434,11 +370,13 @@ function bindEvents() {
 
   elements.exportCsv.addEventListener('click', downloadCsv);
   elements.resetData.addEventListener('click', () => {
-    if (!confirm('Clear vendors, statuses, and filters stored in this browser?')) return;
+    if (!confirm('Clear manual vendors, statuses, and filters stored in this browser?')) return;
     state = storage.reset();
     elements.featureSearch.value = '';
     elements.availableOnly.checked = false;
     elements.filledOnly.checked = false;
+    elements.includeAddOns.checked = false;
+    elements.includeAzureConsumption.checked = false;
     elements.planFilter.value = state.activePlan;
     elements.planDiffFilter.value = state.activePlanDiff;
     elements.tableViewToggle.checked = state.tableView === 'business';
@@ -563,7 +501,6 @@ async function init() {
     state.activeCategory = 'All';
     persist();
   }
-  elements.vendorOptions.innerHTML = getKnownVendors(features).map((vendor) => `<option value="${vendor}"></option>`).join('');
   elements.planDiffFilter.innerHTML = PLAN_DIFFS.map((diff) => `<option value="${diff.value}">${diff.label}</option>`).join('');
   bindEvents();
   elements.tableViewToggle.checked = state.tableView === 'business';
