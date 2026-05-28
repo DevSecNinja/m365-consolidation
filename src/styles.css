@@ -115,6 +115,9 @@ tbody tr.matched-row.status-unchecked { background: color-mix(in srgb, var(--amb
 .coverage.partial { color: var(--amber); background: color-mix(in srgb, var(--amber) 10%, transparent); }
 .coverage.not-included { min-width: 6.75rem; color: var(--red); background: transparent; }
 .manual-vendor { min-width: 12rem; }
+.plan-col, .plan-cell { width: 6rem; text-align: center; }
+.status-col, .status-cell { min-width: 13rem; width: 13rem; }
+.status-cell select { width: 100%; padding: .5rem .6rem; }
 .skip-link { position: absolute; left: -999px; background: var(--surface); padding: .7rem; z-index: 3; }
 .skip-link:focus { left: 1rem; top: 1rem; }
 .load-error { margin: 1rem; padding: 1rem; border: 1px solid var(--red); color: var(--red); background: var(--surface); }

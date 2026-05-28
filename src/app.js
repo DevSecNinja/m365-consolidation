@@ -144,12 +144,12 @@ function renderHeadings() {
     ? ['<th scope="col">Function</th>', '<th scope="col">Business value</th>', '<th scope="col">Microsoft feature</th>']
     : ['<th scope="col">Feature</th>'];
   const trailingColumns = state.tableView === 'business'
-    ? ['<th scope="col">Status</th>']
-    : ['<th scope="col">Status</th>', '<th scope="col">Notes</th>'];
+    ? ['<th scope="col" class="status-col">Status</th>']
+    : ['<th scope="col" class="status-col">Status</th>', '<th scope="col">Notes</th>'];
   elements.featureHeadings.innerHTML = [
     ...featureColumns,
     '<th scope="col">Manual vendor</th>',
-    ...getVisiblePlans().map((plan) => `<th scope="col">${plan}</th>`),
+    ...getVisiblePlans().map((plan) => `<th scope="col" class="plan-col">${plan}</th>`),
     ...trailingColumns
   ].join('');
   elements.featureCaption.textContent = state.tableView === 'business'
@@ -163,7 +163,7 @@ function coverageCell(feature, plan) {
   let tone = 'not-included';
   if (value === true) tone = 'included';
   else if (isCoveredValue(value)) tone = 'partial';
-  return `<td><span class="coverage ${tone}">${label}</span></td>`;
+  return `<td class="plan-cell"><span class="coverage ${tone}">${label}</span></td>`;
 }
 
 function featureRow(feature, matches, isGrouped = false) {
@@ -184,7 +184,7 @@ function featureRow(feature, matches, isGrouped = false) {
       ${nameCell}
       <td><input class="manual-vendor" data-manual-vendor="${escapeHtml(key)}" type="search" list="vendor-options" value="${escapeHtml(manualVendor)}" aria-label="Manual vendor override for ${escapeHtml(feature.name)}" placeholder="Add vendor"></td>
       ${getVisiblePlans().map((plan) => coverageCell(feature, plan)).join('')}
-      <td><select data-status="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(feature.name)}">${STATUSES.map((option) => `<option ${option === status ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select></td>
+      <td class="status-cell"><select data-status="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(feature.name)}">${STATUSES.map((option) => `<option ${option === status ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select></td>
       ${noteCell}
     </tr>`;
 }
