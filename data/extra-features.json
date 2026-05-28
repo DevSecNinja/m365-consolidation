@@ -22,5 +22,152 @@
     "businessValue": "Surfaces sensitive-data exposure in Copilot, Entra-registered AI apps and consumer GenAI; drives policy to block or label risky prompts.",
     "notes": "Same underlying Purview workloads as DSPM, scoped to generative AI interactions. Included with Microsoft 365 E5. Not listed in the M365 Maps matrix.",
     "commonVendors": ["BigID", "Varonis", "Symmetry Systems", "Cyera"]
+  },
+  {
+    "name": "Information Protection Client",
+    "category": "Enterprise Mobility + Security",
+    "subCategory": "",
+    "parentFeature": "Information Protection",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Information protection & DLP",
+    "businessFunction": "On-prem & desktop file labelling",
+    "businessValue": "Right-click classification in File Explorer/Office and bulk on-prem file scanning for sensitivity labels on Windows endpoints and file shares.",
+    "notes": "Microsoft Purview Information Protection client for Windows (formerly the AIP unified labeling client / scanner). Bundled with any Information Protection entitlement (M365 E3 and up). Not enumerated in the M365 Maps matrix.",
+    "commonVendors": ["Boldon James (HelpSystems)", "Titus (Fortra)", "Janusnet"]
+  },
+  {
+    "name": "Microsoft Stream",
+    "category": "Office 365",
+    "subCategory": "",
+    "parentFeature": "Office 365",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Collaboration & productivity",
+    "businessFunction": "Enterprise video hosting & playback",
+    "businessValue": "Stores and streams corporate video alongside other documents in SharePoint/OneDrive with permissions, search and transcript indexing.",
+    "notes": "Modern Stream stores videos in SharePoint Online / OneDrive for Business and is included with any plan that grants SharePoint Online Plan 2 (E3 and up). Not enumerated in the M365 Maps matrix.",
+    "commonVendors": ["Vimeo Enterprise", "Brightcove", "Kaltura", "Panopto"]
+  },
+  {
+    "name": "Shifts",
+    "category": "Office 365",
+    "subCategory": "",
+    "parentFeature": "Office 365",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Collaboration & productivity",
+    "businessFunction": "Shift scheduling for frontline staff",
+    "businessValue": "Lets managers build schedules and lets staff swap shifts, request time off and clock in/out from Teams.",
+    "notes": "Included with any Microsoft Teams licence (E3/E5/E7). Not enumerated as a separate row in the M365 Maps matrix.",
+    "commonVendors": ["UKG Pro WFM", "Deputy", "When I Work", "Quinyx"]
+  },
+  {
+    "name": "App-V",
+    "category": "Windows",
+    "subCategory": "",
+    "parentFeature": "Windows",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Endpoint management",
+    "businessFunction": "Application virtualization (legacy)",
+    "businessValue": "Streams legacy Win32 apps to managed endpoints without local install, easing app conflicts during Windows migrations.",
+    "notes": "Microsoft Application Virtualization (MDOP). Granted via Windows 11 Enterprise rights in M365 E3 and up. Microsoft positions Azure Virtual Desktop / Windows 365 / MSIX App Attach as the modern replacement; App-V mainstream support has ended but it is still licensed and runs on Windows 11.",
+    "commonVendors": ["VMware ThinApp", "Citrix App Layering", "Numecent Cloudpaging"]
+  },
+  {
+    "name": "AGPM",
+    "category": "Windows",
+    "subCategory": "",
+    "parentFeature": "Windows",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Endpoint management",
+    "businessFunction": "GPO change control & delegation",
+    "businessValue": "Versions, approves and rolls back Group Policy changes with role-based delegation.",
+    "notes": "Advanced Group Policy Management (MDOP). Granted via Windows 11 Enterprise rights in M365 E3 and up. Largely superseded by Intune configuration policies; no longer actively developed.",
+    "commonVendors": ["Quest GPOADmin", "SDM Software GPO Reporting Pak"]
+  },
+  {
+    "name": "MBAM",
+    "category": "Windows",
+    "subCategory": "",
+    "parentFeature": "Windows",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Endpoint management",
+    "businessFunction": "BitLocker administration & recovery",
+    "businessValue": "Centralised BitLocker key escrow, compliance reporting and recovery for fleets of Windows endpoints.",
+    "notes": "Microsoft BitLocker Administration and Monitoring (MDOP). Granted via Windows 11 Enterprise rights in M365 E3 and up. Microsoft recommends moving to Intune (cloud) or Configuration Manager (on-prem) BitLocker management; MBAM is in extended support only.",
+    "commonVendors": ["Sophos Central Device Encryption", "BeyondTrust Endpoint Privilege Management", "WinMagic SecureDoc"]
+  },
+  {
+    "name": "UE-V",
+    "category": "Windows",
+    "subCategory": "",
+    "parentFeature": "Windows",
+    "coverage": { "E3": true, "E5": true, "E7": true },
+    "businessCapability": "Endpoint management",
+    "businessFunction": "User settings roaming across devices",
+    "businessValue": "Synchronises Windows and Office app settings across the user's PCs so the desktop follows them between machines.",
+    "notes": "User Experience Virtualization (MDOP). Granted via Windows 11 Enterprise rights in M365 E3 and up. Largely superseded by Enterprise State Roaming (Entra ID) and OneDrive Known Folder Move.",
+    "commonVendors": ["Liquidware ProfileUnity", "Ivanti User Workspace Manager", "VMware DEM"]
+  },
+  {
+    "name": "SharePoint Premium",
+    "category": "Related Services",
+    "subCategory": "Security & Compliance",
+    "parentFeature": "Related Services",
+    "coverage": { "E3": "Add-on", "E5": "Add-on", "E7": "Add-on" },
+    "businessCapability": "Content services",
+    "businessFunction": "AI-powered content services umbrella",
+    "businessValue": "Adds document processing, autofill columns, translation, eSignature, advanced management and Brand Center on top of SharePoint Online.",
+    "notes": "Umbrella brand for Microsoft's premium SharePoint capabilities. Includes the matrix's 'SharePoint Advanced Management Plan 1' row plus the former Syntex document understanding, image tagging, translation and eSignature services. Sold per-user or via pay-as-you-go on top of SharePoint Online Plan 2.",
+    "commonVendors": ["Box", "Hyland OnBase", "M-Files", "Laserfiche"]
+  },
+  {
+    "name": "Microsoft Sentinel (SIEM)",
+    "category": "Related Services",
+    "subCategory": "Security & Compliance",
+    "parentFeature": "Microsoft Sentinel",
+    "coverage": { "E3": "Azure consumption", "E5": "Azure consumption", "E7": "Azure consumption" },
+    "businessCapability": "Security operations",
+    "businessFunction": "Cloud-native SIEM & log analytics",
+    "businessValue": "Ingests logs from Azure, M365, on-prem and third parties, runs detection analytics and feeds correlated incidents into Defender XDR.",
+    "notes": "Billed via Azure consumption (data ingestion & retention). M365 E5 customers receive the Sentinel Benefit — 5 MB/user/day of free ingestion. Not licensed per-user.",
+    "commonVendors": ["Splunk Enterprise Security", "IBM QRadar", "Elastic Security", "Sumo Logic", "Google Chronicle"]
+  },
+  {
+    "name": "Microsoft Sentinel (SOAR)",
+    "category": "Related Services",
+    "subCategory": "Security & Compliance",
+    "parentFeature": "Microsoft Sentinel",
+    "coverage": { "E3": "Azure consumption", "E5": "Azure consumption", "E7": "Azure consumption" },
+    "businessCapability": "Security operations",
+    "businessFunction": "Security orchestration, automation & response",
+    "businessValue": "Runs Logic Apps playbooks and automation rules to triage, enrich and respond to incidents end-to-end.",
+    "notes": "Same Sentinel workspace as the SIEM capability; SOAR features (playbooks, automation rules, Workbooks) are billed through underlying Azure Logic Apps consumption rather than a per-user M365 licence.",
+    "commonVendors": ["Splunk SOAR (Phantom)", "Palo Alto XSOAR", "Tines", "Torq", "Swimlane"]
+  },
+  {
+    "patch": true,
+    "name": "Microsoft Sentinel",
+    "coverage": { "E3": "Azure consumption", "E5": "Azure consumption", "E7": "Azure consumption" },
+    "businessCapability": "Security operations",
+    "businessFunction": "Cloud-native SIEM + SOAR platform",
+    "businessValue": "Single workspace combining SIEM analytics, threat intelligence and SOAR playbooks across Microsoft and third-party signals.",
+    "notes": "Azure-consumption billed. M365 E5 includes the Sentinel Benefit (5 MB/user/day free ingestion of Microsoft 365 logs)."
+  },
+  {
+    "patch": true,
+    "name": "Defender for Cloud",
+    "coverage": { "E3": "Azure consumption", "E5": "Azure consumption", "E7": "Azure consumption" },
+    "businessCapability": "Cloud security",
+    "businessFunction": "Multicloud CSPM & CWPP",
+    "businessValue": "Continuous security assessment, posture recommendations and runtime workload protection across Azure, AWS, GCP and on-prem servers.",
+    "notes": "Azure-billed (pay-as-you-go) across CSPM, Defender CSPM and workload plans (Servers, SQL, Storage, Containers, App Service, Key Vault, etc.). Not licensed per M365 user."
+  },
+  {
+    "patch": true,
+    "name": "Defender for Servers",
+    "coverage": { "E3": "Azure consumption", "E5": "Azure consumption", "E7": "Azure consumption" },
+    "businessCapability": "Cloud security",
+    "businessFunction": "Server endpoint protection & posture",
+    "businessValue": "Bundles MDE for servers, vulnerability assessment, file integrity monitoring and adaptive application controls; a common discussion-opener for what you run on Windows/Linux servers today.",
+    "notes": "Defender for Cloud workload plan billed per server-hour (Plan 1 or Plan 2). Plan 2 includes Microsoft Defender for Endpoint for Servers, regulatory compliance dashboards and just-in-time VM access. Not in any M365 per-user SKU."
   }
 ]

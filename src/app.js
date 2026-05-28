@@ -498,6 +498,22 @@ async function init() {
       const extra = await extraResponse.json();
       for (const entry of Array.isArray(extra) ? extra : []) {
         if (!entry || !entry.name || excludedFeatureNames.has(entry.name)) continue;
+        if (entry.patch) {
+          const targets = features.filter((f) =>
+            f.name === entry.name && (!entry.matchCategory || f.category === entry.matchCategory)
+          );
+          for (const target of targets) {
+            if (entry.coverage) Object.assign(target.coverage, entry.coverage);
+            if (entry.notes) target.notes = entry.notes;
+            if (entry.businessCapability) target.businessCapability = entry.businessCapability;
+            if (entry.businessFunction) target.businessFunction = entry.businessFunction;
+            if (entry.businessValue) target.businessValue = entry.businessValue;
+            if (Array.isArray(entry.commonVendors) && entry.commonVendors.length) {
+              target.commonVendors = entry.commonVendors;
+            }
+          }
+          continue;
+        }
         features.push({
           name: entry.name,
           category: entry.category || 'Related Services',
