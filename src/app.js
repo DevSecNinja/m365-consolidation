@@ -480,10 +480,11 @@ function versionedUrl(url, version) {
 
 async function init() {
   const dataVersion = await getDataVersion();
-  const [matrixResponse, metadataResponse, exclusionsResponse] = await Promise.all([
+  const [matrixResponse, metadataResponse, exclusionsResponse, extraResponse] = await Promise.all([
     fetch(versionedUrl('Microsoft-365-Matrix-Export.csv', dataVersion), { cache: 'no-store' }),
     fetch(versionedUrl('data/features.json', dataVersion), { cache: 'no-store' }),
-    fetch(versionedUrl('data/exclusions.json', dataVersion), { cache: 'no-store' })
+    fetch(versionedUrl('data/exclusions.json', dataVersion), { cache: 'no-store' }),
+    fetch(versionedUrl('data/extra-features.json', dataVersion), { cache: 'no-store' })
   ]);
   if (!matrixResponse.ok) throw new Error('Could not load Microsoft-365-Matrix-Export.csv');
   if (!metadataResponse.ok) throw new Error('Could not load feature metadata');
@@ -492,6 +493,31 @@ async function init() {
   const metadataFeatures = await metadataResponse.json();
   const excludedFeatureNames = exclusionsResponse.ok ? new Set(await exclusionsResponse.json()) : new Set();
   features = parseMatrixFeatures(matrixCsv, metadataFeatures, excludedFeatureNames);
+  if (extraResponse.ok) {
+    try {
+      const extra = await extraResponse.json();
+      for (const entry of Array.isArray(extra) ? extra : []) {
+        if (!entry || !entry.name || excludedFeatureNames.has(entry.name)) continue;
+        features.push({
+          name: entry.name,
+          category: entry.category || 'Related Services',
+          subCategory: entry.subCategory || '',
+          parentFeature: entry.parentFeature || entry.subCategory || entry.category || '',
+          depth: 0,
+          ancestry: [],
+          isParent: false,
+          coverage: { E3: false, E5: false, E7: false, ...(entry.coverage || {}) },
+          notes: entry.notes || '',
+          commonVendors: Array.isArray(entry.commonVendors) ? entry.commonVendors : [],
+          businessCapability: entry.businessCapability || '',
+          businessFunction: entry.businessFunction || '',
+          businessValue: entry.businessValue || ''
+        });
+      }
+    } catch {
+      /* ignore malformed extra-features */
+    }
+  }
   const exportDate = parseMatrixExportDate(matrixCsv);
   const dateLabel = document.getElementById('data-date');
   if (dateLabel && exportDate) {

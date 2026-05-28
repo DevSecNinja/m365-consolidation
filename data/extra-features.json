@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Data Security Posture Management",
+    "category": "Related Services",
+    "subCategory": "Microsoft Purview",
+    "parentFeature": "Microsoft Purview",
+    "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Information protection & DLP",
+    "businessFunction": "Data security posture analytics",
+    "businessValue": "Unifies DLP, Insider Risk and sensitivity-label signals into a single posture view with prioritized recommendations.",
+    "notes": "Included with Microsoft 365 E5 via the underlying Purview DLP, Insider Risk Management and Information Protection workloads. Not listed in the M365 Maps matrix — added here so the UI surfaces it.",
+    "commonVendors": ["BigID", "Varonis", "Symmetry Systems", "Cyera"]
+  },
+  {
+    "name": "DSPM for AI",
+    "category": "Related Services",
+    "subCategory": "Microsoft Purview",
+    "parentFeature": "Microsoft Purview",
+    "coverage": { "E3": false, "E5": true, "E7": true },
+    "businessCapability": "Information protection & DLP",
+    "businessFunction": "AI data risk discovery & policy",
+    "businessValue": "Surfaces sensitive-data exposure in Copilot, Entra-registered AI apps and consumer GenAI; drives policy to block or label risky prompts.",
+    "notes": "Same underlying Purview workloads as DSPM, scoped to generative AI interactions. Included with Microsoft 365 E5. Not listed in the M365 Maps matrix.",
+    "commonVendors": ["BigID", "Varonis", "Symmetry Systems", "Cyera"]
+  }
+]
