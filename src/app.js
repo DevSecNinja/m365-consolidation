@@ -16,6 +16,7 @@ import {
   isCoveredValue,
   matchVendorsToFeatures,
   parseMatrixFeatures,
+  parseMatrixExportDate,
   parseVendorList,
   summarizeCoverage
 } from './logic.js';
@@ -491,6 +492,17 @@ async function init() {
   const metadataFeatures = await metadataResponse.json();
   const excludedFeatureNames = exclusionsResponse.ok ? new Set(await exclusionsResponse.json()) : new Set();
   features = parseMatrixFeatures(matrixCsv, metadataFeatures, excludedFeatureNames);
+  const exportDate = parseMatrixExportDate(matrixCsv);
+  const dateLabel = document.getElementById('data-date');
+  if (dateLabel && exportDate) {
+    const display = (() => {
+      const parsed = new Date(exportDate);
+      if (Number.isNaN(parsed.getTime())) return exportDate;
+      return parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    })();
+    dateLabel.textContent = display;
+    dateLabel.setAttribute('datetime', exportDate);
+  }
   if (state.activeCategory !== 'All' && !getFeatureCategories(features).includes(state.activeCategory)) {
     state.activeCategory = 'All';
     persist();

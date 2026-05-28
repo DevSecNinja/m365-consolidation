@@ -34,6 +34,22 @@ export const SUB_CATEGORIES = new Set([
 
 export const MATRIX_CATEGORY_HEADERS = new Set([...TOP_CATEGORIES, ...SUB_CATEGORIES]);
 
+const PRODUCT_LINE_SUBCATEGORIES = new Set([
+  'Microsoft Priva',
+  'Microsoft Purview',
+  'Microsoft Security Experts'
+]);
+
+export function parseMatrixExportDate(csvText) {
+  const rows = parseCsv(csvText);
+  if (!rows.length) return null;
+  const raw = String(rows[0][0] || '').trim();
+  if (!raw) return null;
+  const date = new Date(raw);
+  if (Number.isNaN(date.getTime())) return raw;
+  return date.toISOString().slice(0, 10);
+}
+
 export function normalizeText(value) {
   return String(value || '')
     .trim()
@@ -208,7 +224,9 @@ export function parseMatrixFeatures(csvText, metadataFeatures = [], excludedFeat
 
     const metadata = findMetadata(name, metadataByName);
     const ancestry = stack.slice(0, depth).map((entry) => entry.name);
-    const parentFeature = depth > 0 ? ancestry[depth - 1] || category : category;
+    const parentFeature = depth > 0
+      ? ancestry[depth - 1] || category
+      : (PRODUCT_LINE_SUBCATEGORIES.has(subCategory) ? subCategory : category);
     const coverage = Object.fromEntries(plans.map((plan, index) => [plan, coverageFromMatrixCell(values[index])]));
     const feature = {
       name,
