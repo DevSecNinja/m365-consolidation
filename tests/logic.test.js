@@ -238,11 +238,34 @@ test('feature filtering can show only features added by higher plans', () => {
     { name: 'Base feature', category: 'Suite', coverage: { E3: true, E5: true, E7: true } },
     { name: 'E5 feature', category: 'Suite', coverage: { E3: false, E5: true, E7: true } },
     { name: 'E7 feature', category: 'Suite', coverage: { E3: false, E5: false, E7: true } },
-    { name: 'Add-on in base', category: 'Suite', coverage: { E3: 'Add-on', E5: true, E7: true } }
+    { name: 'Add-on in base', category: 'Suite', coverage: { E3: 'Add-on', E5: true, E7: true } },
+    { name: 'Azure-billed E5', category: 'Suite', coverage: { E3: false, E5: 'Azure consumption', E7: 'Azure consumption' } }
   ];
 
-  assert.deepEqual(filterFeatures(sampleFeatures, { planDiff: 'E5-over-E3' }).map((feature) => feature.name), ['E5 feature']);
-  assert.deepEqual(filterFeatures(sampleFeatures, { planDiff: 'E7-over-E5' }).map((feature) => feature.name), ['E7 feature']);
+  // Default: add-ons and Azure consumption are not treated as "covered" by the
+  // plan/diff filters, so an add-on in the base plan still shows up as an E5
+  // gain (the customer would pay extra to get it on E3 today).
+  assert.deepEqual(
+    filterFeatures(sampleFeatures, { planDiff: 'E5-over-E3' }).map((feature) => feature.name),
+    ['E5 feature', 'Add-on in base']
+  );
+  assert.deepEqual(
+    filterFeatures(sampleFeatures, { planDiff: 'E7-over-E5' }).map((feature) => feature.name),
+    ['E7 feature']
+  );
+
+  // includeAddOns: an add-on in the base plan now counts as already-in-base, so
+  // it drops out of the E5-over-E3 diff again.
+  assert.deepEqual(
+    filterFeatures(sampleFeatures, { planDiff: 'E5-over-E3', includeAddOns: true }).map((feature) => feature.name),
+    ['E5 feature']
+  );
+
+  // includeAzureConsumption surfaces Azure-billed E5 services in the diff.
+  assert.deepEqual(
+    filterFeatures(sampleFeatures, { planDiff: 'E5-over-E3', includeAzureConsumption: true }).map((feature) => feature.name),
+    ['E5 feature', 'Add-on in base', 'Azure-billed E5']
+  );
 });
 
 test('coverage summary counts unique covered vendors by target plan', () => {

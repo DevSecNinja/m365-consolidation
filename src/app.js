@@ -45,6 +45,8 @@ const elements = {
   featureCaption: document.querySelector('#feature-caption'),
   availableOnly: document.querySelector('#available-only'),
   filledOnly: document.querySelector('#filled-only'),
+  includeAddOns: document.querySelector('#include-addons'),
+  includeAzureConsumption: document.querySelector('#include-azure'),
   featureRows: document.querySelector('#feature-rows'),
   visibleCount: document.querySelector('#visible-count'),
   exportCsv: document.querySelector('#export-csv'),
@@ -327,7 +329,9 @@ function render() {
     planDiff: state.activePlanDiff,
     availableOnly: elements.availableOnly.checked,
     visiblePlans: getVisiblePlans(),
-    filledOnly: elements.filledOnly.checked
+    filledOnly: elements.filledOnly.checked,
+    includeAddOns: elements.includeAddOns.checked,
+    includeAzureConsumption: elements.includeAzureConsumption.checked
   }, matchedKeys);
 
   renderVendors(summary);
@@ -396,6 +400,8 @@ function bindEvents() {
   });
   elements.availableOnly.addEventListener('change', render);
   elements.filledOnly.addEventListener('change', render);
+  elements.includeAddOns.addEventListener('change', render);
+  elements.includeAzureConsumption.addEventListener('change', render);
 
   elements.featureRows.addEventListener('click', (event) => {
     const button = event.target.closest('button[data-parent]');

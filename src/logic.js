@@ -70,6 +70,24 @@ export function isFullyCoveredValue(value) {
   return value === true;
 }
 
+export const ADD_ON_COVERAGE_VALUES = new Set(['Add-on', 'Available add-on', 'Package only']);
+export const AZURE_CONSUMPTION_COVERAGE_VALUES = new Set(['Azure consumption']);
+
+export function isAddOnCoverageValue(value) {
+  return typeof value === 'string' && ADD_ON_COVERAGE_VALUES.has(value.trim());
+}
+
+export function isAzureConsumptionCoverageValue(value) {
+  return typeof value === 'string' && AZURE_CONSUMPTION_COVERAGE_VALUES.has(value.trim());
+}
+
+export function isCoveredForFilter(value, { includeAddOns = false, includeAzureConsumption = false } = {}) {
+  if (!isCoveredValue(value)) return false;
+  if (isAddOnCoverageValue(value)) return includeAddOns;
+  if (isAzureConsumptionCoverageValue(value)) return includeAzureConsumption;
+  return true;
+}
+
 export function getCoverageLabel(value) {
   if (value === true) return 'Included';
   if (value === false || value === null || value === undefined || value === '') return 'Not included';
@@ -316,21 +334,24 @@ export function filterFeatures(features, filters = {}, matchedFeatureKeys = new 
     availableOnly = false,
     visiblePlans = PLANS,
     filledOnly = false,
-    collapsedParents = new Set()
+    collapsedParents = new Set(),
+    includeAddOns = false,
+    includeAzureConsumption = false
   } = filters;
   const normalizedQuery = normalizeText(query);
   const diff = PLAN_DIFFS.find((candidate) => candidate.value === planDiff);
+  const coverageOptions = { includeAddOns, includeAzureConsumption };
 
   return features.filter((feature) => {
     if (category !== 'All' && feature.category !== category) return false;
     if (normalizedQuery && !normalizeText(`${feature.name} ${feature.parentFeature} ${getBusinessCapability(feature)} ${getBusinessFunction(feature)} ${getBusinessValue(feature)} ${feature.notes}`).includes(normalizedQuery)) return false;
-    if (plan !== 'All' && !isCoveredValue(feature.coverage?.[plan])) return false;
+    if (plan !== 'All' && !isCoveredForFilter(feature.coverage?.[plan], coverageOptions)) return false;
     if (diff?.basePlan) {
-      const isInTargetPlan = isCoveredValue(feature.coverage?.[diff.targetPlan]);
-      const isInBasePlan = isCoveredValue(feature.coverage?.[diff.basePlan]);
+      const isInTargetPlan = isCoveredForFilter(feature.coverage?.[diff.targetPlan], coverageOptions);
+      const isInBasePlan = isCoveredForFilter(feature.coverage?.[diff.basePlan], coverageOptions);
       if (!isInTargetPlan || isInBasePlan) return false;
     }
-    if (availableOnly && !visiblePlans.some((candidate) => isCoveredValue(feature.coverage?.[candidate]))) return false;
+    if (availableOnly && !visiblePlans.some((candidate) => isCoveredForFilter(feature.coverage?.[candidate], coverageOptions))) return false;
     if (filledOnly && !matchedFeatureKeys.has(featureKey(feature))) return false;
     if (feature.parentFeature && collapsedParents.has(feature.parentFeature)) return false;
     return true;
