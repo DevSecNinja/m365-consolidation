@@ -237,11 +237,11 @@ function dedupeFeaturesByName(features) {
   return order;
 }
 
-function getFeatureGroups() {
+function buildFeatureGroups(featuresList) {
   const groups = [];
   const groupedByParent = new Map();
 
-  for (const feature of visibleFeatures) {
+  for (const feature of featuresList) {
     if (state.tableView === 'business') {
       const label = getBusinessCapability(feature);
       const key = `business::${label}`;
@@ -275,6 +275,14 @@ function getFeatureGroups() {
   return groups;
 }
 
+function getFeatureGroups() {
+  return buildFeatureGroups(visibleFeatures);
+}
+
+function getTotalFeatureCount() {
+  return buildFeatureGroups(features).reduce((sum, group) => sum + group.features.length, 0);
+}
+
 function getExpandedFeatures() {
   return getFeatureGroups().flatMap((group) => {
     if (group.label && collapsedParents.has(group.key)) return [];
@@ -306,7 +314,7 @@ function renderRows(matches) {
       </th>
     </tr>${groupRows}`;
   }).join('');
-  elements.visibleCount.textContent = `${renderedFeatureCount} of ${features.length} features shown`;
+  elements.visibleCount.textContent = `${renderedFeatureCount} of ${getTotalFeatureCount()} features shown`;
 }
 
 function render() {
