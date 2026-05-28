@@ -61,10 +61,12 @@
           <h2 id="filters-heading">Filter the comparison</h2>
         </div>
         <div class="control-grid">
-          <label>Search features
+          <label>
+            <span class="label-row">Search features<span class="info-tip" tabindex="0" role="img" aria-label="Help: Search features" title="Free-text search across feature name, parent feature, business capability/function/value and notes.">i</span></span>
             <input id="feature-search" type="search" placeholder="Safe Attachments, DLP, Teams…">
           </label>
-          <label>Plan filter
+          <label>
+            <span class="label-row">Plan filter<span class="info-tip" tabindex="0" role="img" aria-label="Help: Plan filter" title="Show only rows the selected plan covers. Pick All to see every row.">i</span></span>
             <select id="plan-filter">
               <option>All</option>
               <option>E3</option>
@@ -72,16 +74,19 @@
               <option>E7</option>
             </select>
           </label>
-          <label>Plan diff
+          <label>
+            <span class="label-row">Plan diff<span class="info-tip" tabindex="0" role="img" aria-label="Help: Plan diff" title="Show only rows that the higher plan adds over the base plan. Great for E5-vs-E3 upgrade conversations.">i</span></span>
             <select id="plan-diff-filter"></select>
           </label>
-          <label class="check"><input id="available-only" type="checkbox"> Hide unavailable for shown plans</label>
-          <label class="check"><input id="filled-only" type="checkbox"> Show only matched vendors</label>
-          <label class="check"><input id="include-addons" type="checkbox"> Include add-ons (Add-on, Available add-on, Package only)</label>
-          <label class="check"><input id="include-azure" type="checkbox"> Include Azure consumption</label>
+        </div>
+        <div class="check-row" role="group" aria-label="Row filters">
+          <label class="check"><input id="available-only" type="checkbox"> Hide unavailable for shown plans<span class="info-tip" tabindex="0" role="img" aria-label="Help: Hide unavailable" title="Hide rows that none of the currently shown plan columns cover.">i</span></label>
+          <label class="check"><input id="filled-only" type="checkbox"> Show only matched vendors<span class="info-tip" tabindex="0" role="img" aria-label="Help: Show only matched vendors" title="Hide rows that do not match any of the vendors you entered above.">i</span></label>
+          <label class="check"><input id="include-addons" type="checkbox"> Include add-ons<span class="info-tip" tabindex="0" role="img" aria-label="Help: Include add-ons" title="Treat Add-on, Available add-on and Package only coverage as covered for the Plan filter and Plan diff. Useful to surface SharePoint Premium, Defender for Office 365 Plan 2, etc.">i</span></label>
+          <label class="check"><input id="include-azure" type="checkbox"> Include Azure consumption<span class="info-tip" tabindex="0" role="img" aria-label="Help: Include Azure consumption" title="Treat Azure consumption coverage (Sentinel SIEM/SOAR, Defender for Cloud, Defender for Servers) as covered for the Plan filter and Plan diff.">i</span></label>
         </div>
         <fieldset class="plan-visibility">
-          <legend>Show plans in table</legend>
+          <legend>Show plans in table<span class="info-tip" tabindex="0" role="img" aria-label="Help: Show plans in table" title="Controls which plan columns appear in the table. Hiding a column does not hide any rows — use the Plan filter for that.">i</span></legend>
           <div id="plan-visibility" class="check-list"></div>
         </fieldset>
         <div id="category-tabs" class="tabs" role="tablist" aria-label="Feature categories"></div>
