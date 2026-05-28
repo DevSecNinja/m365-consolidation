@@ -2,6 +2,10 @@
 
 A static, browser-only planning tool for identifying third-party security and productivity tools that may be replaced or reduced when moving to Microsoft 365 E3, E5, or E7.
 
+## Scope
+
+Microsoft 365 **Enterprise** plans (E3, E5, E7) only. Microsoft 365 Business, Frontline (F1/F3), Education (A1/A3/A5), and Government (GCC/GCC High/DoD) plans are intentionally out of scope.
+
 ## What it does
 
 - Lets users enter current vendors such as Okta, CrowdStrike, Proofpoint, Zscaler, Slack, or Box.
