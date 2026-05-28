@@ -99,6 +99,7 @@ caption { text-align: left; color: var(--muted); padding: .5rem 0 1rem; }
 th, td { border-top: 1px solid var(--border); padding: .8rem; text-align: left; vertical-align: top; }
 thead th { background: color-mix(in srgb, var(--blue) 8%, var(--surface)); position: sticky; top: 0; z-index: 1; }
 tbody th small { display: block; color: var(--amber); margin-top: .2rem; }
+tbody th small.also-in { color: var(--muted); font-weight: 500; font-style: italic; }
 .matched-row { background: color-mix(in srgb, var(--amber) 12%, var(--surface)); }
 tbody tr { border-left: 4px solid transparent; }
 tbody tr.status-covered { border-left-color: var(--green); background: color-mix(in srgb, var(--green) 10%, var(--surface)); }

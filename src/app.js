@@ -180,11 +180,15 @@ function featureRow(feature, matches, isGrouped = false) {
     statusClass(state.statuses[key] || 'unchecked')
   ].filter(Boolean).join(' ');
   const vendorText = matchedVendors.length ? `<small>Matches: ${escapeHtml(matchedVendors.join(', '))}</small>` : '';
+  const others = Array.isArray(feature.otherOccurrences) ? feature.otherOccurrences.filter(Boolean) : [];
+  const dupText = others.length
+    ? `<small class="also-in" title="Also listed under: ${escapeHtml(others.join(' | '))}">also in ${others.length} other ${others.length === 1 ? 'section' : 'sections'}</small>`
+    : '';
   const status = state.statuses[key] || 'unchecked';
 
   const nameCell = state.tableView === 'business'
-    ? `<th scope="row"><span>${escapeHtml(getBusinessFunction(feature))}</span>${vendorText}</th><td>${escapeHtml(getBusinessValue(feature))}</td><td>${escapeHtml(feature.name)}</td>`
-    : `<th scope="row"><span>${escapeHtml(feature.name)}</span>${vendorText}</th>`;
+    ? `<th scope="row"><span>${escapeHtml(getBusinessFunction(feature))}</span>${vendorText}${dupText}</th><td>${escapeHtml(getBusinessValue(feature))}</td><td>${escapeHtml(feature.name)}</td>`
+    : `<th scope="row"><span>${escapeHtml(feature.name)}</span>${vendorText}${dupText}</th>`;
 
   const noteCell = state.tableView === 'business' ? '' : `<td>${escapeHtml(feature.notes || '')}</td>`;
 
@@ -195,6 +199,41 @@ function featureRow(feature, matches, isGrouped = false) {
       <td class="status-cell"><select data-status="${escapeHtml(key)}" aria-label="Status for ${escapeHtml(feature.name)}">${STATUSES.map((option) => `<option ${option === status ? 'selected' : ''}>${escapeHtml(option)}</option>`).join('')}</select></td>
       ${noteCell}
     </tr>`;
+}
+
+function bestCoverageValue(a, b) {
+  if (a === true || b === true) return true;
+  const aHas = typeof a === 'string' && a.trim().length > 0;
+  const bHas = typeof b === 'string' && b.trim().length > 0;
+  if (aHas) return a;
+  if (bHas) return b;
+  return false;
+}
+
+function occurrenceLabel(feature) {
+  return [feature.category, feature.subCategory, feature.parentFeature]
+    .filter((part) => part && part !== feature.name)
+    .filter((part, index, all) => all.indexOf(part) === index)
+    .join(' › ');
+}
+
+function dedupeFeaturesByName(features) {
+  const byName = new Map();
+  const order = [];
+  for (const feature of features) {
+    const existing = byName.get(feature.name);
+    if (!existing) {
+      const copy = { ...feature, coverage: { ...feature.coverage }, otherOccurrences: [] };
+      byName.set(feature.name, copy);
+      order.push(copy);
+      continue;
+    }
+    for (const plan of Object.keys(feature.coverage || {})) {
+      existing.coverage[plan] = bestCoverageValue(existing.coverage[plan], feature.coverage[plan]);
+    }
+    existing.otherOccurrences.push(occurrenceLabel(feature));
+  }
+  return order;
 }
 
 function getFeatureGroups() {
@@ -226,6 +265,10 @@ function getFeatureGroups() {
     }
 
     groupedByParent.get(feature.parentFeature).features.push(feature);
+  }
+
+  for (const group of groups) {
+    group.features = dedupeFeaturesByName(group.features);
   }
 
   return groups;
