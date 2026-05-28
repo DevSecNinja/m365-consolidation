@@ -10,11 +10,16 @@ import {
   getBusinessFunction,
   getBusinessValue,
   matchVendorsToFeatures,
+  normalizeText,
   parseMatrixFeatures,
   PLANS,
   PLAN_DIFFS,
   summarizeCoverage
 } from '../src/logic.js';
+
+function normalizeMetadataName(value) {
+  return normalizeText(value).replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+}
 
 const metadataFeatures = JSON.parse(await readFile(new URL('../data/features.json', import.meta.url), 'utf8'));
 const matrixCsv = await readFile(new URL('../Microsoft-365-Matrix-Export.csv', import.meta.url), 'utf8');
@@ -42,6 +47,40 @@ test('matrix export only exposes Microsoft 365 target plans', () => {
   assert.ok(features.length > 500);
   assert.ok(features.every((feature) => !Object.hasOwn(feature.coverage, 'E1')));
   assert.ok(features.every((feature) => Object.keys(feature.coverage).join(',') === 'E3,E5,E7'));
+});
+
+test('every matrix feature has a matching metadata entry in data/features.json', () => {
+  const metadataKeys = new Set();
+  for (const entry of metadataFeatures) {
+    for (const name of [entry.name, ...(entry.aliases || [])]) {
+      const key = normalizeText(name);
+      if (key) metadataKeys.add(key);
+      const stripped = normalizeMetadataName(name);
+      if (stripped) metadataKeys.add(stripped);
+    }
+  }
+  const uniqueMatrixNames = [...new Set(features.map((feature) => feature.name))];
+  const unmapped = uniqueMatrixNames.filter((name) => {
+    return !metadataKeys.has(normalizeText(name)) && !metadataKeys.has(normalizeMetadataName(name));
+  });
+  assert.deepEqual(unmapped, [], `Unmapped matrix features (missing from data/features.json):\n  - ${unmapped.join('\n  - ')}`);
+});
+
+test('metadata feature names and aliases are unique within data/features.json', () => {
+  const owners = new Map();
+  const duplicates = [];
+  for (const entry of metadataFeatures) {
+    for (const name of [entry.name, ...(entry.aliases || [])]) {
+      const key = normalizeText(name);
+      if (!key) continue;
+      if (owners.has(key)) {
+        duplicates.push(`"${name}" used by both "${owners.get(key)}" and "${entry.name}"`);
+      } else {
+        owners.set(key, entry.name);
+      }
+    }
+  }
+  assert.deepEqual(duplicates, [], `Duplicate metadata names/aliases:\n  - ${duplicates.join('\n  - ')}`);
 });
 
 test('vendor matching maps known vendors and keeps unmapped vendors', () => {
