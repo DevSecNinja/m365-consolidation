@@ -1,6 +1,6 @@
 {
   "name": "m365-consolidation",
-  "image": "ghcr.io/devsecninja/dotfiles-devcontainer:latest@sha256:cecd832e7beaf3f4ffec178c0c415dff96f94d3bff76eed89f4b9624c0b6d45f",
+  "image": "ghcr.io/devsecninja/dotfiles-devcontainer:latest@sha256:ed4f7e9ee5ee17b8c0c39ac2a3493e15533166ef9c5cd235e4c62a064972a96c",
   "features": {},
   "postCreateCommand": "",
   "customizations": {}
