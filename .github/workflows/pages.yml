@@ -22,7 +22,13 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: 22
-      - run: npm test
+      - run: npm test -- --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination="$RUNNER_TEMP/test-results.xml"
+      - name: Publish test results
+        if: always()
+        uses: DevSecNinja/.github/actions/test-report@5452dbd33d61b4fc58b1780f57e0b60ff131be75 # v4.10.0
+        with:
+          paths: ${{ runner.temp }}/test-results.xml
+          title: node --test
       - run: npm run build
       - run: perl -0pi -e "s/__BUILD_ID__/${GITHUB_SHA}/g" service-worker.js
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
